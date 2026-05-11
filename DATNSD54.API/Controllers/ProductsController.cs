@@ -54,7 +54,7 @@ namespace DATNSD54.API.Controllers
             return Ok(listDTO);
         }
 
-        [HttpGet("Search ")]
+        [HttpGet("Search/{text}")]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> SearchProduct(string? text)
         {
             var ListProduct = await _context.Product.Include(h => h.images).Include(h => h.ProductDetails).Include(p => p.ProductType)

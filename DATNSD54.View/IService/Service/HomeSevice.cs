@@ -23,8 +23,8 @@ namespace DATNSD54.View.IService.Service
         public Task<List<ProductDTO>> SearchProducts( string? textSearch)
         {
 
-
-            var response = _httpClient.GetAsync($"api/Products/Search?text={textSearch}").Result;
+            string encodedText = Uri.EscapeDataString(textSearch ?? "");
+            var response = _httpClient.GetAsync($"api/Products/Search/{encodedText}").Result;
             if (response.IsSuccessStatusCode)
             {
                 return response.Content.ReadFromJsonAsync<List<ProductDTO>>();
