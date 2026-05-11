@@ -1,0 +1,494 @@
+﻿@model DATNSD54.DAO.DTO.AccManagerDTO
+@section styles {
+    <link rel="stylesheet" href="~/css/login.css">
+    <link rel="stylesheet" href="~/css/account.css">
+
+    <style>
+        form.example input[type=text] {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 80%;
+            background: #f1f1f1;
+        }
+
+        form.example button {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            background: #2196F3;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+
+            form.example button:hover {
+                background: #0b7dda;
+            }
+
+        form.example::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .wrapper {
+            margin-top: 30px;
+        }
+    </style>
+}
+<!-- content -->
+<div class="container">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-4">
+                <div class="heading">
+
+
+                    <img src="@Url.Content(Model.AccCustomer.AnhDaiDien)" alt="" class="heading-img">
+                    <span class="heading-name_acc">@Model.AccCustomer.Ten</span>
+                </div>
+                <div class="menu-manager">
+                    <div class="my-profile" onclick="hienThiDoiThongTin()">
+                        <div class="my-profile-title active">
+                            <div class="my-profile-icon"><i class="fas fa-user"></i></div>
+                            <div class="my-profile-name">Hồ sơ của tôi</div>
+                        </div>
+                    </div>
+                    <div class="my-order" onclick="hienThiDonHang()">
+                        <div class="my-order-title">
+                            <div class="my-order-icon"><i class="fas fa-shopping-bag"></i></div>
+                            <div class="my-order-name">Đơn hàng của tôi</div>
+                        </div>
+                    </div>
+                    <div class="my-password" onclick="hienThiDoiMatKhau()">
+                        <div class="my-password-title">
+                            <div class="my-password-icon"><i class="fas fa-key"></i></div>
+                            <div class="my-password-name">Đổi mật khẩu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="detial__my-profile undisplay">
+                    <div class="heading-edit-account">
+                        <h2>Hồ sơ của tôi</h2>
+                        <form asp-action="UpdateProfile" asp-controller="Auth" method="post" enctype="multipart/form-data">
+
+                            <div class="form-group">
+                                <label class="form-label">Tên đầy đủ</label>
+                                <!-- 🔥 name="Ten" để Controller nhận -->
+                                <input name="Ten" type="text" class="form-control"
+                                       value="@Model.AccCustomer.Ten">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <!-- 🔥 name="Email" -->
+                                <input name="Email" type="text" class="form-control"
+                                       value="@Model.AccCustomer.Email">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Số điện thoại</label>
+                                <!-- 🔥 name="SDT" -->
+                                <input name="SDT" type="text" class="form-control"
+                                       value="@Model.AccCustomer.SDT">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Cập nhật avatar</label>
+                                <!-- 🔥 name="AvatarFile" + form phải có enctype -->
+                                <input name="avatar" type="file" class="form-control">
+                            </div>
+
+                            <!-- 🔥 BUTTON PHẢI SUBMIT -->
+                            <button type="submit" class="form-submit">Lưu</button>
+
+                        </form>
+
+                        <div class="form-group">
+                            <label class="form-label">Địa chỉ</label>
+                            <a asp-controller="Addresses" asp-action="Index">
+                                <button class="example">Quản lý địa chỉ</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail__confirm-password undisplay">
+                    <div class="heading-edit-password">
+                        <h2>Đổi lại mật khẩu</h2>
+                    </div>
+                    <div class="form-group form-group-old-password">
+                        <div style="display:flex;justify-content: space-between;">
+                            <label for="password" class="form-label">Mật khẩu cũ</label>
+                            <span class="show-hide"><i class="fas fa-eye"></i></span>
+                        </div>
+                        <input id="password" name="password" type="password" placeholder="Nhập mật khẩu cũ" class="form-control">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group form-group-new-password">
+                        <div style="display:flex;justify-content: space-between;">
+                            <label for="password-new" class="form-label">Mật khẩu mới</label>
+                            <span class="show-hide-two"><i class="fas fa-eye fa-eye-2"></i></span>
+                        </div>
+                        <input id="password-new" name="password-new" type="password" placeholder="Nhập mật khẩu mới" class="form-control">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group form-group-confirm-password">
+                        <div style="display:flex;justify-content: space-between;">
+                            <label for="password-confirm" class="form-label">Xác nhận mật khẩu mới</label>
+                            <span class="show-hide-three"><i class="fas fa-eye fa-eye-3"></i></span>
+                        </div>
+                        <input id="password-confirm" name="password-confirm" type="password" placeholder="Nhập lại mật khẩu mới" class="form-control">
+                        <span class="form-message"></span>
+                    </div>
+                    <button type="button" id="btnUpdatePassword" class="form-submit">Lưu thay đổi</button>
+                </div>
+                <div class="detail__my-order">
+                    <div class="heading-edit-password">
+                        <h2>Đơn hàng của bạn</h2>
+                    </div>
+                    <div class="detail__my-order-content">
+                        <form action="">
+                            <div class="my-order-heading">
+                                <div class="row">
+                                    <div class="col-2">MĐH</div>
+                                    <div class="col-3">Ngày</div>
+                                    <div class="col-3">Tổng tiền</div>
+                                    <div class="col-2">Trạng thái</div>
+                                    <div class="col-2">Chi tiết</div>
+                                </div>
+                            </div>
+                            <div class="my-order-body">
+                                @foreach (var b in Model.Listbill)
+                                {
+                                    <div class="row bd-bottom">
+                                        <div class="col-2">@b.ID</div>
+                                        <div class="col-3">@b.Ngay_Tao</div>
+                                        <div class="col-3">@b.Thanh_Tien</div>
+                                        <div class="col-2">
+                                            @if (b.Trang_Thai == 0)
+                                            {
+                                                <span class="btn-stt blue">Chưa xác nhận</span>
+                                            }
+
+                                            else if (b.Trang_Thai == 1)
+                                            {
+                                                <span class="btn-stt blue">Đang xử lý</span>
+                                            }
+
+                                            else if (b.Trang_Thai == 2)
+                                            {
+                                                <span class="btn-stt orange">Đang giao</span>
+                                            }
+
+                                            else if (b.Trang_Thai == 3)
+                                            {
+                                                <span class="btn-stt green">Đã giao</span>
+                                            }
+
+                                            else if (b.Trang_Thai == 4)
+                                            {
+                                                <span class="btn-stt green">Thành công</span>
+                                            }
+
+                                            else if (b.Trang_Thai == 5)
+                                            {
+                                                <span class="btn-stt red">Đã hủy</span>
+                                            }
+                                        </div>
+                                        <div class="col-2">
+                                            <a href="" data-toggle="modal" data-target="#Modal-@b.ID">Xem</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end content -->
+<!-- Modal -->
+@foreach (var b in @Model.Listbill)
+{
+    <div class="modal fade" id="Modal-@b.ID" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Chi tiết đơn hàng</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" style="margin-top:10px">
+                    <div class="body-one">
+                        <div>
+                            <select id="selectAddress-@b.ID" class="form-control">
+                                @foreach (var item in b.listAddress)
+                                {
+                                    <option value="@item.Id" selected="@(item.Id == b.Dia_Chi_Id ? "selected" : null)">
+                                        @item.HoTen - @item.SDT - @item.DiaChiChitiet
+                                    </option>
+                                }
+                            </select>
+
+                            <button type="button" data-billid="@b.ID" class="btnPickAddress btn btn-primary btn-sm px-3">
+                                Xác nhận địa chỉ
+                            </button>
+                        </div>
+                        <div>Tổng tiền: @b.Gia_Goc VNĐ</div>
+                        <div>giảm:@(b.Gia_Goc - b.Thanh_Tien + b.Shipcost) VNĐ</div>
+                        <div>Phí ship: @b.Shipcost VNĐ</div>
+                        <div>Thành Tiền: @b.Thanh_Tien VNĐ</div>
+                    </div>
+                    <form action="">
+                        <div class="my-order-heading">
+                            <div class="row" style="text-align:center">
+                                <div class="col-4">Sản phẩm</div>
+                                <div class="col-1">Số lượng</div>
+                                <div class="col-2">Giá</div>
+                                <div class="col-1">Giảm giá</div>
+                                <div class="col-2">Giá bán</div>
+                                <div class="col-2">Tổng</div>
+                            </div>
+                        </div>
+                        <div class="body-two">
+                            @foreach (var bd in b.BillItems)
+                            {
+                                <div class="row" style="text-align:center; margin-top:10px">
+                                    <div class="col-4" style="display: flex;">
+                                        <a href="">
+                                            <img src="@Url.Content(bd.UrlIMG)" alt=""
+                                                 style="width: 50px;height: 50px;margin-right: 5px;">
+                                        </a>
+                                        <h5>@bd.nameProduct</h5>
+                                    </div>
+                                    <div class="col-1">@bd.so_luong</div>
+                                    <div class="col-2">@bd.BasePrice VNĐ</div>
+                                    <div class="col-1">@bd.sale</div>
+                                    <div class="col-2">@bd.price VNĐ</div>
+                                    <div class="col-2">@(bd.price * bd.so_luong) VNĐ</div>
+                                </div>
+                            }
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    <script>
+        const pass_field = document.querySelector('#password');
+        const show_btn = document.querySelector('.fa-eye')
+        show_btn.addEventListener("click", function () {
+            if (pass_field.type === "password") {
+                pass_field.type = "text";
+                show_btn.classList.add("hide");
+            } else {
+                pass_field.type = "password";
+                show_btn.classList.remove("hide");
+            }
+        });
+    </script>
+    <script>
+        const pass_field2 = document.querySelector('#password-new');
+        const show_btn2 = document.querySelector('.fa-eye-2')
+        show_btn2.addEventListener("click", function () {
+            if (pass_field2.type === "password") {
+                pass_field2.type = "text";
+                show_btn2.classList.add("hide");
+            } else {
+                pass_field2.type = "password";
+                show_btn2.classList.remove("hide");
+            }
+        });
+    </script>
+    <script>
+        const pass_field3 = document.querySelector('#password-confirm');
+        const show_btn3 = document.querySelector('.fa-eye-3')
+        show_btn3.addEventListener("click", function () {
+            if (pass_field3.type === "password") {
+                pass_field3.type = "text";
+                show_btn3.classList.add("hide");
+            } else {
+                pass_field3.type = "password";
+                show_btn3.classList.remove("hide");
+            }
+        });
+    </script>
+    <script>
+        function hienThiDoiMatKhau() {
+            $(".detail__confirm-password").removeClass("undisplay");
+            $(".my-order-title").removeClass("active");
+            $(".detail__confirm-password").addClass("display");
+            $(".my-password-title").addClass("active");
+            $(".my-profile-title").removeClass("active");
+            $(".detial__my-profile").addClass("undisplay");
+            $(".detial__my-profile").removeClass("display");
+            $(".detail__my-order").addClass("undisplay");
+        }
+        function hienThiDoiThongTin() {
+            $(".detial__my-profile").removeClass("undisplay");
+            $(".my-order-title").removeClass("active");
+            $(".detial__my-profile").addClass("display");
+            $(".my-profile-title").addClass("active");
+            $(".my-password-title").removeClass("active");
+            $(".detail__confirm-password").addClass("undisplay");
+            $(".detail__confirm-password").removeClass("display");
+            $(".detail__my-order").addClass("undisplay");
+        }
+    </script>
+    <script>
+        function hienThiDonHang() {
+            $(".detail__my-order").removeClass("undisplay");
+            $(".detail__my-order").addClass("display");
+
+            $(".detial__my-profile").addClass("undisplay");
+            $(".detail__confirm-password").addClass("undisplay");
+
+            $(".my-profile-title").removeClass("active");
+            $(".my-password-title").removeClass("active");
+            $(".my-order-title").addClass("active");
+        }
+    </script>
+
+    <script>
+        window.onload = function () {
+            hienThiDoiThongTin(); // mặc định mở Hồ sơ
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.btnPickAddress').click(function () {
+
+
+                // 1. Lấy BillId từ nút vừa bấm
+                var billId = $(this).data('billid');
+
+                // 2. Lấy AddressId từ cái Select tương ứng với BillId đó
+                var addressId = $('#selectAddress-' + billId).val();
+
+                if (!addressId) {
+                    alert("Vui lòng chọn địa chỉ!");
+                    return;
+                }
+                console.log("BillId:", billId); // Kiểm tra ở F12 xem có ra số không
+                console.log("AddressId:", addressId); // Kiểm tra xem có ra ID địa chỉ không
+                // Vô hiệu hóa nút để tránh bấm nhiều lần
+                var $btn = $(this);
+                $btn.prop('disabled', true).text('Đang xử lý...');
+
+                $.ajax({
+                    url: 'https://localhost:7218/api/Buy/PickAddress?BillId=' + billId + '&AddressId=' + addressId,
+                    type: 'POST',
+                    
+                    success: function (response) {
+                        // Chỉ cần thông báo dựa trên response.success
+                        if (response.success) {
+                            alert("Đã đổi địa chỉ giao hàng thành công!");
+                            // Nếu muốn trang web cập nhật lại trạng thái mới nhất, dùng lệnh này:
+                            // location.reload();
+                        } else {
+                            alert("Thất bại: " + (response.message || "Không rõ nguyên nhân"));
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("Lỗi hệ thống: " + xhr.status);
+                    },
+                    complete: function () {
+                        // Mở lại nút sau khi xong
+                        $btn.prop('disabled', false).text('Xác nhận địa chỉ');
+                    }
+                });
+            });
+        }); // Đã đóng ngoặc đầy đủ cho ready function
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Thay #btnChangePassword bằng class .form-submit vì HTML của ní dùng class này
+            $('.form-submit').click(function (e) {
+                e.preventDefault();
+
+                // 1. Lấy đúng ID từ HTML của ní
+                var oldPassword = $('#password').val();       // Khớp với id="password"
+                var newPassword = $('#password-new').val();   // Khớp với id="password-new"
+                var confirmPassword = $('#password-confirm').val(); // Khớp với id="password-confirm"
+
+                // 2. Kiểm tra dữ liệu
+                if (!oldPassword || !newPassword || !confirmPassword) {
+                    alert("Vui lòng điền đầy đủ thông tin!");
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    alert("Mật khẩu mới không khớp!");
+                    return;
+                }
+
+                // 3. Object gửi đi (Key phải khớp với Class bên C#)
+                var requestData = {
+                    OldPassword: oldPassword,
+                    NewPassword: newPassword,
+                    ConfirmPassword: confirmPassword
+                };
+
+                // 4. Lấy Token (Nếu dùng Cookie thì dòng này không quan trọng, nhưng cứ để đó)
+                var token = '@Context.Session.GetString("JwtToken")';
+
+                var $btn = $(this);
+                $btn.prop('disabled', true).text('Đang xử lý...');
+
+                $.ajax({
+                    url: 'https://localhost:7218/api/auth/change-password',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    success: function (response) {
+                        alert("Chúc mừng! " + response);
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                            // 1. Kiểm tra xem có phải lỗi Validation (400) không
+        if (xhr.status === 400 && xhr.responseJSON && xhr.responseJSON.errors) {
+            var errors = xhr.responseJSON.errors;
+            var message = "";
+
+            // Duyệt qua tất cả các lỗi để nối thành chuỗi
+            // (Vì một ô input có thể dính nhiều lỗi cùng lúc)
+            for (var key in errors) {
+                message += errors[key].join(", ") + "\n";
+            }
+            alert(message);
+        } else {
+            // 2. Các lỗi khác (401, 500, hoặc text thuần)
+            alert("Lỗi: " + (xhr.responseText || "Có lỗi xảy ra"));
+        }
+                    },
+                    complete: function () {
+                        $btn.prop('disabled', false).text('Lưu');
+                    }
+                });
+            });
+        });
+    </script>
+}

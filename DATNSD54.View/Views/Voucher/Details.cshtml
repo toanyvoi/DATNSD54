@@ -1,0 +1,289 @@
+﻿@model DATNSD54.DAO.Models.Voucher
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Chi tiết Voucher";
+    var today = DateTime.Now;
+    var isExpired = Model.Ngay_Ket_Thuc < today;
+    var isStarted = Model.Ngay_Bat_Dau <= today;
+    var daysRemaining = (Model.Ngay_Ket_Thuc - today).Days;
+}
+
+@section Styles {
+    <style>
+        .admin-details-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .details-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.07);
+            max-width: 850px;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 1px solid #edf2f7;
+        }
+
+        /* Header mượt mà hơn */
+        .details-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 35px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-info h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-info p {
+            margin: 8px 0 0;
+            opacity: 0.7;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .details-body {
+            padding: 40px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+        }
+
+        .info-group {
+            border-bottom: 1.5px solid #f8f9fa;
+            padding-bottom: 18px;
+            transition: 0.3s;
+        }
+
+            .info-group:hover {
+                border-bottom-color: #e2e8f0;
+            }
+
+        .info-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #a0aec0;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        /* Các điểm nhấn dữ liệu */
+        .code-highlight {
+            font-family: 'Monaco', 'Consolas', monospace;
+            background: #ebf8ff;
+            color: #3182ce;
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: 1px solid #bee3f8;
+        }
+
+        .money-value {
+            color: #38a169;
+            font-size: 1.2rem;
+        }
+
+        .time-tag {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+
+        .time-remaining {
+            background: #fffaf0;
+            color: #dd6b20;
+            border: 1px solid #fbd38d;
+        }
+
+        .time-expired {
+            background: #fff5f5;
+            color: #e53e3e;
+            border: 1px solid #feb2b2;
+        }
+
+        /* Badge Status */
+        .status-badge {
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: #c6f6d5;
+            color: #22543d;
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.2);
+        }
+
+        .status-inactive {
+            background: #fed7d7;
+            color: #822727;
+        }
+
+        .details-footer {
+            padding: 0 40px 40px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-action {
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+            flex: 1;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-edit-action {
+            background: #2d3748;
+            color: white;
+        }
+
+            .btn-edit-action:hover {
+                background: #1a202c;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+                color: white;
+            }
+
+        .btn-back-action {
+            background: white;
+            color: #718096;
+            border: 2px solid #edf2f7;
+        }
+
+            .btn-back-action:hover {
+                background: #f7fafc;
+                color: #2d3748;
+                border-color: #cbd5e0;
+            }
+
+        @@media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+}
+
+<div class="admin-details-page">
+    <div class="container">
+        <div class="details-card">
+            <div class="details-header">
+                <div class="header-info">
+                    <h2>Thông tin Voucher</h2>
+                    <p><i class="far fa-calendar-alt"></i> Hệ thống khởi tạo: @Model.Ngay_Tao.ToString("dd/MM/yyyy HH:mm")</p>
+                </div>
+                <div class="header-status">
+                    @if (Model.Trang_Thai == 1 && !isExpired)
+                    {
+                        <span class="status-badge status-active"><i class="fas fa-check-circle mr-1"></i> ĐANG KHẢ DỤNG</span>
+                    }
+                    else
+                    {
+                        <span class="status-badge status-inactive"><i class="fas fa-times-circle mr-1"></i> NGỪNG HOẠT ĐỘNG</span>
+                    }
+                </div>
+            </div>
+
+            <div class="details-body">
+                <div class="info-grid">
+                    <div class="info-group">
+                        <span class="info-label">Mã Code</span>
+                        <span class="info-value code-highlight">@Model.ID</span>
+                    </div>
+
+                    <div class="info-group">
+                        <span class="info-label">Tên chương trình</span>
+                        <span class="info-value">@Model.Ten</span>
+                    </div>
+
+                    <div class="info-group">
+                        <span class="info-label">Ưu đãi giảm giá</span>
+                        <span class="info-value text-primary" style="font-size: 1.4rem;">@Model.Ty_Le_Giam%</span>
+                    </div>
+
+                    <div class="info-group">
+                        <span class="info-label">Quỹ số lượng</span>
+                        <span class="info-value">@Model.So_Luong.ToString("N0") <small class="text-muted">lượt dùng</small></span>
+                    </div>
+
+                    <div class="info-group">
+                        <span class="info-label">Áp dụng cho đơn từ</span>
+                        <span class="info-value money-value">@Model.Don_Hang_Toi_Thieu.ToString("C0", new CultureInfo("vi-VN"))</span>
+                    </div>
+
+                    <div class="info-group">
+                        <span class="info-label">Giảm tối đa</span>
+                        <span class="info-value money-value">@Model.Giam_Toi_Da.ToString("C0", new CultureInfo("vi-VN"))</span>
+                    </div>
+
+                    <div class="info-group">
+                        <span class="info-label">Ngày bắt đầu</span>
+                        <span class="info-value">
+                            @Model.Ngay_Bat_Dau.ToString("dd/MM/yyyy")
+                            @if (!isStarted)
+                            {
+                                <span class="time-tag time-remaining">Chờ kích hoạt</span>
+                            }
+                        </span>
+                    </div>
+
+                    <div class="info-group">
+                        <span class="info-label">Ngày kết thúc</span>
+                        <span class="info-value">
+                            @Model.Ngay_Ket_Thuc.ToString("dd/MM/yyyy")
+                            @if (isExpired)
+                            {
+                                <span class="time-tag time-expired">Đã hết hạn</span>
+                            }
+                            else if (isStarted)
+                            {
+                                <span class="time-tag time-remaining">Còn @daysRemaining ngày</span>
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-footer">
+                <a asp-action="Edit" asp-route-id="@Model.ID" class="btn-action btn-edit-action">
+                    <i class="fas fa-pen-nib"></i> Chỉnh sửa thông tin
+                </a>
+                <a asp-action="Index" class="btn-action btn-back-action">
+                    <i class="fas fa-arrow-left"></i> Trở lại danh sách
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

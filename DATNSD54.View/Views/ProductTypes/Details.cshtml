@@ -1,0 +1,232 @@
+﻿@model DATNSD54.DAO.Models.ProductType
+
+@{
+    ViewData["Title"] = "Chi tiết loại sản phẩm";
+}
+
+@section Styles {
+    <style>
+        .admin-details-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .details-container {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .details-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            position: relative;
+        }
+
+        .details-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .header-icon-circle {
+            width: 60px;
+            height: 60px;
+            background: #f0f2f5;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c3e50;
+            font-size: 24px;
+        }
+
+        .header-info h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .header-info p {
+            margin: 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, #e8ecef, transparent);
+            margin: 25px 0;
+        }
+
+        /* Detail Grid */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .detail-item {
+            padding: 15px;
+            background: #fdfdfd;
+            border-radius: 12px;
+            border: 1px solid #f1f4f8;
+        }
+
+        .detail-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .status-online { background: #e6f7ee; color: #27ae60; }
+        .status-offline { background: #fff5f5; color: #e74c3c; }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background: currentColor;
+        }
+
+        /* Action Buttons */
+        .action-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-edit-main {
+            flex: 2;
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit-main:hover {
+            background: #1a252f;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-back-list {
+            flex: 1;
+            background: #f8f9fa;
+            color: #7f8c8d;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            border: 1px solid #e8ecef;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back-list:hover {
+            background: #eef2f7;
+            color: #2c3e50;
+        }
+
+        @@media (max-width: 576px) {
+            .detail-grid { grid-template-columns: 1fr; }
+            .action-group { flex-direction: column; }
+        }
+    </style>
+}
+
+<div class="admin-details-page">
+    <div class="details-container">
+        <div class="details-card">
+            <div class="details-header">
+                <div class="header-icon-circle">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="header-info">
+                    <h2>Thông tin chi tiết</h2>
+                    <p>ID: #@Model.Id</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <span class="detail-label">@Html.DisplayNameFor(model => model.Ten)</span>
+                    <span class="detail-value">@Html.DisplayFor(model => model.Ten)</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">@Html.DisplayNameFor(model => model.Ma)</span>
+                    <span class="detail-value"><code>@Html.DisplayFor(model => model.Ma)</code></span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">@Html.DisplayNameFor(model => model.Ngay_Tao)</span>
+                    <span class="detail-value">
+                        <i class="far fa-calendar-alt mr-1 text-muted"></i>
+                        @Model.Ngay_Tao.ToString("dd/MM/yyyy HH:mm")
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">@Html.DisplayNameFor(model => model.Trang_Thai)</span>
+                    <div class="mt-2">
+                        @if (Model.Trang_Thai)
+                        {
+                            <span class="status-badge status-online">
+                                <span class="status-dot"></span> Đang kinh doanh
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="status-badge status-offline">
+                                <span class="status-dot"></span> Ngừng kinh doanh
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-group">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn-edit-main">
+                    <i class="fas fa-edit mr-1"></i> Chỉnh sửa thông tin
+                </a>
+                <a asp-action="Index" class="btn-back-list">
+                    Quay lại danh sách
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

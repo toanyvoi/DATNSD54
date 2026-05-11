@@ -1,0 +1,219 @@
+﻿@model DATNSD54.DAO.Models.Brand
+
+@{
+    ViewData["Title"] = "Thêm Thương hiệu";
+}
+
+@section Styles {
+    <style>
+        .admin-form-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 50px 0;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2c3e50 0%, #000 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+            .header-icon i {
+                font-size: 30px;
+                color: white;
+            }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8ecef, transparent);
+            margin: 30px 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 12px 15px;
+            border: 2px solid #e8ecef;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: #2c3e50;
+                box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.1);
+            }
+
+        /* Toggle Switch Styling */
+        .status-switch {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            background: #2c3e50;
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+            .btn-submit:hover {
+                background: #1a252f;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+            .back-link:hover {
+                color: #2c3e50;
+            }
+
+        /* Logo Preview */
+        #logo-preview-container {
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        #logo-preview {
+            max-width: 120px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+    </style>
+}
+
+<div class="admin-form-page">
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="header-icon">
+                    <i class="fas fa-copyright"></i>
+                </div>
+                <h2 class="form-title">Thêm Thương Hiệu</h2>
+                <p class="text-muted">Đăng ký nhãn hàng mới vào hệ thống</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="form-group">
+                    <label asp-for="Ten" class="control-label">Tên thương hiệu</label>
+                    <input asp-for="Ten" class="form-control" placeholder="Ví dụ: Nike, Adidas, Gucci..." />
+                    <span asp-validation-for="Ten" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LogoUrl" class="control-label">Đường dẫn Logo (URL)</label>
+                    <input asp-for="LogoUrl" class="form-control" id="logo-input" placeholder="https://example.com/logo.png" />
+                    <span asp-validation-for="LogoUrl" class="text-danger small"></span>
+                    <div id="logo-preview-container">
+                        <p class="text-small text-muted mb-1">Xem trước logo:</p>
+                        <img id="logo-preview" src="#" alt="Logo Preview" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NgayTao" class="control-label">Ngày thành lập/Ngày tạo</label>
+                    <input asp-for="NgayTao" class="form-control" type="date" />
+                    <span asp-validation-for="NgayTao" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" asp-for="TrangThai" id="statusSwitch" checked>
+                        <label class="custom-control-label font-weight-bold" for="statusSwitch">Kích hoạt thương hiệu</label>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-plus-circle mr-2"></i> Xác nhận thêm mới
+                </button>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-arrow-left mr-1"></i> Quay lại danh sách thương hiệu
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Preview logo khi nhập URL
+        $(document).ready(function () {
+            $('#logo-input').on('input', function () {
+                var url = $(this).val();
+                if (url) {
+                    $('#logo-preview').attr('src', url);
+                    $('#logo-preview-container').fadeIn();
+                } else {
+                    $('#logo-preview-container').fadeOut();
+                }
+            });
+        });
+    </script>
+}

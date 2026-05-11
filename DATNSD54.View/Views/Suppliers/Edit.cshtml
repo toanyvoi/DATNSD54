@@ -1,0 +1,278 @@
+﻿@model DATNSD54.DAO.Models.Supplier
+
+@{
+    ViewData["Title"] = "Chỉnh sửa Nhà cung cấp";
+}
+
+@section Styles {
+    <style>
+        .admin-form-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 50px 0;
+        }
+
+        .form-container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.2);
+        }
+
+            .header-icon i {
+                font-size: 30px;
+                color: white;
+            }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8ecef, transparent);
+            margin: 30px 0;
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #95a5a6;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e8ecef;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: #2c3e50;
+                box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.1);
+            }
+
+        /* Toggle Switch */
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e8ecef;
+        }
+
+        .toggle-label {
+            font-weight: 600;
+            color: #34495e;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+            margin-left: auto;
+        }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #e0e0e0;
+            border-radius: 24px;
+            transition: 0.3s;
+        }
+
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 18px;
+                width: 18px;
+                left: 3px;
+                bottom: 3px;
+                background: white;
+                border-radius: 50%;
+                transition: 0.3s;
+            }
+
+        input:checked + .toggle-slider {
+            background: #27ae60;
+        }
+
+            input:checked + .toggle-slider:before {
+                transform: translateX(22px);
+            }
+
+        .btn-save {
+            background: #2c3e50;
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+            .btn-save:hover {
+                background: #1a252f;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .back-link:hover {
+                color: #2c3e50;
+            }
+    </style>
+}
+
+<div class="admin-form-page">
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="header-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h2 class="form-title">Cập nhật Nhà cung cấp</h2>
+                <p class="text-muted">Chỉnh sửa thông tin đối tác cung cấp #@Model.Id</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <span class="section-subtitle">Thông tin cơ bản</span>
+
+                <div class="form-group">
+                    <label asp-for="Ten" class="control-label">Tên nhà cung cấp</label>
+                    <input asp-for="Ten" class="form-control" placeholder="Ví dụ: Công ty TNHH ABC..." />
+                    <span asp-validation-for="Ten" class="text-danger small"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="SDT" class="control-label">Số điện thoại</label>
+                            <input asp-for="SDT" class="form-control" placeholder="0xxxxxxxxx" />
+                            <span asp-validation-for="SDT" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">Email</label>
+                            <input asp-for="Email" class="form-control" placeholder="example@email.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Dia_Chi" class="control-label">Địa chỉ</label>
+                    <input asp-for="Dia_Chi" class="form-control" placeholder="Số nhà, đường, quận/huyện, tỉnh/thành phố..." />
+                    <span asp-validation-for="Dia_Chi" class="text-danger small"></span>
+                </div>
+
+                <div class="divider"></div>
+                <span class="section-subtitle">Cấu hình</span>
+
+                <div class="form-group">
+                    <label asp-for="Ngay_Tao" class="control-label">Ngày tạo</label>
+                    <input asp-for="Ngay_Tao" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="Ngay_Tao" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group">
+                    <div class="toggle-wrapper">
+                        <label class="toggle-label" for="Trang_Thai">Trạng thái hoạt động</label>
+                        <label class="toggle-switch">
+                            <input asp-for="Trang_Thai" type="checkbox" id="Trang_Thai" />
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <span asp-validation-for="Trang_Thai" class="text-danger small"></span>
+                </div>
+
+                <div class="divider"></div>
+
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-save mr-2"></i> Lưu các thay đổi
+                </button>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-arrow-left mr-1"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

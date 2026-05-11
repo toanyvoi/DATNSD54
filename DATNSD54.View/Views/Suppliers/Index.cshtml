@@ -1,0 +1,233 @@
+﻿@model IEnumerable<DATNSD54.DAO.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Quản lý Nhà cung cấp";
+}
+
+@section Styles {
+    <style>
+        .admin-index-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .index-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .index-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        .index-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .index-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .btn-create-new {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-create-new:hover {
+            background: #1a252f;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.2);
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+
+        .custom-table thead th {
+            background: transparent;
+            color: #95a5a6;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 10px 15px;
+            border: none;
+        }
+
+        .custom-table tbody tr {
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .custom-table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-top: 1px solid #f1f4f8;
+            border-bottom: 1px solid #f1f4f8;
+            font-size: 0.9rem;
+        }
+
+        .custom-table tbody td:first-child {
+            border-left: 1px solid #f1f4f8;
+            border-radius: 12px 0 0 12px;
+            font-weight: 600;
+        }
+
+        .custom-table tbody td:last-child {
+            border-right: 1px solid #f1f4f8;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .custom-table tbody tr:hover {
+            transform: scale(1.005);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .status-active   { background: #e6f7ee; color: #27ae60; }
+        .status-inactive { background: #fff5f5; color: #e74c3c; }
+
+        .contact-info {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            display: block;
+        }
+
+        .date-info {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+
+        .action-links {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-edit    { background: #f0f7ff; color: #007bff; }
+        .btn-details { background: #f8f9fa; color: #6c757d; }
+        .btn-delete  { background: #fff5f5; color: #e74c3c; }
+
+        .btn-edit:hover    { background: #007bff; color: white; }
+        .btn-details:hover { background: #6c757d; color: white; }
+        .btn-delete:hover  { background: #e74c3c; color: white; }
+    </style>
+}
+
+<div class="admin-index-page">
+    <div class="index-container">
+        <div class="index-card">
+            <div class="index-header">
+                <h2 class="index-title">Danh sách Nhà cung cấp</h2>
+                <a asp-action="Create" class="btn-create-new">
+                    <i class="fas fa-plus"></i> Thêm Nhà cung cấp
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Tên nhà cung cấp</th>
+                            <th>Liên hệ</th>
+                            <th>Địa chỉ</th>
+                            <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
+                            <th class="text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="color: #2c3e50; max-width: 200px;">
+                                    @Html.DisplayFor(modelItem => item.Ten)
+                                </td>
+                                <td>
+                                    <span style="font-weight: 600; color: #2c3e50;">@Html.DisplayFor(modelItem => item.SDT)</span>
+                                    <span class="contact-info">@Html.DisplayFor(modelItem => item.Email)</span>
+                                </td>
+                                <td style="max-width: 200px; color: #7f8c8d; font-size: 0.85rem;">
+                                    @Html.DisplayFor(modelItem => item.Dia_Chi)
+                                </td>
+                                <td class="date-info">
+                                    @item.Ngay_Tao.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @if (item.Trang_Thai == true)
+                                    {
+                                        <span class="status-badge status-active">Hoạt động</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge status-inactive">Ngừng</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="action-links">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn-action btn-edit" title="Sửa">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn-action btn-details" title="Chi tiết">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn-action btn-delete" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            console.log("Supplier Index Loaded");
+        });
+    </script>
+}

@@ -1,0 +1,177 @@
+﻿@model DATNSD54.DAO.Models.ProductType
+
+@{
+    ViewData["Title"] = "Xác nhận xóa";
+}
+
+@section Styles {
+    <style>
+        .admin-delete-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .delete-container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .delete-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            border-top: 5px solid #e74c3c; /* Màu đỏ cảnh báo */
+        }
+
+        .delete-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .warning-icon {
+            width: 70px;
+            height: 70px;
+            background: #fdf2f2;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .warning-icon i {
+            font-size: 30px;
+            color: #e74c3c;
+        }
+
+        .delete-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .info-list {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+
+        .info-value {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .btn-delete-confirm {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete-confirm:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #95a5a6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: #2c3e50;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active { background: #d4edda; color: #155724; }
+        .status-inactive { background: #f8d7da; color: #721c24; }
+    </style>
+}
+
+<div class="admin-delete-page">
+    <div class="delete-container">
+        <div class="delete-card">
+            <div class="delete-header">
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2 class="delete-title">Xác nhận xóa?</h2>
+                <p class="text-muted">Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa loại sản phẩm này?</p>
+            </div>
+
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Ten)</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.Ten)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Ma)</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.Ma)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Ngay_Tao)</span>
+                    <span class="info-value">@Model.Ngay_Tao.ToString("dd/MM/yyyy")</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Trang_Thai)</span>
+                    <span class="info-value">
+                        @if (Model.Trang_Thai)
+                        {
+                            <span class="status-badge status-active">Đang hoạt động</span>
+                        }
+                        else
+                        {
+                            <span class="status-badge status-inactive">Ngừng hoạt động</span>
+                        }
+                    </span>
+                </div>
+            </div>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn-delete-confirm">
+                    <i class="fas fa-trash-alt mr-2"></i> Xác nhận xóa ngay
+                </button>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-times mr-1"></i> Hủy và quay lại
+            </a>
+        </div>
+    </div>
+</div>

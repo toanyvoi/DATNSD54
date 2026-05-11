@@ -1,0 +1,213 @@
+﻿@model DATNSD54.DAO.Models.Bill
+
+@{
+    ViewData["Title"] = "Xóa Hóa đơn";
+}
+
+@section Styles {
+    <style>
+        .admin-delete-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .delete-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .delete-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            border-top: 5px solid #e74c3c;
+        }
+
+        .delete-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .warning-icon {
+            width: 70px;
+            height: 70px;
+            background: #fdf2f2;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .warning-icon i {
+            font-size: 30px;
+            color: #e74c3c;
+        }
+
+        .delete-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            border-bottom: 1px solid #edf2f7;
+            padding: 10px 0;
+        }
+
+        .info-item.full-width {
+            grid-column: span 2;
+        }
+
+        .info-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #95a5a6;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .btn-delete-confirm {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .btn-delete-confirm:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #95a5a6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover { color: #2c3e50; }
+
+        @@media (max-width: 576px) {
+            .info-grid { grid-template-columns: 1fr; }
+            .info-item.full-width { grid-column: span 1; }
+        }
+    </style>
+}
+
+<div class="admin-delete-page">
+    <div class="delete-container">
+        <div class="delete-card">
+            <div class="delete-header">
+                <div class="warning-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <h2 class="delete-title">Xóa Hóa Đơn #@Model.ID?</h2>
+                <p class="text-muted">Bạn có chắc chắn muốn xóa hóa đơn này? Hành động này không thể hoàn tác.</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Ngay_Tao)</span>
+                    <span class="info-value">@Model.Ngay_Tao.ToString("dd/MM/yyyy HH:mm")</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Customer)</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.Customer.Mat_Khau)</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Gia_Goc)</span>
+                    <span class="info-value">@Model.Gia_Goc.ToString("N0") VNĐ</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Thanh_Tien)</span>
+                    <span class="info-value text-danger">@Model.Thanh_Tien.ToString("N0") VNĐ</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Phuong_Thuc_Thanh_Toan)</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.Phuong_Thuc_Thanh_Toan)</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Trạng thái</span>
+                    <span class="info-value">
+                        <span class="status-badge bg-secondary text-white">@Html.DisplayFor(model => model.Trang_Thai)</span>
+                    </span>
+                </div>
+
+                <div class="info-item full-width">
+                    <span class="info-label">@Html.DisplayNameFor(model => model.Address)</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.Address.DiaChiChitiet)</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Voucher</span>
+                    <span class="info-value">@(Model.Voucher?.Ten ?? "Không dùng")</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Nhân viên xử lý (CCCD)</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.User.CCCD)</span>
+                </div>
+            </div>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="ID" />
+                <button type="submit" class="btn-delete-confirm">
+                    <i class="fas fa-trash-alt mr-2"></i> Xác nhận xóa vĩnh viễn
+                </button>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-times mr-1"></i> Hủy và quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('.btn-delete-confirm').click(function() {
+            return confirm("Cảnh báo: Hóa đơn liên quan đến doanh thu và tồn kho. Bạn thực sự muốn xóa?");
+        });
+    </script>
+}

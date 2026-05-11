@@ -1,0 +1,294 @@
+@model DATNSD54.DAO.Models.User
+
+@{
+    ViewData["Title"] = "Xóa Người dùng";
+}
+
+@section Styles {
+    <style>
+        .admin-delete-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .delete-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .delete-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            border-top: 5px solid #e74c3c;
+        }
+
+        .delete-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .warning-icon {
+            width: 70px;
+            height: 70px;
+            background: #fdf2f2;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .warning-icon i {
+            font-size: 30px;
+            color: #e74c3c;
+        }
+
+        /* Avatar */
+        .user-avatar-lg {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e8ecef;
+            display: block;
+            margin: 0 auto 8px;
+        }
+
+        .avatar-placeholder-lg {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin: 0 auto 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            border-bottom: 1px solid #edf2f7;
+            padding: 10px 0;
+        }
+
+        .info-item.full-width {
+            grid-column: span 2;
+        }
+
+        .info-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #95a5a6;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        .role-badge {
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .role-admin  { background: #fff3e0; color: #e67e22; }
+        .role-staff  { background: #e8f4fd; color: #2980b9; }
+        .role-user   { background: #f0f0f0; color: #7f8c8d; }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .status-active   { background: #e6f7ee; color: #27ae60; }
+        .status-inactive { background: #fff5f5; color: #e74c3c; }
+
+        .gender-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .gender-male   { background: #e8f4fd; color: #2980b9; }
+        .gender-female { background: #fdf2f8; color: #e91e8c; }
+
+        .password-mask {
+            color: #bdc3c7;
+            letter-spacing: 2px;
+            font-size: 1rem;
+        }
+
+        .btn-delete-confirm {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .btn-delete-confirm:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #95a5a6;
+            text-decoration: none;
+        }
+
+        .back-link:hover { color: #2c3e50; }
+    </style>
+}
+
+<div class="admin-delete-page">
+    <div class="delete-container">
+        <div class="delete-card">
+            <div class="delete-header">
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2 class="font-weight-bold">Xác nhận xóa?</h2>
+                <p class="text-muted">Tài khoản này sẽ bị xóa vĩnh viễn và không thể phục hồi.</p>
+
+                {{-- Avatar preview --}}
+                @if (!string.IsNullOrEmpty(Model.Anhdaidien))
+                {
+                    <img src="@Model.Anhdaidien" class="user-avatar-lg" alt="avatar" />
+                }
+                else
+                {
+                    <div class="avatar-placeholder-lg mx-auto">
+                        @(Model.Ten != null && Model.Ten.Length > 0 ? Model.Ten[0].ToString().ToUpper() : "U")
+                    </div>
+                }
+                <strong style="color: #2c3e50;">@Model.Ten</strong>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Mã người dùng</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.Ma)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Vai trò</span>
+                    <span class="info-value">
+                        @{
+                            var roleClass = Model.Role switch
+                            {
+                                true => "role-admin",  // Nếu Role == true (Admin)
+                                false => "role-staff", // Nếu Role == false (Nhân viên)
+                            };
+                        }
+                        <span class="role-badge @roleClass">@Html.DisplayFor(model => model.Role)</span>
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Giới tính</span>
+                    <span class="info-value">
+                        @if (Model.Gioi_Tinh == true)
+                        {
+                            <span class="gender-badge gender-male"><i class="fas fa-mars mr-1"></i>Nam</span>
+                        }
+                        else
+                        {
+                            <span class="gender-badge gender-female"><i class="fas fa-venus mr-1"></i>Nữ</span>
+                        }
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Ngày sinh</span>
+                    <span class="info-value">@Model.Ngay_Sinh.ToString("dd/MM/yyyy")</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Số điện thoại</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.SDT)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.Email)</span>
+                </div>
+                <div class="info-item full-width">
+                    <span class="info-label">Địa chỉ</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.Dia_Chi)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">CCCD</span>
+                    <span class="info-value">@Html.DisplayFor(model => model.CCCD)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Mật khẩu</span>
+                    <span class="info-value"><span class="password-mask">••••••••</span></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Ngày tạo</span>
+                    <span class="info-value">@Model.Ngay_Tao.ToString("dd/MM/yyyy")</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Trạng thái</span>
+                    <span class="info-value">
+                        @if (Model.Trang_Thai == true)
+                        {
+                            <span class="status-badge status-active">Hoạt động</span>
+                        }
+                        else
+                        {
+                            <span class="status-badge status-inactive">Bị khóa</span>
+                        }
+                    </span>
+                </div>
+            </div>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="ID" />
+                <button type="submit" class="btn-delete-confirm">
+                    <i class="fas fa-trash-alt mr-2"></i> Xác nhận xóa ngay
+                </button>
+            </form>
+
+            <a asp-action="Index" class="back-link">Hủy và quay lại</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $('.btn-delete-confirm').click(function () {
+            return confirm("Bạn có chắc chắn muốn xóa người dùng này không?");
+        });
+    </script>
+}

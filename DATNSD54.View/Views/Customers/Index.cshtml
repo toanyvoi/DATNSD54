@@ -1,0 +1,237 @@
+﻿@model IEnumerable<DATNSD54.DAO.Models.Customer>
+
+@{
+    ViewData["Title"] = "Danh sách khách hàng";
+}
+
+@section Styles {
+    <style>
+        .admin-index-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 30px 0;
+        }
+
+        .index-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .index-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+        }
+
+        .index-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .index-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .btn-create-new {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-create-new:hover {
+            background: #1a252f;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Table Styling */
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .custom-table thead th {
+            color: #95a5a6;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding: 10px 15px;
+            border: none;
+        }
+
+        .custom-table tbody tr {
+            background: #fff;
+            transition: all 0.2s;
+        }
+
+        .custom-table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-top: 1px solid #f1f4f8;
+            border-bottom: 1px solid #f1f4f8;
+            color: #4a5568;
+        }
+
+        .custom-table tbody td:first-child { border-left: 1px solid #f1f4f8; border-radius: 12px 0 0 12px; }
+        .custom-table tbody td:last-child { border-right: 1px solid #f1f4f8; border-radius: 0 12px 12px 0; }
+
+        .custom-table tbody tr:hover {
+            background-color: #fcfdff;
+            transform: scale(1.005);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        /* Avatar & Info */
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .customer-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #eee;
+        }
+
+        .customer-name {
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0;
+        }
+
+        .customer-email {
+            font-size: 0.8rem;
+            color: #718096;
+            margin: 0;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .status-active { background: #def7ec; color: #03543f; }
+        .status-locked { background: #fde8e8; color: #9b1c1c; }
+
+        /* Actions */
+        .action-links {
+            display: flex;
+            gap: 5px;
+            justify-content: flex-end;
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-edit { background: #f0f7ff; color: #007bff; }
+        .btn-details { background: #f8f9fa; color: #6c757d; }
+        .btn-delete { background: #fff5f5; color: #e74c3c; }
+
+        .btn-edit:hover { background: #007bff; color: white; }
+        .btn-details:hover { background: #6c757d; color: white; }
+        .btn-delete:hover { background: #e74c3c; color: white; }
+    </style>
+}
+
+<div class="admin-index-page">
+    <div class="index-container">
+        <div class="index-card">
+            <div class="index-header">
+                <h2 class="index-title">Quản lý Khách hàng</h2>
+                <a asp-action="Create" class="btn-create-new">
+                    <i class="fas fa-user-plus mr-2"></i> Thêm khách hàng
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Khách hàng</th>
+                            <th>Liên hệ</th>
+                            <th>Giới tính</th>
+                            <th>Ngày sinh</th>
+                            <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
+                            <th class="text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="customer-info">
+                                        <img src="@(string.IsNullOrEmpty(item.AnhDaiDien) ? "/images/default-avatar.png" : item.AnhDaiDien)" 
+                                             class="customer-avatar" alt="Avatar" />
+                                        <div>
+                                            <p class="customer-name">@item.Ten</p>
+                                            <p class="customer-email">@item.Email</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="small">
+                                        <i class="fas fa-phone text-muted mr-1"></i> @item.SDT
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-light">@item.Gioi_Tinh</span>
+                                </td>
+                                <td class="small">
+                                    @item.Ngay_Sinh
+                                </td>
+                                <td class="small text-muted">
+                                    @item.Ngay_Tao.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    <span class="status-badge @(item.Trang_Thai ? "status-active" : "status-locked")">
+                                        @(item.Trang_Thai ? "Hoạt động" : "Bị khóa")
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-links">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn-action btn-edit" title="Sửa">
+                                            <i class="fas fa-pen-square"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn-action btn-details" title="Chi tiết">
+                                            <i class="fas fa-id-card"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn-action btn-delete" title="Xóa">
+                                            <i class="fas fa-user-minus"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

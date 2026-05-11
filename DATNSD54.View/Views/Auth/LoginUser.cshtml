@@ -1,0 +1,355 @@
+﻿@model DATNSD54.View.Models.ViewModels.LoginViewModels
+
+@{
+    ViewData["Title"] = "Đăng nhập - Nhân viên";
+}
+
+@section Styles {
+    <style>
+        .login-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 80px 0;
+        }
+
+        .login-container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 60px 40px;
+        }
+
+        /* Logo Section */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-circle {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(44, 62, 80, 0.2);
+        }
+
+            .logo-circle i {
+                font-size: 38px;
+                color: white;
+            }
+
+        .main-heading {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .sub-heading {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+
+        /* Staff badge */
+        .staff-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eaf0fb;
+            color: #2c3e50;
+            border: 1px solid #d0dff5;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8ecef, transparent);
+            margin: 30px 0;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+            font-size: 16px;
+            pointer-events: none;
+            transition: color 0.3s ease;
+            z-index: 1;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px 14px 46px;
+            border: 2px solid #e8ecef;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: #2c3e50;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+            .form-control:focus {
+                border-color: #2c3e50;
+                background: white;
+                box-shadow: 0 0 0 4px rgba(44, 62, 80, 0.06);
+            }
+
+            .form-control::placeholder {
+                color: #bdc3c7;
+            }
+
+        /* Password toggle */
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
+            cursor: pointer;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+            .toggle-password:hover {
+                color: #2c3e50;
+            }
+
+        /* Validation */
+        .text-danger {
+            font-size: 0.82rem;
+            color: #e74c3c;
+            margin-top: 6px;
+            display: block;
+            padding-left: 4px;
+        }
+
+        .alert-danger {
+            background: #fdf2f2;
+            border: 1px solid #f5c6c6;
+            border-radius: 10px;
+            color: #c0392b;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Submit button */
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-login::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .btn-login:hover::before {
+                left: 100%;
+            }
+
+            .btn-login:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(44, 62, 80, 0.3);
+            }
+
+            .btn-login:active {
+                transform: translateY(0);
+            }
+
+        /* Back link */
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .back-link a {
+                color: #7f8c8d;
+                font-size: 0.9rem;
+                text-decoration: none;
+                transition: color 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+                .back-link a:hover {
+                    color: #2c3e50;
+                }
+
+        /* Responsive */
+        @@media (max-width: 576px) {
+            .login-page {
+                padding: 40px 0;
+            }
+
+            .login-card {
+                padding: 40px 25px;
+            }
+
+            .main-heading {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+}
+
+<div class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+
+            <!-- Logo Section -->
+            <div class="logo-section">
+                <div class="logo-circle">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h1 class="main-heading">Đăng nhập</h1>
+                <p class="sub-heading">Cổng quản lý dành cho nhân viên FourStar Shop</p>
+                <div class="staff-badge">
+                    <i class="fas fa-shield-alt"></i> Khu vực nhân viên
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Form -->
+            <form asp-action="LoginUser" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                @if (ViewBag.LoginError != null)
+                {
+                    <div class="alert-danger">
+                        <i class="fas fa-exclamation-circle"></i>
+                        @ViewBag.LoginError
+                    </div>
+                }
+
+                <!-- Username -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input asp-for="Username"
+                               class="form-control"
+                               placeholder="Tên tài khoản" />
+                        <i class="fas fa-id-badge input-icon"></i>
+                    </div>
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input asp-for="Password"
+                               type="password"
+                               class="form-control"
+                               placeholder="Mật khẩu"
+                               id="passwordInput" />
+                        <i class="fas fa-lock input-icon"></i>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Đăng nhập
+                </button>
+            </form>
+
+            <div class="divider"></div>
+
+            <!-- Back -->
+            <div class="back-link">
+                <a asp-controller="Auth" asp-action="Login">
+                    <i class="fas fa-arrow-left"></i> Quay lại chọn loại tài khoản
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('passwordInput');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function () {
+                this.closest('.input-wrapper').querySelector('.input-icon').style.color = '#2c3e50';
+            });
+            input.addEventListener('blur', function () {
+                if (!this.value) {
+                    this.closest('.input-wrapper').querySelector('.input-icon').style.color = '#95a5a6';
+                }
+            });
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

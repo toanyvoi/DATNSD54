@@ -1,0 +1,32 @@
+﻿@model DATNSD54.DAO.Models.Address
+
+<div class="container mt-4">
+    <div class="card border-danger shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Xác nhận xóa địa chỉ</h4>
+        </div>
+        <div class="card-body">
+            <p class="text-danger">Bạn có chắc chắn muốn xóa địa chỉ này không? Hành động này không thể hoàn tác.</p>
+
+            <dl class="row mt-4">
+                <dt class="col-sm-3">Họ tên:</dt>
+                <dd class="col-sm-9">@Model.HoTen</dd>
+
+                <dt class="col-sm-3">Số điện thoại:</dt>
+                <dd class="col-sm-9">@Model.SDT</dd>
+
+                <dt class="col-sm-3">Địa chỉ:</dt>
+                <dd class="col-sm-9">@Model.DiaChiChitiet</dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+                    <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,222 @@
+﻿@model DATNSD54.DAO.Models.Voucher
+
+@{
+    ViewData["Title"] = "Tạo mới Voucher";
+}
+
+@section Styles {
+    <style>
+        /* Giữ nguyên các Style đẹp của ní */
+        .admin-create-page {
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 40px 0;
+        }
+
+        .create-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .create-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #34495e;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            padding: 12px 18px;
+            transition: all 0.3s;
+            background-color: #f8fbff;
+            height: auto;
+        }
+
+            .form-control:focus {
+                border-color: #3498db;
+                box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.1);
+                background-color: white;
+                outline: none;
+            }
+
+        .text-danger {
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .btn-submit {
+            background: #2c3e50;
+            color: white;
+            padding: 14px 35px;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+            width: 100%;
+            cursor: pointer;
+        }
+
+            .btn-submit:hover {
+                background: #1a252f;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        /* Bổ sung hiệu ứng cho input group */
+        .input-group-text {
+            border-radius: 0 12px 12px 0;
+            border: 1px solid #e9ecef;
+            border-left: none;
+            background: #f8fbff;
+        }
+    </style>
+}
+
+<div class="admin-create-page">
+    <div class="container">
+        <div class="create-card">
+            <div class="mb-4">
+                <a asp-action="Index" class="text-muted text-decoration-none small font-weight-bold">
+                    <i class="fas fa-chevron-left mr-1"></i> QUAY LẠI DANH SÁCH
+                </a>
+            </div>
+
+            <h2 class="create-title">
+                <i class="fas fa-ticket-alt text-primary"></i> Thiết lập Voucher Mới
+            </h2>
+
+            <form asp-action="Create" method="post" id="voucherForm">
+                @* Hiển thị lỗi tổng hợp từ Controller (ví dụ lỗi trùng ID) *@
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 small mb-4" style="border-radius: 12px;"></div>
+                }
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Mã Voucher (ID)</label>
+                        <input asp-for="ID" class="form-control" placeholder="Ví dụ: KM_HE2026" required style="text-transform: uppercase;" />
+                        <span asp-validation-for="ID" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Tên Chương Trình</label>
+                        <input asp-for="Ten" class="form-control" placeholder="Nhập tên hiển thị..." required />
+                        <span asp-validation-for="Ten" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <label class="form-label">Mức Giảm (%)</label>
+                        <div class="input-group">
+                            <input asp-for="Ty_Le_Giam" type="number" class="form-control" placeholder="0 - 100" min="0" max="100" required />
+                            <div class="input-group-append"><span class="input-group-text">%</span></div>
+                        </div>
+                        <span asp-validation-for="Ty_Le_Giam" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <label class="form-label">Số lượng phát hành</label>
+                        <input asp-for="So_Luong" type="number" class="form-control" placeholder="Ví dụ: 100" min="1" required />
+                        <span asp-validation-for="So_Luong" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+                        <label class="form-label">Trạng thái ban đầu</label>
+                        <select asp-for="Trang_Thai" class="form-select w-100">
+                            <option value="1">Hoạt động (Kích hoạt ngay)</option>
+                            <option value="0">Tạm dừng (Bản nháp)</option>
+                        </select>
+                        <span asp-validation-for="Trang_Thai" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Đơn tối thiểu áp dụng (VNĐ)</label>
+                        <input asp-for="Don_Hang_Toi_Thieu" type="number" class="form-control" placeholder="0" min="0" />
+                        <span asp-validation-for="Don_Hang_Toi_Thieu" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Mức giảm tối đa (VNĐ)</label>
+                        <input asp-for="Giam_Toi_Da" type="number" class="form-control" placeholder="0" min="0" />
+                        <span asp-validation-for="Giam_Toi_Da" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Ngày bắt đầu hiệu lực</label>
+                        <input asp-for="Ngay_Bat_Dau" type="datetime-local" class="form-control" id="Ngay_Bat_Dau" required />
+                        <span asp-validation-for="Ngay_Bat_Dau" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Ngày hết hạn</label>
+                        <input asp-for="Ngay_Ket_Thuc" type="datetime-local" class="form-control" id="Ngay_Ket_Thuc" required />
+                        <span asp-validation-for="Ngay_Ket_Thuc" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save mr-2"></i> XÁC NHẬN LƯU VOUCHER
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const startInput = document.getElementById('Ngay_Bat_Dau');
+            const endInput = document.getElementById('Ngay_Ket_Thuc');
+
+            // 1. Tự động điền ngày hiện tại nếu ô trống
+            if (!startInput.value) {
+                const now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                startInput.value = now.toISOString().slice(0, 16);
+            }
+
+            // 2. Ràng buộc: Ngày kết thúc không được nhỏ hơn ngày bắt đầu
+            startInput.addEventListener('change', function() {
+                endInput.min = startInput.value;
+            });
+
+            endInput.addEventListener('change', function() {
+                if (endInput.value < startInput.value) {
+                    alert("Ngày hết hạn không thể trước ngày bắt đầu!");
+                    endInput.value = startInput.value;
+                }
+            });
+        });
+    </script>
+}

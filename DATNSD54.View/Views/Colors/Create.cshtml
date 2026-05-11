@@ -1,0 +1,178 @@
+﻿@model DATNSD54.DAO.Models.Color
+
+@{
+    ViewData["Title"] = "Thêm màu sắc mới";
+}
+
+@section Styles {
+    <style>
+        .admin-form-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.2);
+        }
+
+        .header-icon i {
+            font-size: 30px;
+            color: white;
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8ecef, transparent);
+            margin: 30px 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e8ecef;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.1);
+            outline: none;
+        }
+
+        .btn-submit {
+            background: #2c3e50;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background: #1a252f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #2c3e50;
+        }
+    </style>
+}
+
+<div class="admin-form-page">
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="header-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h2 class="form-title">Tạo Màu Sắc</h2>
+                <p class="text-muted">Nhập mã màu và tên màu để thêm vào hệ thống</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="form-group">
+                    <label asp-for="Ma" class="control-label">Chọn màu sắc hiển thị</label>
+
+                    <input type="color" asp-for="Ma"
+                           class="form-control form-control-color w-100"
+                           style="height: 50px; cursor: pointer;"
+                           title="Nhấp để chọn màu" />
+
+                    <span asp-validation-for="Ma" class="text-danger small"></span>
+                    <small class="text-muted">Màu này sẽ hiển thị trực tiếp trên trang chi tiết sản phẩm.</small>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Ten" class="control-label">Tên màu sắc</label>
+                    <input asp-for="Ten" class="form-control" placeholder="Ví dụ: Màu đỏ, Crimson..." />
+                    <span asp-validation-for="Ten" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Ngay_Tao" class="control-label">Ngày tạo</label>
+                    <input asp-for="Ngay_Tao" class="form-control" type="date" />
+                    <span asp-validation-for="Ngay_Tao" class="text-danger small"></span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="form-group mb-0">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-plus-circle mr-2"></i> Lưu màu sắc
+                    </button>
+                </div>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-chevron-left mr-1"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

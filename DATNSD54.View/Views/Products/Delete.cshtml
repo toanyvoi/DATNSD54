@@ -1,0 +1,26 @@
+﻿@model DATNSD54.DAO.DTO.ProductDTO
+
+<div class="admin-edit-page d-flex justify-content-center">
+    <div class="edit-card text-center shadow-lg" style="max-width: 500px; padding: 40px;">
+        <div class="mb-4 text-danger">
+            <i class="fas fa-exclamation-triangle fa-5x"></i>
+        </div>
+        <h3 class="fw-bold text-dark">Xác nhận xóa dữ liệu</h3>
+
+        <div class="bg-light p-3 rounded-4 my-4 text-start">
+            <p class="mb-1">Tên sản phẩm: <strong class="text-dark">@Model.Ten</strong></p>
+            <p class="mb-1">Mã sản phẩm: <strong>@Model.Ma</strong></p>
+            <p class="mb-0">Thương hiệu: <strong>@Model.brand</strong></p>
+        </div>
+
+        <p class="text-muted small mb-4">Hành động này sẽ xóa vĩnh viễn sản phẩm khỏi hệ thống và không thể khôi phục.</p>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-danger btn-lg shadow-sm" style="border-radius: 12px; font-weight: bold;">Đồng ý xóa</button>
+                <a asp-action="Index" class="btn btn-light btn-lg" style="border-radius: 12px;">Hủy thao tác</a>
+            </div>
+        </form>
+    </div>
+</div>

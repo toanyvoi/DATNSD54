@@ -1,0 +1,40 @@
+﻿@model IEnumerable<DATNSD54.DAO.Models.Address>
+
+<div class="container mt-4">
+    <h2>Danh sách địa chỉ của tôi</h2>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Thêm địa chỉ mới</a>
+    </p>
+
+    @if (TempData["Success"] != null)
+
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Họ Tên</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ chi tiết</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.HoTen</td>
+                    <td>@item.SDT</td>
+                    <td>@item.DiaChiChitiet</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm text-white">Xem</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Sửa</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

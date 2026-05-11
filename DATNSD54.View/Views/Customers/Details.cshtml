@@ -1,0 +1,211 @@
+﻿@model DATNSD54.DAO.Models.Customer
+
+@{
+    ViewData["Title"] = "Hồ sơ khách hàng";
+}
+
+@section Styles {
+    <style>
+        .admin-details-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .details-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .details-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        /* Header Profile */
+        .profile-cover {
+            height: 120px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+        }
+
+        .profile-header-content {
+            padding: 0 40px 30px;
+            margin-top: -50px;
+            display: flex;
+            align-items: flex-end;
+            gap: 25px;
+            border-bottom: 1px solid #f1f4f8;
+        }
+
+        .customer-avatar-large {
+            width: 130px;
+            height: 130px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .profile-title-area h2 {
+            margin: 0;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* Content */
+        .details-body {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .info-label {
+            display: block;
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        .details-footer {
+            background: #fcfcfc;
+            padding: 25px 40px;
+            border-top: 1px solid #f1f4f8;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-edit-profile {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-edit-profile:hover {
+            background: #1a252f;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 0;
+        }
+    </style>
+}
+
+<div class="admin-details-page">
+    <div class="details-container">
+        <div class="details-card">
+            <div class="profile-cover"></div>
+            
+            <div class="profile-header-content">
+                <img src="@(string.IsNullOrEmpty(Model.AnhDaiDien) ? "/images/default-avatar.png" : Model.AnhDaiDien)" 
+                     class="customer-avatar-large" alt="Avatar" />
+                <div class="profile-title-area">
+                    <h2>@Html.DisplayFor(model => model.Ten)</h2>
+                    <span class="status-badge @(Model.Trang_Thai ? "bg-success text-white" : "bg-secondary text-white")">
+                        @(Model.Trang_Thai ? "Đang hoạt động" : "Đã khóa")
+                    </span>
+                </div>
+            </div>
+
+            <div class="details-body">
+                <div class="section-title">
+                    <i class="fas fa-user"></i> Thông tin cá nhân
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">@Html.DisplayNameFor(model => model.SDT)</span>
+                        <span class="info-value">@Html.DisplayFor(model => model.SDT)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">@Html.DisplayNameFor(model => model.Gioi_Tinh)</span>
+                        <span class="info-value">@Html.DisplayFor(model => model.Gioi_Tinh)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">@Html.DisplayNameFor(model => model.Email)</span>
+                        <span class="info-value text-primary">@Html.DisplayFor(model => model.Email)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">@Html.DisplayNameFor(model => model.Ngay_Sinh)</span>
+                        <span class="info-value">@Model.Ngay_Sinh?.ToString("dd/MM/yyyy")</span>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <i class="fas fa-shield-alt"></i> Tài khoản & Hệ thống
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">@Html.DisplayNameFor(model => model.Mat_Khau)</span>
+                        <span class="info-value">•••••••• (Đã bảo mật)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">@Html.DisplayNameFor(model => model.Ngay_Tao)</span>
+                        <span class="info-value text-muted">@Model.Ngay_Tao.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-footer">
+                <a asp-action="Index" class="btn-back">
+                    <i class="fas fa-arrow-left mr-1"></i> Quay lại danh sách
+                </a>
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn-edit-profile">
+                    <i class="fas fa-user-edit mr-1"></i> Chỉnh sửa hồ sơ
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,362 @@
+﻿@{
+    var userName = Context.Session.GetString("UserName");
+}
+
+
+<div class="overlay hidden"></div>
+<!-- mobile menu -->
+<div class="mobile-main-menu">
+    <div class="drawer-header">
+        <a href="">
+            <div class="drawer-header--auth">
+                <div class="_object">
+                    <img src="./img/product/giayxah2.jpg" alt="">
+                </div>
+                <div class="_body">
+                    Đăng nhập
+                    <br>Nhận nhiều ưu đãi hơn
+                </div>
+            </div>
+        </a>
+    </div>
+    <ul class="ul-first-menu">
+        <li>
+            <a href="">Đăng nhập</a>
+        </li>
+        <li>
+            <a href="" class="abc">Đăng kí</a>
+        </li>
+    </ul>
+    <!-- <ul class="ul-first-menu">
+      <li>
+        <a href="">Tài khoản của tôi</a>
+      </li>
+      <li>
+        <a href="">Địạ chỉ của tôi</a>
+      </li>
+      <li>
+        <a href="">Đơn mua</a>
+      </li>
+      <li>
+        <a href="" class="list-like-noicte">Danh sách yêu thích</a>
+        <span id="header__second__like--notice" class="header__second__like--notice">3</span>
+      </li>
+      <li>
+        <a href="">Đăng xuất</a>
+      </li> -->
+    </ul>
+    <div class="la-scroll-fix-infor-user">
+        <div class="la-nav-menu-items">
+            <div class="la-title-nav-items">
+                <strong>Danh mục</strong>
+            </div>
+            <ul class="la-nav-list-items">
+                <li class="ng-scope">
+                    <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                </li>
+                <li class="ng-scope">
+                    <a href="./intro.html">Giới thiệu</a>
+                </li>
+                <li class="ng-scope ng-has-child1">
+                    <a href="./Product.html">Sản phẩm <i class="fas fa-plus cong"></i> <i class="fas fa-minus tru hidden"></i></a>
+                    <ul class="ul-has-child1">
+                        <li class="ng-scope ng-has-child2">
+                            <a href="./Product.html">
+                                Tất cả sản phẩm <i class="fas fa-plus cong1" onclick="hienthi(1,`abc`)"></i> <i class="fas fa-minus tru1 hidden" onclick="hienthi(1,`abc`)"></i>
+                            </a>
+                            <ul class="ul-has-child2 hidden" id="abc">
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bóng đá</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Chạy</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Cầu lông</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bóng rổ</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Quần vợt</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bơi lội</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">GOLF</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="ng-scope ng-has-child2">
+                            <a href="./Product.html">
+                                Quần áo <i class="fas fa-plus cong2" onclick="hienthi(2,`abc2`)"></i> <i class="fas fa-minus tru2 hidden" onclick="hienthi(2,`abc2`)"></i>
+                            </a>
+                            <ul class="ul-has-child2 hidden" id="abc2">
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bóng đá</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Chạy</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Cầu lông</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bóng rổ</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Quần vợt</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bơi lội</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">GOLF</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="ng-scope ng-has-child2">
+                            <a href="./Product.html">
+                                Già dép<i class="fas fa-plus cong3" onclick="hienthi(3,`abc3`)"></i> <i class="fas fa-minus tru3 hidden" onclick="hienthi(3,`abc3`)"></i>
+                            </a>
+                            <ul class="ul-has-child2 hidden" id="abc3">
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bóng đá</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Chạy</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Cầu lông</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bóng rổ</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Quần vợt</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bơi lội</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">GOLF</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="ng-scope ng-has-child2">
+                            <a href="./Product.html">
+                                Phụ kiện <i class="fas fa-plus cong4" onclick="hienthi(4,`abc4`)"></i> <i class="fas fa-minus tru4 hidden " onclick="hienthi(4,`abc4`)"></i>
+                            </a>
+                            <ul class="ul-has-child2 hidden" id="abc4">
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bóng đá</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Chạy</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Cầu lông</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bóng rổ</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Quần vợt</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">Bơi lội</a>
+                                </li>
+                                <li class="ng-scope">
+                                    <a href="./Product.html">GOLF</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="ng-scope">
+                    <a href="./news.html">Tin tức</a>
+                </li>
+                <li class="ng-scope">
+                    <a href="./contact.html">Liên hệ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <ul class="mobile-support">
+        <li>
+            <div class="drawer-text-support">Hỗ trợ</div>
+        </li>
+        <li>
+            <i class="fas fa-phone-square-alt footer__item-icon">HOTLINE: </i>
+            <a href="tel:19006750">19006750</a>
+        </li>
+        <li>
+            <i class="fas fa-envelope-square footer__item-icon">Email: </i>
+            <a href="mailto:support@sapo.vn">support@gmail.vn</a>
+        </li>
+    </ul>
+</div>
+
+<header class="header">
+    <div class="container">
+        <div class="top-link clearfix hidden-sm hidden-xs">
+            <div class="row">
+                <div class="col-6 social_link">
+                    <div class="social-title">Theo dõi: </div>
+                    <a href="https://www.facebook.com/zeroryo25/"><i class="fab fa-facebook" style="font-size: 24px; margin-right: 10px"></i></a>
+                    <a href=""><i class="fab fa-instagram" style="font-size: 24px; margin-right: 10px;color: pink;"></i></a>
+                    <a href=""><i class="fab fa-youtube" style="font-size: 24px; margin-right: 10px;color: red;"></i></a>
+                    <a href=""><i class="fab fa-twitter" style="font-size: 24px; margin-right: 10px"></i></a>
+                </div>
+                <div class="col-6 login_link d-flex justify-content-end">
+                    @if (string.IsNullOrEmpty(userName))
+                    {
+
+                        <ul class="header_link right m-auto">
+                            <li>
+                                <a asp-controller="Auth" asp-action="Login"><i class="fas fa-sign-in-alt mr-3"></i>Đăng nhập</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Auth" asp-action="RegisterCustomer"><i class="fas fa-user-plus mr-3" style="margin-left: 10px;"></i>Đăng kí</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="nav nav__first right">
+                            <li class="nav-item nav-item__first nav-item__first-user">
+                            <img src="~/img/product/noavatar.png" alt="" class="nav-item__first-img">
+                            <span class="nav-item__first-name">@Context.Session.GetString("UserName")</span>
+                            <ul class="nav-item__first-menu">
+                                <li class="nav-item__first-item">
+                                        <a asp-controller="Auth" asp-action="accountManagement">Tài khoản của tôi</a>
+                                </li>
+                                <li class="nav-item__first-item">
+                                        <a asp-controller="Addresses" asp-action="Index">Địa chỉ của tôi</a>
+                                </li>
+                                <li class="nav-item__first-item">
+                                        <a asp-controller="Pay" asp-action="Cart">Giỏ hàng</a>
+                                </li>
+
+                                <li class="nav-item__first-item">
+                                        <a asp-controller="Auth" asp-action="Logout">Đăng xuất</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="header-main clearfix">
+            <div class="row">
+                <div class="col-lg-3 col-100-h">
+                    <div id="trigger-mobile" class="visible-sm visible-xs"><i class="fas fa-bars"></i></div>
+                    <div class="logo" >
+                         <a asp-controller="Home" asp-action="Index">
+                            <img src="~/icon/logoFourStars.png" width="100px" height="100px" alt="">
+                        </a>
+                    </div>
+                    <div class="mobile_cart visible-sm visible-xs">
+                        <a href="./cart.html" class="header__second__cart--icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            @* <span id="header__second__cart--notice" class="header__second__cart--notice">3</span> *@
+                        </a>
+                        <a href="./listlike.html" class="header__second__like--icon">
+                            <i class="far fa-heart"></i>
+                            @* <span id="header__second__like--notice" class="header__second__like--notice">3</span> *@
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 m-auto pdt15">
+                    <form class="example" asp-controller="Home" asp-action="Search" method="get">
+                        <input type="text" class="input-search" placeholder="Tìm kiếm.." name="textSearch">
+                        <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="col-3 m-auto hidden-sm hidden-xs">
+                    <div class="item-car clearfix">
+                        <a asp-controller="Pay" asp-action="Cart" class="header__second__cart--icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            @* <span id="header__second__cart--notice" class="header__second__cart--notice">3</span> *@
+                        </a>
+                    </div>
+                    <div class="item-like clearfix">
+                        <a href="./listlike.html" class="header__second__like--icon">
+                            <i class="far fa-heart"></i>
+                            @* <span id="header__second__like--notice" class="header__second__like--notice">3</span> *@
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="header_nav hidden-sm hidden-xs">
+        <div class="container">
+            <ul class="header_nav-list nav">
+                <li class="header_nav-list-item "><a href="./index.html" class="active">Trang chủ</a></li>
+                <li class="header_nav-list-item"><a href="./intro.html">Giới thiệu</a></li>
+                <li class="header_nav-list-item has-mega">
+                    <a href="./Product.html">Sản phẩm<i class="fas fa-angle-right" style="margin-left: 5px;"></i></a>
+                    <div class="mega-content" style="overflow-x: hidden;">
+                        <div class="row">
+                            <ul class="col-8 no-padding level0">
+                                <li class="level1">
+                                    <a class="hmega" href="./Product.html">Tất cả sản phẩm</a>
+                                    <!-- <ul class="level1">
+                                        <li class="level2"><a href="">Bóng đá</a></li>
+                                        <li class="level2"><a href="">Bóng đá</a></li>
+                                        <li class="level2"><a href="">Bóng đá</a></li>
+                                        <li class="level2"><a href="">Bóng đá</a></li>
+                                      </ul> -->
+                                </li>
+                                <li class="level1">
+                                    <a class="hmega">Giày, dép</a>
+                                    <ul class="level1">
+                                        <li class="level2"><a href="./Product.html">Bóng đá</a></li>
+                                        <li class="level2"><a href="./Product.html">Chạy</a></li>
+                                        <li class="level2"><a href="./Product.html">Cầu lông</a></li>
+                                        <li class="level2"><a href="./Product.html">Bóng rổ</a></li>
+                                        <li class="level2"><a href="./Product.html">Quần vợt</a></li>
+                                    </ul>
+                                </li>
+                                <li class="level1">
+                                    <a class="hmega">Quần, áo</a>
+                                    <ul class="level1">
+                                        <li class="level2"><a href="./Product.html">Bóng đá</a></li>
+                                        <li class="level2"><a href="./Product.html">Chạy</a></li>
+                                        <li class="level2"><a href="./Product.html">Cầu lông</a></li>
+                                        <li class="level2"><a href="./Product.html">Bóng rổ</a></li>
+                                        <li class="level2"><a href="./Product.html">Quần vợt</a></li>
+                                    </ul>
+                                </li>
+                                <li class="level1">
+                                    <a class="hmega">Phụ kiện</a>
+                                    <ul class="level1">
+                                        <li class="level2"><a href="./Product.html">Bóng đá</a></li>
+                                        <li class="level2"><a href="./Product.html">Chạy</a></li>
+                                        <li class="level2"><a href="./Product.html">Cầu lông</a></li>
+                                        <li class="level2"><a href="./Product.html">Bóng rổ</a></li>
+                                        <li class="level2"><a href="./Product.html">Quần vợt</a></li>
+                                        <li class="level2"><a href="./Product.html">Bơi lội</a></li>
+                                        <li class="level2"><a href="./Product.html">Golf</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="col-4">
+                                <a href="">
+                                    <picture>
+                                        <img src="https://media.giphy.com/media/mj7HcKFq23oobJMcOG/giphy.gif" alt="" width="80%">
+                                    </picture>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="header_nav-list-item"><a href="./news.html">Tin tức</a></li>
+                <li class="header_nav-list-item"><a href="./contact.html">Liên hệ</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>

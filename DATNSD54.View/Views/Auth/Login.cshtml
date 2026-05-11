@@ -1,0 +1,338 @@
+﻿@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+@section Styles {
+<style>
+    /* Reset cho trang này */
+    .login-selection-page {
+        background: #f8f9fa;
+        min-height: calc(100vh - 200px);
+        padding: 80px 0;
+    }
+
+    .selection-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .selection-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        padding: 60px 40px;
+        margin-bottom: 40px;
+    }
+
+    .logo-section {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .logo-circle {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        border-radius: 50%;
+        margin: 0 auto 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(44, 62, 80, 0.2);
+    }
+
+    .logo-circle i {
+        font-size: 45px;
+        color: white;
+    }
+
+    .main-heading {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 12px;
+    }
+
+    .sub-heading {
+        font-size: 1.05rem;
+        color: #7f8c8d;
+        margin-bottom: 0;
+        font-weight: 400;
+    }
+
+    .role-selection {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .role-card {
+        background: white;
+        border: 2px solid #e8ecef;
+        border-radius: 16px;
+        padding: 45px 30px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        display: block;
+    }
+
+    .role-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, #2c3e50, #95a5a6);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .role-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .role-card:hover {
+        transform: translateY(-8px);
+        border-color: #2c3e50;
+        box-shadow: 0 15px 35px rgba(44, 62, 80, 0.12);
+    }
+
+    .role-content {
+        text-align: center;
+    }
+
+    .role-icon {
+        width: 85px;
+        height: 85px;
+        background: #f8f9fa;
+        border: 3px solid #e8ecef;
+        border-radius: 50%;
+        margin: 0 auto 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .role-card:hover .role-icon {
+        background: #2c3e50;
+        border-color: #2c3e50;
+        transform: scale(1.1);
+    }
+
+    .role-icon i {
+        font-size: 40px;
+        color: #2c3e50;
+        transition: all 0.3s ease;
+    }
+
+    .role-card:hover .role-icon i {
+        color: white;
+    }
+
+    .role-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+    }
+
+    .role-card:hover .role-title {
+        color: #2c3e50;
+    }
+
+    .role-description {
+        font-size: 0.95rem;
+        color: #95a5a6;
+        margin-bottom: 0;
+        line-height: 1.6;
+    }
+
+    .role-arrow {
+        margin-top: 20px;
+        font-size: 1.1rem;
+        color: #95a5a6;
+        transition: all 0.3s ease;
+    }
+
+    .role-card:hover .role-arrow {
+        color: #2c3e50;
+        transform: translateX(5px);
+    }
+
+    .divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #e8ecef, transparent);
+        margin: 40px 0;
+    }
+
+    .footer-section {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .footer-text {
+        color: #7f8c8d;
+        font-size: 0.95rem;
+    }
+
+    .footer-text a {
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: 600;
+        border-bottom: 2px solid transparent;
+        transition: border-color 0.3s ease;
+    }
+
+    .footer-text a:hover {
+        border-bottom-color: #2c3e50;
+    }
+
+    /* Feature badges */
+    .feature-badge {
+        display: inline-block;
+        background: #f8f9fa;
+        color: #2c3e50;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin: 0 5px 10px;
+    }
+
+    .features-list {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .selection-card {
+            padding: 40px 25px;
+        }
+
+        .main-heading {
+            font-size: 1.8rem;
+        }
+
+        .role-selection {
+            gap: 20px;
+        }
+
+        .role-card {
+            padding: 35px 25px;
+        }
+
+        .logo-circle {
+            width: 75px;
+            height: 75px;
+        }
+
+        .logo-circle i {
+            font-size: 35px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .login-selection-page {
+            padding: 40px 0;
+        }
+
+        .features-list {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+}
+
+<!-- Main Content -->
+<div class="login-selection-page">
+    <div class="selection-container">
+        <div class="selection-card">
+            <!-- Logo Section -->
+            <div class="logo-section">
+                <div class="logo-circle">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <h1 class="main-heading">Chào mừng đến FourStar Shop</h1>
+                <p class="sub-heading">Vui lòng chọn loại tài khoản để tiếp tục</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Role Selection -->
+            <div class="role-selection">
+                <!-- Customer Card -->
+                <a asp-controller="Auth" asp-action="LoginCustomer" class="role-card">
+                    <div class="role-content">
+                        <div class="role-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="role-title">Khách hàng</h3>
+                        <p class="role-description">
+                            Trải nghiệm mua sắm trực tuyến<br>
+                            Đặt hàng nhanh chóng, tiện lợi
+                        </p>
+                        <div class="role-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Staff Card -->
+                <a asp-controller="Auth" asp-action="LoginUser" class="role-card">
+                    <div class="role-content">
+                        <div class="role-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3 class="role-title">Nhân viên</h3>
+                        <p class="role-description">
+                            Quản lý hệ thống cửa hàng<br>
+                            Điều hành và kinh doanh
+                        </p>
+                        <div class="role-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Features -->
+            <div class="features-list">
+                <span class="feature-badge"><i class="fas fa-shield-alt mr-1"></i> Bảo mật</span>
+                <span class="feature-badge"><i class="fas fa-bolt mr-1"></i> Nhanh chóng</span>
+                <span class="feature-badge"><i class="fas fa-check-circle mr-1"></i> Đáng tin cậy</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Footer -->
+            <div class="footer-section">
+                <p class="footer-text">
+                    Chưa có tài khoản? 
+                    <a asp-controller="Auth" asp-action="RegisterCustomer">Đăng ký ngay</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Smooth hover animation
+    document.querySelectorAll('.role-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+    });
+</script>
+}

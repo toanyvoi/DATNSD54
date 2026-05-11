@@ -1,0 +1,188 @@
+﻿@model DATNSD54.DAO.Models.ProductType
+
+@{
+    ViewData["Title"] = "Thêm loại sản phẩm";
+}
+
+@section Styles {
+    <style>
+        .admin-form-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.2);
+        }
+
+            .header-icon i {
+                font-size: 30px;
+                color: white;
+            }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8ecef, transparent);
+            margin: 30px 0;
+        }
+
+        /* Custom Form Styling */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e8ecef;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: #2c3e50;
+                box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.1);
+            }
+
+        /* Custom Checkbox */
+        .custom-check-container {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e0;
+            margin-top: 10px;
+        }
+
+        /* Action Buttons */
+        .btn-submit {
+            background: #2c3e50;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+            .btn-submit:hover {
+                background: #1a252f;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+            .back-link:hover {
+                color: #2c3e50;
+            }
+    </style>
+}
+
+<div class="admin-form-page">
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="header-icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <h2 class="form-title">Tạo Loại Sản Phẩm</h2>
+                <p class="text-muted">Nhập thông tin để thêm danh mục mới vào hệ thống</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="form-group">
+                    <label asp-for="Ten" class="control-label">Tên loại sản phẩm</label>
+                    <input asp-for="Ten" class="form-control" placeholder="Ví dụ: Giày thể thao..." />
+                    <span asp-validation-for="Ten" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Ma" class="control-label">Mã loại</label>
+                    <input asp-for="Ma" class="form-control" placeholder="Ví dụ: LSP001..." />
+                    <span asp-validation-for="Ma" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-check-container">
+                        <div class="form-check d-flex align-items: center;">
+                            <input class="form-check-input" style="width: 20px; height: 20px; cursor: pointer;" asp-for="Trang_Thai" />
+                            <label class="form-check-label ms-2" style="padding-left: 10px; cursor: pointer;" asp-for="Trang_Thai">
+                                Kích hoạt trạng thái kinh doanh
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="form-group mb-0">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-plus-circle mr-2"></i> Lưu thông tin
+                    </button>
+                </div>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-chevron-left mr-1"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

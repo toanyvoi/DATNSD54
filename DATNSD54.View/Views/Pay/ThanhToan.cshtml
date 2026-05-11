@@ -1,0 +1,341 @@
+﻿@model DATNSD54.DAO.DTO.BillDTO
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    var userName = Context.Session.GetString("UserName");
+
+    decimal tamtinh = 0;
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/css/pay.css">
+
+    <style>
+        form.example input[type=text] {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 80%;
+            background: #f1f1f1;
+        }
+
+        form.example button {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            background: #2196F3;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+
+            form.example button:hover {
+                background: #0b7dda;
+            }
+
+        form.example::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+}
+<div class="content">
+    <div class="wrap">
+        <div class="container">
+            
+                <div class="row">
+                    <div class="summary col-lg-6 col-12 hidden">
+                        <div class="summary-heading">
+                            <div class="summary-heading-title">
+                                <h4>Thông tin đơn hàng</h4>
+                            </div>
+                            <div class="summary-heading-price">
+                                <h4>
+                                    3.000.000 <i class="fas fa-chevron-down"
+                                                 style="margin-left: 20px;margin-right: 5px;"></i>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="summary-content hidden">
+                            <div class="sliderbar">
+                                <div class="sliderbar-content">
+
+                                    <div class="row row-sliderbar">
+                                        <div class="col-6">
+                                            <img src="./assets/img/product/stansmith.jpg" alt="" width="80%">
+                                            <span class="notice">3</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5>ÁO THỦ MÔN ĐTVN 2021 GRAND SPORT - 038-322 - VÀNG CAM</h5>
+                                            <span>625,000₫</span>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="slider-footer">
+                                    <div class="subtotal">
+                                        <div class="row row-sliderbar-footer">
+                                            <div class="col-6"><span>Tạm tính:</span></div>
+                                            <div class="col-6 text-right"><span>625,000₫</span></div>
+                                        </div>
+                                        <div class="row row-sliderbar-footer">
+                                            <div class="col-6"><span>Phí vận chuyển</span></div>
+                                            <div class="col-6 text-right"><span>625,000₫</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="total">
+                                        <div class="row row-sliderbar-footer">
+                                            <div class="col-6"><span>Tổng cộng:</span></div>
+                                            <div class="col-6 text-right"><span>625,000₫</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <div class="main">
+                            <div class="main-header">
+                                <a asp-controller="Home" asp-action="Index">
+                                    <h1>FourStar SHOP</h1>
+                                </a>
+                            </div>
+                            <div class="main-content">
+                            
+                                <div class="main-title">
+                                    <h2>Thông tin giao hàng</h2>
+                                </div>
+                                <div class="main-customer-info">
+                                    <div class="main-customer-info-img">
+                                        <img src="~/img/product/noavatar.png" alt="" width="60"
+                                             height="60">
+                                    </div>
+                                    <div class="main-customer-info-logged">
+                                        <p class="main-customer-info-logged-paragraph" id="AddressName">
+                                            @Model.Ten_Nguoi_Nhan
+                                        </p>
+                                    <p class="main-customer-info-logged-paragraph" id="AddressSDT">
+                                            @Model.SDT_Nguoi_Nhan
+                                        </p>
+                                    <p class="main-customer-info-logged-paragraph" id="AddressDCCT">
+                                            @Model.Dia_Chi_Chi_tiet
+                                        </p>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                <label>Chọn địa chỉ giao hàng</label>
+                                <select id="selectAddress" name="AddressId" class="form-select form-control-sm">
+                                    @foreach (var item in Model.listAddress)
+                                    {
+
+                                        <option value="@item.Id" selected="@(item.Id == Model.Dia_Chi_Id ? "selected" : null)">
+                                            @item.HoTen - @item.SDT - @item.DiaChiChitiet
+                                        </option>
+                                    }
+                                </select>
+                                <button type="button" id="btnPickAddress" class="btn btn-primary btn-sm px-3">Xác nhận địa chỉ</button>
+                            </div>
+                                <div class="fieldset">
+                                <div class="fieldset-address form-group">
+                                    <label class="form-label">Voucher</label>
+                                    <input type="text" id="inputVoucher" class="form-control" placeholder="Nhập mã giảm giá...">
+                                    <span class="form-message text-danger"></span>
+                                    @if(Model.voucher != null)
+                                    {
+                                        <div class="alert alert-success mt-2" role="alert">
+                                            Mã:@Model.voucher.ID - Giảm @Model.voucher.Ty_Le_Giam % - Giảm tối đa @Model.voucher.Giam_Toi_Da₫
+                                        </div>
+                                    }
+                                </div>
+                                <div class="fieldset-name form-group">
+                                    <label class="form-label">VoucherShip</label>
+                                    <input type="text" id="inputVoucherShip" class="form-control" placeholder="Nhập mã freeship...">
+                                    <span class="form-message text-danger"></span>
+                                    @if (Model.voucherShip != null)
+                                    {
+                                        <div class="alert alert-success mt-2" role="alert">
+                                            Mã:@Model.voucherShip.ID - đơn hàng tối thiểu @Model.voucherShip.Don_Hang_Toi_Thieu₫-Miễn Phí Ship
+                                        </div>
+                                    }
+                                </div>
+
+                                <button id="btnApplyVoucher" class="btn btn-primary mt-3">Áp dụng mã</button>
+                                    <form asp-action="ConfirmOrder" method="post"> @* form *@
+                                    
+                                    
+                                    <div class="main-footer">
+                                    
+                                        <input type="hidden" name="id" value="@Model.ID" />
+
+                                        <div class="form-group">
+                                            <label>Phương thức thanh toán</label>
+                                            <select name="pttt" class="form-control">
+                                                <option value="0">Thanh toán khi nhận hàng (COD)</option>
+                                                <option value="1">Chuyển khoản ngân hàng</option>
+                                            </select>
+                                        </div>
+                                        <div class="pay">
+                                            <button type="submit" class="btn-pay form-submit">Thanh toán</button>
+                                        </div>
+                                    
+
+                                    </div>
+                                    </form>@* form *@
+                                </div>
+                            
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 hidden-sm hidden-xs" style="background-color:#f3f3f3;">
+                        <div class="sliderbar">
+                            <div class="sliderbar-header">
+                                <h2>Thông tin đơn hàng</h2>
+                            </div>
+                            <div class="sliderbar-content">
+                                <div class="row row-sliderbar">
+                                    <div class="col-4">
+                                       
+                                        <span ></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span> Thông tin sản phẩm</span>
+                                       
+                                    </div>
+                                    <div class="col-2">
+                                        <span>Tổng giá</span>
+                                    </div>
+                                </div>
+                                @* thông tin hiển thị win *@
+                                @foreach(var item in Model.CartItems)
+                                {
+                                tamtinh += ((item?.price ?? 0) * item.so_luong * (100 - (item?.sale ?? 0)) / 100);
+
+                                <div class="row row-sliderbar">
+                                        <div class="col-4">
+                                            <img src="@Url.Content(item.UrlIMG)" alt="" width="80%">
+                                            <span class="notice">@item.so_luong</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5>@item.nameProduct</h5>
+
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <h6 style="margin: 0; font-size: 13px;">Size: @item.Size</h6>
+                                                <div style="width: 12px; height: 12px; background-color: #@item.Color.Replace("#",""); border: 1px solid #000; box-sizing: border-box;"></div>
+                                                <span style="font-size: 11px;">(@item.Color)</span>
+                                            </div>
+
+                                            <h6>đơn giá: @((item?.price ?? 0) * (100 - (item?.sale ?? 0)) / 100.0m)₫ </h6>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>@(((item?.price ?? 0) * item.so_luong * (100 - (item?.sale ?? 0)) / 100.0m).ToString())₫</span>
+                                            
+                                        </div>
+                                    </div>
+                                
+                            }
+                                
+                                
+                            </div>
+                            <div class="slider-footer">
+                                <div class="subtotal">
+                                    <div class="row row-sliderbar-footer">
+                                        <div class="col-6"><span>Tạm tính:</span></div>
+                                        <div class="col-6 text-right"><span>@Model.Gia_Goc</span></div>
+                                    </div>
+                                    <div class="row row-sliderbar-footer">
+                                        <div class="col-6"><span>Phí vận chuyển</span></div>
+                                        <div class="col-6 text-right"><span>50,000₫</span></div>
+                                    </div>
+                                </div>
+                                <div class="total">
+                                    <div class="row row-sliderbar-footer">
+                                        <div class="col-6"><span>Tổng cộng:</span></div>
+                                        <div class="col-6 text-right"><span>@Model.Thanh_Tien</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="./assets/js/validator.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#btnPickAddress').click(function () {
+                var billId = '@Model.ID'; // Thêm nháy đơn cho chắc ăn
+                var addressId = $('#selectAddress').val();
+
+                if (!addressId) {
+                    alert("Vui lòng chọn địa chỉ!");
+                    return;
+                }
+
+                // Vô hiệu hóa nút để tránh bấm nhiều lần
+                var $btn = $(this);
+                $btn.prop('disabled', true).text('Đang xử lý...');
+
+                $.ajax({
+                    url: 'https://localhost:7218/api/Buy/PickAddress?BillId=' + billId + '&AddressId=' + addressId,
+                    type: 'POST',
+                    success: function (response) {
+                        // Log ra để ní soi xem tên thuộc tính là viết Hoa hay viết thường
+                        console.log(response);
+
+                        if (response.success) {
+                            // Cập nhật giao diện - Thử cả 2 trường hợp Hoa/Thường nếu không ra
+                            $('#AddressName').text(response.ten || response.Ten);
+                            $('#AddressSDT').text(response.sdt || response.SDT);
+                            $('#AddressDCCT').text(response.dịachiChitiest || response.DịachiChitiest);
+
+                            alert("Đã đổi địa chỉ giao hàng thành công!");
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("Lỗi: " + xhr.status + " - " + xhr.responseText);
+                    },
+                    complete: function () {
+                        // Xong việc thì mở lại nút
+                        $btn.prop('disabled', false).text('Xác nhận địa chỉ');
+                    }
+                });
+            });
+
+            $('#btnApplyVoucher').click(function () {
+                var vId = $('#inputVoucher').val().trim() || null;
+                var vsId = $('#inputVoucherShip').val().trim() || null;
+                var bId = parseInt('@Model.ID'); // Đảm bảo nó là số nguyên
+
+                // Tạo Object DTO khớp hoàn toàn với Backend
+                var voucherData = {
+                    BillId: bId,
+                    VoucherId: vId,
+                    VoucherShipId: vsId
+                };
+
+                $.ajax({
+                    url: 'https://localhost:7218/api/Buy/AddVoucher',
+                    type: 'POST',
+                    contentType: 'application/json', // Cực kỳ quan trọng khi dùng [FromBody]
+                    data: JSON.stringify(voucherData), // Phải biến Object thành chuỗi JSON
+                    success: function (res) {
+                        alert("Áp dụng mã thành công!");
+                        location.reload();
+                    },
+                    error: function (err) {
+                        alert("Lỗi: " + err.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}

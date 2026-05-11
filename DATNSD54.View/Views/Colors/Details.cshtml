@@ -1,0 +1,189 @@
+﻿@model DATNSD54.DAO.Models.Color
+
+@{
+    ViewData["Title"] = "Chi tiết màu sắc";
+}
+
+@section Styles {
+    <style>
+        .admin-details-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .details-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .details-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .details-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 30px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            backdrop-filter: blur(5px);
+        }
+
+        .details-body {
+            padding: 40px;
+        }
+
+        /* Thông tin chi tiết */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .info-item {
+            border-bottom: 1px solid #f1f4f8;
+            padding-bottom: 15px;
+        }
+
+        .info-label {
+            display: block;
+            color: #95a5a6;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .color-preview-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 1px solid #ddd;
+        }
+
+        /* Footer Buttons */
+        .details-footer {
+            background: #fcfcfc;
+            padding: 20px 40px;
+            border-top: 1px solid #f1f4f8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-edit-link {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-edit-link:hover {
+            background: #1a252f;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-back-link {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .btn-back-link:hover {
+            color: #2c3e50;
+        }
+    </style>
+}
+
+<div class="admin-details-page">
+    <div class="details-container">
+        <div class="details-card">
+            <div class="details-header">
+                <div class="header-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div>
+                    <h2 class="m-0" style="font-weight: 700;">Thông tin chi tiết</h2>
+                    <p class="m-0 text-white-50">Xem thông tin đầy đủ về bản ghi màu sắc</p>
+                </div>
+            </div>
+
+            <div class="details-body">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">@Html.DisplayNameFor(model => model.Ma)</span>
+                        <span class="info-value">
+                            <code class="bg-light px-2 py-1 rounded">@Html.DisplayFor(model => model.Ma)</code>
+                        </span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">@Html.DisplayNameFor(model => model.Ten)</span>
+                        <span class="info-value">
+                            <span class="color-preview-circle" style="background-color: @Model.Ma"></span>
+                            @Html.DisplayFor(model => model.Ten)
+                        </span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">@Html.DisplayNameFor(model => model.Ngay_Tao)</span>
+                        <span class="info-value text-muted">
+                            <i class="far fa-calendar-alt mr-2"></i>
+                            @Model.Ngay_Tao.ToString("dd/MM/yyyy HH:mm")
+                        </span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Trạng thái hệ thống</span>
+                        <span class="info-value">
+                            <span class="badge badge-success">Đang hoạt động</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-footer">
+                <a asp-action="Index" class="btn-back-link">
+                    <i class="fas fa-arrow-left mr-1"></i> Quay lại danh sách
+                </a>
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn-edit-link">
+                    <i class="fas fa-edit mr-1"></i> Chỉnh sửa thông tin
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

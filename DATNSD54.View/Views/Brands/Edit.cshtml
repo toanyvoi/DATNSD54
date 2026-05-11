@@ -1,0 +1,212 @@
+﻿@model DATNSD54.DAO.Models.Brand
+
+@{
+    ViewData["Title"] = "Chỉnh sửa Thương hiệu";
+}
+
+@section Styles {
+    <style>
+        .admin-form-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 50px 0;
+        }
+
+        .form-container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            border-top: 5px solid #2c3e50;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c3e50;
+            font-size: 24px;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #edf2f7;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: #2c3e50;
+                box-shadow: none;
+                background: #fcfdfe;
+            }
+
+        /* Logo Preview */
+        .logo-preview-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 10px;
+            border: 1px dashed #cbd5e0;
+        }
+
+            .logo-preview-box img {
+                max-height: 80px;
+                border-radius: 8px;
+            }
+
+        /* Switch styling */
+        .custom-switch .custom-control-label::before {
+            height: 1.5rem;
+            width: 2.75rem;
+            border-radius: 1rem;
+        }
+
+        .custom-switch .custom-control-label::after {
+            width: calc(1.5rem - 4px);
+            height: calc(1.5rem - 4px);
+            border-radius: 1rem;
+        }
+
+        .btn-save-changes {
+            background: #2c3e50;
+            border: none;
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-save-changes:hover {
+                background: #1a252f;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #95a5a6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .back-link:hover {
+                color: #2c3e50;
+            }
+    </style>
+}
+
+<div class="admin-form-page">
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="header-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <h2 class="form-title">Chỉnh sửa Thương hiệu</h2>
+                <p class="text-muted small">Cập nhật thông tin chi tiết cho nhãn hàng</p>
+            </div>
+
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group">
+                    <label asp-for="Ten" class="control-label">Tên thương hiệu</label>
+                    <input asp-for="Ten" class="form-control" placeholder="Nhập tên thương hiệu..." />
+                    <span asp-validation-for="Ten" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LogoUrl" class="control-label">Đường dẫn Logo</label>
+                    <input asp-for="LogoUrl" class="form-control" id="logoInput" placeholder="https://..." />
+                    <span asp-validation-for="LogoUrl" class="text-danger small"></span>
+
+                    <div class="logo-preview-box">
+                        <span class="text-small text-muted d-block mb-2">Xem trước Logo</span>
+                        <img id="logoPreview" src="@Url.Content(Model.LogoUrl)" alt="Logo Preview" onerror="this.src='https://via.placeholder.com/80?text=No+Image'" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NgayTao" class="control-label">Ngày tạo/Ngày đăng ký</label>
+                    <input asp-for="NgayTao" class="form-control" type="date" />
+                    <span asp-validation-for="NgayTao" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" asp-for="TrangThai" id="statusSwitch">
+                        <label class="custom-control-label font-weight-600" for="statusSwitch">Trạng thái hoạt động</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-save-changes">
+                    <i class="fas fa-check-circle mr-2"></i> Lưu thay đổi
+                </button>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-chevron-left mr-1"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            // Live Preview cho Logo URL
+            $('#logoInput').on('input', function () {
+                var url = $(this).val();
+                if (url) {
+                    $('#logoPreview').attr('src', url);
+                }
+            });
+        });
+    </script>
+}

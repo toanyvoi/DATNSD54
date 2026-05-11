@@ -1,0 +1,222 @@
+﻿@model DATNSD54.DAO.Models.Customer
+
+@{
+    ViewData["Title"] = "Thêm khách hàng mới";
+}
+
+@section Styles {
+    <style>
+        .admin-form-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .form-container {
+            max-width: 900px; /* Rộng hơn để chia cột */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.2);
+        }
+
+        .header-icon i {
+            font-size: 30px;
+            color: white;
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8ecef, transparent);
+            margin: 30px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 10px 15px;
+            border: 2px solid #e8ecef;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.1);
+            outline: none;
+        }
+
+        /* Checkbox styling */
+        .custom-switch {
+            padding-left: 2.5rem;
+        }
+
+        .btn-submit {
+            background: #2c3e50;
+            border: none;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background: #1a252f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: #2c3e50;
+        }
+    </style>
+}
+
+<div class="admin-form-page">
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="header-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h2 class="form-title">Đăng ký khách hàng</h2>
+                <p class="text-muted">Điền thông tin chi tiết để tạo tài khoản mới</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Ten" class="control-label">Họ và tên</label>
+                            <input asp-for="Ten" class="form-control" placeholder="Nguyễn Văn A" />
+                            <span asp-validation-for="Ten" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="SDT" class="control-label">Số điện thoại</label>
+                            <input asp-for="SDT" class="form-control" placeholder="09xx xxx xxx" />
+                            <span asp-validation-for="SDT" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">Email</label>
+                            <input asp-for="Email" class="form-control" type="email" placeholder="example@gmail.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Mat_Khau" class="control-label">Mật khẩu</label>
+                            <input asp-for="Mat_Khau" class="form-control" type="password" placeholder="********" />
+                            <span asp-validation-for="Mat_Khau" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="AnhDaiDien" class="control-label">Đường dẫn ảnh đại diện</label>
+                            <input asp-for="AnhDaiDien" class="form-control" placeholder="url_anh.jpg" />
+                            <span asp-validation-for="AnhDaiDien" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Gioi_Tinh" class="control-label">Giới tính</label>
+                            <select asp-for="Gioi_Tinh" class="form-control">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                            <span asp-validation-for="Gioi_Tinh" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Ngay_Sinh" class="control-label">Ngày sinh</label>
+                            <input asp-for="Ngay_Sinh" class="form-control" type="date" />
+                            <span asp-validation-for="Ngay_Sinh" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Ngay_Tao" class="control-label">Ngày tạo</label>
+                            <input asp-for="Ngay_Tao" class="form-control" type="datetime-local" />
+                            <span asp-validation-for="Ngay_Tao" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" asp-for="Trang_Thai" id="statusSwitch">
+                        <label class="custom-control-label font-weight-600" for="statusSwitch">Kích hoạt tài khoản</label>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-check-circle mr-2"></i> Tạo khách hàng
+                </button>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-chevron-left mr-1"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

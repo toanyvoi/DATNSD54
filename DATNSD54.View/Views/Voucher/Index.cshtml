@@ -1,0 +1,350 @@
+﻿@model IEnumerable<DATNSD54.DAO.Models.Voucher>
+
+@{
+    ViewData["Title"] = "Quản lý Voucher";
+}
+
+@section Styles {
+    <style>
+        .admin-index-page {
+            background: #f4f7f6;
+            min-height: 100vh;
+            padding: 30px 0;
+        }
+
+        .index-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* Card chính */
+        .index-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            padding: 35px;
+            border: 1px solid #edf2f7;
+        }
+
+        /* Header & Search Bar */
+        .index-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .header-title h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a202c;
+            letter-spacing: -0.5px;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 300px;
+        }
+
+            .search-box input {
+                border-radius: 12px;
+                border: 1px solid #e2e8f0;
+                padding: 10px 15px 10px 40px;
+                width: 100%;
+                transition: 0.3s;
+                background: #f8fafc;
+            }
+
+            .search-box i {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #a0aec0;
+            }
+
+            .search-box input:focus {
+                border-color: #3182ce;
+                box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+                outline: none;
+                background: white;
+            }
+
+        .btn-create-new {
+            background: #2d3748;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .btn-create-new:hover {
+                background: #1a202c;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                color: white;
+            }
+
+        /* Table Design nâng cao */
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            margin-top: -10px;
+        }
+
+            .custom-table thead th {
+                color: #718096;
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                padding: 15px;
+                border: none;
+                font-weight: 800;
+            }
+
+            .custom-table tbody tr {
+                background: white;
+                transition: 0.2s;
+                cursor: pointer;
+            }
+
+                .custom-table tbody tr:hover {
+                    transform: scale(1.005);
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                }
+
+            .custom-table tbody td {
+                padding: 18px 15px;
+                vertical-align: middle;
+                border-top: 1px solid #f1f5f9;
+                border-bottom: 1px solid #f1f5f9;
+                background: white;
+            }
+
+                .custom-table tbody td:first-child {
+                    border-left: 1px solid #f1f5f9;
+                    border-radius: 16px 0 0 16px;
+                }
+
+                .custom-table tbody td:last-child {
+                    border-right: 1px solid #f1f5f9;
+                    border-radius: 0 16px 16px 0;
+                }
+
+        /* Voucher Styling */
+        .voucher-code {
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            background: #ebf8ff;
+            color: #3182ce;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: 1px solid #bee3f8;
+        }
+
+        .discount-badge {
+            font-size: 1.1rem;
+            color: #2d3748;
+            font-weight: 800;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-expired {
+            background: #edf2f7;
+            color: #4a5568;
+        }
+
+        .status-danger {
+            background: #fed7d7;
+            color: #822727;
+        }
+
+        /* Actions */
+        .action-links {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-action {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            transition: 0.2s;
+            border: none;
+        }
+
+        .btn-edit {
+            background: #f0f7ff;
+            color: #3182ce;
+        }
+
+            .btn-edit:hover {
+                background: #3182ce;
+                color: white;
+            }
+
+        .btn-details {
+            background: #f7fafc;
+            color: #4a5568;
+        }
+
+            .btn-details:hover {
+                background: #4a5568;
+                color: white;
+            }
+
+        .btn-delete {
+            background: #fff5f5;
+            color: #e53e3e;
+        }
+
+            .btn-delete:hover {
+                background: #e53e3e;
+                color: white;
+            }
+    </style>
+}
+
+<div class="admin-index-page">
+    <div class="index-container">
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="border-radius: 15px; background: #c6f6d5; color: #22543d;">
+                <i class="fas fa-check-circle mr-2"></i> @TempData["Success"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+        <div class="index-card">
+            <div class="index-header">
+                <div class="header-title">
+                    <h2 class="mb-1">Hệ thống Voucher</h2>
+                    <p class="text-muted small mb-0">Hiện có <b>@Model.Count()</b> chương trình đang thiết lập</p>
+                </div>
+
+                <div class="d-flex gap-3 align-items-center">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="voucherSearch" placeholder="Tìm tên hoặc mã code...">
+                    </div>
+                    <a asp-action="Create" class="btn-create-new">
+                        <i class="fas fa-plus-circle"></i> Tạo mới
+                    </a>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="custom-table" id="voucherTable">
+                    <thead>
+                        <tr>
+                            <th>Mã định danh</th>
+                            <th>Tên chương trình</th>
+                            <th>Mức giảm</th>
+                            <th>Số lượng</th>
+                            <th>Thời hạn</th>
+                            <th>Trạng thái</th>
+                            <th class="text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var isExpired = item.Ngay_Ket_Thuc < DateTime.Now;
+                            <tr>
+                                <td><span class="voucher-code">@item.ID</span></td>
+                                <td>
+                                    <div class="font-weight-bold text-dark">@item.Ten</div>
+                                    <div class="small text-muted">Đơn từ: @item.Don_Hang_Toi_Thieu.ToString("N0") đ</div>
+                                </td>
+                                <td><span class="discount-badge text-primary">@item.Ty_Le_Giam%</span></td>
+                                <td>
+                                    <span class="font-weight-bold">@item.So_Luong</span>
+                                    <div class="progress mt-1" style="height: 4px; width: 50px;">
+                                        <div class="progress-bar bg-success" style="width: 70%"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="small">
+                                        <i class="far fa-clock text-muted mr-1"></i>
+                                        @item.Ngay_Bat_Dau.ToString("dd/MM") - @item.Ngay_Ket_Thuc.ToString("dd/MM/yy")
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (isExpired)
+                                    {
+                                        <span class="status-badge status-expired">Hết hạn</span>
+                                    }
+                                    else if (item.Trang_Thai == 1 && item.So_Luong > 0)
+                                    {
+                                        <span class="status-badge status-active">Đang chạy</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge status-danger">Tạm khóa</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="action-links">
+                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn-action btn-details" title="Xem chi tiết">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn-action btn-edit" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn-action btn-delete" title="Xóa mã" onclick="return confirm('Xác nhận xóa Voucher này?')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Tìm kiếm nhanh tại Client
+        $(document).ready(function () {
+            $("#voucherSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#voucherTable tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}

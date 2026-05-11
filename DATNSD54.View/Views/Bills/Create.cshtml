@@ -1,0 +1,261 @@
+﻿@model DATNSD54.DAO.Models.Bill
+
+@{
+    ViewData["Title"] = "Tạo mới Hóa đơn";
+}
+
+@section Styles {
+    <style>
+        .admin-form-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 50px 0;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.2);
+        }
+
+            .header-icon i {
+                font-size: 30px;
+                color: white;
+            }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8ecef, transparent);
+            margin: 30px 0;
+        }
+
+        .section-subtitle {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #95a5a6;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e8ecef;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: #2c3e50;
+                box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.1);
+            }
+
+        .btn-submit {
+            background: #2c3e50;
+            border: none;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+            .btn-submit:hover {
+                background: #1a252f;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .back-link:hover {
+                color: #2c3e50;
+            }
+    </style>
+}
+
+<div class="admin-form-page">
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="header-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <h2 class="form-title">Tạo Hóa Đơn Mới</h2>
+                <p class="text-muted">Nhập thông tin giao dịch khách hàng</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <span class="section-subtitle">Thông tin đối tác & Nhân viên</span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Customer_ID" class="control-label">Khách hàng</label>
+                            <select asp-for="Customer_ID" class="form-control" asp-items="ViewBag.Customer_ID">
+                                <option value="">-- Chọn khách hàng --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="User_ID" class="control-label">Nhân viên lập</label>
+                            <select asp-for="User_ID" class="form-control" asp-items="ViewBag.User_ID">
+                                <option value="">-- Chọn nhân viên --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Address_Id" class="control-label">Địa chỉ giao hàng</label>
+                            <select asp-for="Address_Id" class="form-control" asp-items="ViewBag.Address_Id">
+                                <option value="">-- Chọn địa chỉ --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Ngay_Tao" class="control-label">Ngày lập hóa đơn</label>
+                            <input asp-for="Ngay_Tao" class="form-control" type="datetime-local" />
+                            <span asp-validation-for="Ngay_Tao" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+                <span class="section-subtitle">Ưu đãi & Khuyến mãi</span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Voucher_ID" class="control-label">Voucher giảm giá</label>
+                            <select asp-for="Voucher_ID" class="form-control" asp-items="ViewBag.Voucher_ID">
+                                <option value="">-- Không áp dụng --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="VoucherShip_ID" class="control-label">Voucher vận chuyển</label>
+                            <select asp-for="VoucherShip_ID" class="form-control" asp-items="ViewBag.VoucherShip_ID">
+                                <option value="">-- Không áp dụng --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+                <span class="section-subtitle">Chi tiết thanh toán</span>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Gia_Goc" class="control-label">Tổng tiền gốc</label>
+                            <div class="input-group">
+                                <input asp-for="Gia_Goc" class="form-control" type="number" step="1000" />
+                            </div>
+                            <span asp-validation-for="Gia_Goc" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Thanh_Tien" class="control-label">Thành tiền (Sau giảm)</label>
+                            <input asp-for="Thanh_Tien" class="form-control" type="number" step="1000" />
+                            <span asp-validation-for="Thanh_Tien" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Phuong_Thuc_Thanh_Toan" class="control-label">Phương thức</label>
+                            <input asp-for="Phuong_Thuc_Thanh_Toan" class="form-control" placeholder="Ví dụ: Tiền mặt, Chuyển khoản" />
+                            <span asp-validation-for="Phuong_Thuc_Thanh_Toan" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Trang_Thai" class="control-label">Trạng thái đơn hàng</label>
+                    <select asp-for="Trang_Thai" class="form-control">
+                        <option value="0">Chờ xác nhận</option>
+                        <option value="1">Đang xử lý</option>
+                        <option value="2">Đang giao hàng</option>
+                        <option value="3">Đã hoàn thành</option>
+                        <option value="4">Đã hủy</option>
+                    </select>
+                    <span asp-validation-for="Trang_Thai" class="text-danger small"></span>
+                </div>
+
+                <div class="divider"></div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-check-circle mr-2"></i> Xác nhận tạo hóa đơn
+                </button>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-arrow-left mr-1"></i> Quay lại danh sách hóa đơn
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

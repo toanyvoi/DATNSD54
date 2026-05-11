@@ -1,0 +1,290 @@
+﻿@model DATNSD54.DAO.DTO.ProductDTO
+@{
+    int dem = 1;
+
+
+    var Sizes = Model.ListProductDetail
+                           .Select(pd => pd.Size)
+                           .Distinct()
+                           .OrderBy(s => s)
+                           .ToList();
+    var Colors = Model.ListProductDetail
+                           .Select(pd => pd.Color)
+                           .Distinct()
+                           .OrderBy(s => s)
+                           .ToList();
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/productdetail.css" asp-append-version="true" />
+
+    <style>
+        body{
+            background-color: rgb(248, 242, 236);
+        }
+    </style>
+}
+
+<!-- product detail -->
+<div class="container" >
+    <div class="product__detail">
+        <div class="row product__detail-row">
+            <div class="col-lg-6 col-12 daonguoc">
+                <div class="img-product">
+                    <ul class="all-img">
+                        @if (Model.ListIMG != null && Model.ListIMG.Any())
+                        {
+                            @* Nếu có ảnh thì mới chạy vòng lặp *@
+                            @foreach (var imgObj in Model.ListIMG)
+                            {
+                                <li class="img-item">
+
+                                    <img src="@Url.Content(imgObj)"
+                                         class="small-img"
+                                         alt="anh @dem"
+                                         onclick="changeImg(@dem)"
+                                         id="thumb-@dem">
+                                </li>
+                                dem++;
+                            }
+                        }
+                        else
+                        {
+                            @* Nếu không có ảnh nào thì hiện 1 cái ảnh mặc định cho đẹp đội hình *@
+                            <li class="img-item">
+                                <img src="/images/no-image.png" class="small-img" alt="no-image">
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+                <div id="main-img" style="cursor: pointer;">
+                    @if (Model.ListIMG != null && Model.ListIMG.Any())
+                    {
+                        <img src="@Url.Content(Model.ListIMG[0])" width="300px" height="auto" class="big-img" alt="ảnh chính" id="img-main" xoriginal="./assets/img/product/ult1.jpg">
+                    }
+                    else
+                    {
+                        @* Ảnh dự phòng nếu DB không có ảnh nào *@
+                        <img src="~/img/product/no-image.jpg"
+                             width="300px"
+                             height="auto"
+                             class="big-img"
+                             alt="không có ảnh"
+                             id="img-main">
+                    }
+                    <div class="sale-off sale-off-2">
+                        <span class="sale-off-percent" style="color:aliceblue">@Model.sale%</span>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12" style=" padding-bottom: 20px;">
+                <div class="product__name">
+                    <h2>@Model.Ten</h2>
+                </div>
+                <div class="status-product">
+                    Trạng thái: <b>Còn hàng</b>
+                </div>
+                <div class="infor-oder">
+                    Loại sản phẩm: <b>@Model.type</b>
+                </div>
+                <div class="infor-oder">
+                    Nhãn hàng: <b>@Model.brand</b>
+                </div>
+                <div class="product__price">
+                    <h2 id="giaSale">@Model.salePriceMin Vnd</h2>
+                </div>
+
+                <div class="price-old">
+                    Giá gốc:
+                    <del id="giagoc"> -@Model.GiaMin Vnd</del>
+                    <span class="discount" id="Giamgia">(-@Model.sale)</span>
+                </div>
+                <div class="product__color d-flex" style="align-items: center;">
+                    <div class="title" style="font-size: 16px; margin-right: 10px;">
+                        Màu:
+                    </div>
+                    <div class="select-swap d-flex" style=" padding-bottom: 0px; gap: 4px; flex-wrap: wrap; ">
+                        @foreach (var color in Colors)
+                        {
+                            @* Truyền mã màu vào biến --màu-động ở đây *@
+                            <div class="circlecheck" style="--màu-động: @color; width: auto; margin-left: 20px;">
+                                <input type="radio"
+                                       id="color-@color"
+                                       name="color_choice"
+                                       value="@color"
+                                       onclick="checkVariant()"
+                                @(color == Colors.First() ? "checked" : "")>
+
+                                <label for="color-@color">
+                                   
+                                </label>
+
+                                <div class="outer-circle"></div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="product__size d-flex" style="align-items: center;">
+                    <div class="title" style="font-size: 16px; margin-right: 10px;">
+                        Kích thước:
+                    </div>
+                    <div class="select-swap">
+                        @foreach(var size in Sizes){
+                        <div class="swatch-element" data-value="38">
+                            <input type="radio" class="variant-1" id="swatch-@size" name="size_choice" value="@size" onclick="checkVariant()">
+                            <label for="swatch-@size" class="sd"><span>@size</span></label>
+                        </div>
+                        }
+                        
+                    </div>
+                </div>
+                <form asp-controller="ProductDetail" asp-action="AddToCart" method="post">
+                <div class="product__wrap">
+                    <div class="product__quantity d-flex" style="align-items: center; margin-top: 20px;">
+                        <div class="title" style="font-size: 16px; margin-right: 15px;">Số lượng:</div>
+                        <div class="quantity-control d-flex" style="border: 1px solid #ddd; border-radius: 4px; overflow: hidden;">
+                           @*  <button type="button" onclick="minus()" style="width: 35px; height: 35px; border: none; background: #fff; cursor: pointer;">-</button> *@
+
+                            <input type="number" id="quantity-input" name="SL" value="1" min="1"
+                                   onchange="validateInput()"
+                                   style="width: 50px; height: 35px; text-align: center; border-left: 1px solid #ddd; border-right: 1px solid #ddd; border-top: none; border-bottom: none; -moz-appearance: textfield;">
+
+                           @*  <button type="button" onclick="plus()" style="width: 35px; height: 35px; border: none; background: #fff; cursor: pointer;">+</button> *@
+                        </div>
+                        <div style="padding-right:5px;"><h4 id="Conlai"></h4></div>
+                        <input id="LuuPd" value="" name="idPd" type="hidden"/>
+                        <input name="Id" type="hidden" value="@Model.Id"/>
+                    </div>
+                        <button type="submit" class="add-cart" onclick="fadeInModal()">Thêm vào giỏ</button>
+                </div>
+                </form>
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Lỗi:</strong> @TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                <div class="product__shopnow">
+                    <button class="shopnow">Mua ngay</button>
+                    <span class="home-product-item__like home-product-item__like--liked">
+                        <i class="home-product-item__like-icon-empty far fa-heart" style="font-size: 24px;margin-top: 7px;"></i>
+                        <i class="home-product-item__like-icon-fill fas fa-heart" style="font-size: 24px;margin-top: 7px;"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="product__describe">
+    <div class="container">
+        <h2 class="product__describe-heading">Mô tả</h2>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-11">
+                <h3 class="name__product">NIKE MERCURIAL SUPERFLY 8 ACADEMY TF</h3>
+                <h3>Thông số kĩ thuật: </h3>
+                <p>Phân khúc: Academy (tầm trung).</p>
+                <p>Upper: Synthetic - Da tổng hợp cao cấp.</p>
+                <p>Thiết kế đinh giày: Các đinh cao su hình chữ nhật, xếp chồng chéo với nhau. Theo đánh giá của nhiều người chơi thì những đinh TF hình chữ nhật lần này giúp đôi giày có thể trụ vững hơn trên sân.</p>
+                <p>Độ ôm chân: Cao</p>
+                <p>Bộ sưu tập: SAFARI PACK - Ra mắt tháng 4/2021</p>
+                <p>PTrên chân các cầu thủ nổi tiếng như: Cristiano Ronaldo, Kylian Mbappé, Erling Haaland, Jadon Sancho, Leroy Sané, Romelu Lukaku...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+@section scripts {
+    <script src="~/js/main.js"></script>
+    <script src="~/js/zoomsl.js"></script>
+
+    <script>
+        // 1. Khai báo biến toàn cục ngay đầu
+        const variants = @Html.Raw(Json.Serialize(Model.ListProductDetail));
+
+        // 2. Hàm xử lý logic chính
+        function checkVariant() {
+            const selectedColor = document.querySelector('input[name="color_choice"]:checked')?.value;
+            const selectedSize = document.querySelector('input[name="size_choice"]:checked')?.value;
+
+            console.log("Color chọn:", selectedColor); // Debug
+            console.log("Size chọn:", selectedSize);   // Debug
+
+            if (!selectedColor || !selectedSize) return;
+
+            const match = variants.find(v => v.color === selectedColor && v.size.toString() === selectedSize.toString());
+
+            const priceSaleEl = document.getElementById('giaSale');
+            const priceGocEl = document.getElementById('giagoc');
+            const discountEl = document.getElementById('Giamgia');
+            const conlaiEl = document.getElementById('Conlai');
+            const luuPdEl = document.getElementById('LuuPd');
+
+            if (match) {
+                const formatter = new Intl.NumberFormat('vi-VN');
+                priceSaleEl.innerText = formatter.format(match.salePrice) + " Vnd";
+                priceGocEl.innerText = "-" + formatter.format(match.don_Gia) + " Vnd";
+                discountEl.innerText = "(-" + match.sale + "%)";
+                conlaiEl.innerText = "Còn lại: " + match.sl;
+                luuPdEl.value = match.id;
+                // Mở lại nút Thêm vào giỏ
+                document.querySelector('.add-cart').disabled = false;
+                document.querySelector('.add-cart').style.opacity = "1";
+
+                // Mở lại nút Mua ngay
+                document.querySelector('.shopnow').disabled = false;
+                document.querySelector('.shopnow').style.opacity = "1";
+            } else {
+                priceSaleEl.innerText = "Hết hàng";
+                priceGocEl.innerText = "";
+                discountEl.innerText = "";
+
+                document.querySelector('.add-cart').disabled = true;
+                document.querySelector('.shopnow').disabled = true;
+                document.querySelector('.add-cart').style.opacity = "0.5";
+                document.querySelector('.shopnow').style.opacity = "0.5";
+            }
+        }
+
+        // 3. Các hàm bổ trợ khác
+        function plus() {
+            let input = document.getElementById('quantity-input');
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function minus() {
+            let input = document.getElementById('quantity-input');
+            let val = parseInt(input.value);
+            if (val > 1) input.value = val - 1;
+        }
+
+        function validateInput() {
+            let input = document.getElementById('quantity-input');
+            let value = parseInt(input.value);
+            if (isNaN(value) || value < 1) input.value = 1;
+        }
+
+        function fadeInModal() {
+            $('.alert, .overlay1').fadeIn();
+        }
+
+        // 4. Khởi chạy khi trang load xong
+        $(document).ready(function () {
+            // Khởi tạo zoom
+            $(".big-img").imagezoomsl({ zoomrange: [3, 3] });
+
+            // Tự động chạy check lần đầu
+            checkVariant();
+        });
+        $(document).ready(function () {
+            // Tự động ẩn thông báo lỗi sau 3 giây
+            setTimeout(function () {
+                $(".alert").fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+}

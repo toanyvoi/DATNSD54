@@ -1,0 +1,109 @@
+﻿@model DATNSD54.DAO.DTO.ProductDTO
+@{
+    int dem = 1;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/productdetail.css" asp-append-version="true" />
+
+}
+<div class="admin-edit-page">
+    <div class="edit-card shadow-sm">
+        <div class="row g-5">
+            <div class="col-lg-6 col-12 daonguoc">
+                <div class="img-product">
+                    <ul class="all-img">
+                        @if (Model.ListIMG != null && Model.ListIMG.Any())
+                        {
+                            @* Nếu có ảnh thì mới chạy vòng lặp *@
+                            @foreach (var imgObj in Model.ListIMG)
+                            {
+                                <li class="img-item">
+
+                                    <img src="@Url.Content(imgObj)"
+                                         class="small-img"
+                                         alt="anh @dem"
+                                         onclick="changeImg(@dem)"
+                                         id="thumb-@dem">
+                                </li>
+                                dem++;
+                            }
+                        }
+                        else
+                        {
+                            @* Nếu không có ảnh nào thì hiện 1 cái ảnh mặc định cho đẹp đội hình *@
+                            <li class="img-item">
+                                <img src="/images/no-image.png" class="small-img" alt="no-image">
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+                <div id="main-img" style="cursor: pointer; ">
+                    @if (Model.ListIMG != null && Model.ListIMG.Any())
+                    {
+                        <img src="@Url.Content(Model.ListIMG[0])" style="width: 250px!important; height: 250px!important; object-fit: cover;" lass="big-img" alt="ảnh chính" id="img-main" xoriginal="./assets/img/product/ult1.jpg">
+                    }
+                    else
+                    {
+                        @* Ảnh dự phòng nếu DB không có ảnh nào *@
+                        <img src="~/img/product/no-image.jpg"
+                             style="width: 250px!important; height: 250px!important; object-fit: cover;"
+                             class="big-img"
+                             alt="không có ảnh"
+                             id="img-main">
+                    }
+                   
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="d-flex gap-2 mb-2">
+                    <span class="badge bg-primary-soft text-primary">Loại: @Model.type</span>
+                    <span class="badge bg-secondary-soft text-secondary">Brand: @Model.brand</span>
+                </div>
+
+                <h2 class="fw-bold text-dark">@Model.Ten</h2>
+                <p class="text-muted mb-2">Mã SP: <b>@Model.Ma</b> | Năm sản xuất: <b>@Model.Nam_SX</b></p>
+
+                <div class="p-3 bg-light rounded-4 mt-3 mb-4 d-inline-block pe-5">
+                    <small class="text-muted d-block fw-bold text-uppercase">Giá bán thấp nhất</small>
+                    <span class="fs-3 fw-bold text-danger">@Model.salePriceMin?.ToString("N0") ₫</span>
+                </div>
+
+                <p style="white-space: pre-line;" class="text-secondary">@Model.Mo_Ta</p>
+            </div>
+        </div>
+
+        <div class="mt-5 border-top pt-4">
+            <h5 class="fw-bold mb-3">Danh sách biến thể</h5>
+            <table class="table custom-table">
+                <thead class="table-light">
+                    <tr><th>Size</th><th>Màu sắc</th><th>Giá gốc</th><th>Giá Sale</th><th>Tồn kho</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var v in Model.ListProductDetail)
+                    {
+                        <tr>
+                            <td class="fw-bold">@v.Size</td>
+                            <td>
+                                <span style="background:@v.Color; width:15px; height:15px; display:inline-block; border-radius:50%; border:1px solid #ccc;"></span> @v.Color
+                            </td>
+                            <td class="text-muted text-decoration-line-through small">@v.Don_Gia.ToString("N0")</td>
+                            <td class="fw-bold text-primary">@v.salePrice.ToString("N0") ₫</td>
+                            <td>@v.SL</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4 border-top pt-4 text-end">
+            <a asp-action="Index" class="btn btn-light px-4" style="border-radius: 12px;">Quay Lại</a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-dark px-4 ms-2" style="border-radius: 12px;">Sửa Thông Tin</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    
+}

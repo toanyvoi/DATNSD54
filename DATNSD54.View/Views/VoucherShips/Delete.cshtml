@@ -1,0 +1,41 @@
+﻿@model DATNSD54.DAO.Models.VoucherShip
+
+@{
+    ViewData["Title"] = "Xác nhận xóa Voucher";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card border-danger shadow">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0 text-center text-uppercase">Cảnh báo xóa</h4>
+        </div>
+        <div class="card-body">
+            <p class="text-center">Bạn có chắc chắn muốn xóa vĩnh viễn Voucher này không?</p>
+            <hr />
+            <dl class="row px-3">
+                <dt class="col-sm-5">Mã Voucher:</dt>
+                <dd class="col-sm-7 fw-bold">@Model.ID</dd>
+
+                <dt class="col-sm-5">Tên chương trình:</dt>
+                <dd class="col-sm-7">@Model.Ten</dd>
+
+                <dt class="col-sm-5">Đơn tối thiểu:</dt>
+                <dd class="col-sm-7 text-danger">@Model.Don_Hang_Toi_Thieu.ToString("N0") VNĐ</dd>
+
+                <dt class="col-sm-5">Hạn dùng:</dt>
+                <dd class="col-sm-7">@Model.Ngay_Bat_Dau.ToString("dd/MM/yyyy") - @Model.Ngay_Ket_Thuc.ToString("dd/MM/yyyy")</dd>
+            </dl>
+
+            <form asp-action="Delete" class="mt-4">
+                <input type="hidden" asp-for="ID" />
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger btn-lg">XÓA VĨNH VIỄN</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Hủy bỏ, quay lại</a>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center bg-light">
+            <small class="text-muted italic">* Lưu ý: Hành động này không thể hoàn tác.</small>
+        </div>
+    </div>
+</div>

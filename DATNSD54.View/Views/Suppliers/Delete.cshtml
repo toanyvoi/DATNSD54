@@ -1,0 +1,168 @@
+﻿@model DATNSD54.DAO.Models.Supplier
+
+@{
+    ViewData["Title"] = "Xác nhận xóa nhà cung cấp";
+}
+
+@section Styles {
+    <style>
+        .admin-delete-page { background: #f8fafc; min-height: 100vh; padding: 60px 0; }
+        .delete-container { max-width: 600px; margin: 0 auto; padding: 0 20px; }
+
+        .delete-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #fee2e2;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .warning-header {
+            background: #fef2f2;
+            padding: 40px 30px;
+            color: #dc2626;
+        }
+
+        .warning-icon {
+            width: 80px;
+            height: 80px;
+            background: #fee2e2;
+            color: #ef4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .delete-body { padding: 40px; }
+        .supplier-name { font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-bottom: 10px; }
+        .supplier-info-box {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-item { display: flex; margin-bottom: 10px; font-size: 0.95rem; }
+        .info-label { width: 120px; color: #64748b; font-weight: 600; }
+        .info-value { color: #334155; font-weight: 500; }
+
+        .alert-message {
+            color: #991b1b;
+            background: #fff1f1;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 30px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .delete-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-confirm-delete {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 700;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-confirm-delete:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-back {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+            text-decoration: none;
+        }
+    </style>
+}
+
+<div class="admin-delete-page">
+    <div class="delete-container">
+        <div class="delete-card">
+            <div class="warning-header">
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="mb-0 font-weight-bold">Xác nhận xóa?</h3>
+                <p class="mb-0 opacity-75">Hành động này không thể hoàn tác</p>
+            </div>
+
+            <div class="delete-body">
+                <p class="text-muted">Bạn có chắc chắn muốn xóa nhà cung cấp sau đây không?</p>
+
+                <div class="supplier-name">@Model.Ten</div>
+
+                <div class="supplier-info-box">
+                    <div class="info-item">
+                        <span class="info-label">Mã NCC:</span>
+                        <span class="info-value">@Model.Id</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Địa chỉ:</span>
+                        <span class="info-value">@Model.Dia_Chi</span>
+                    </div>
+                    @if (Model.Products != null)
+                    {
+                        <div class="info-item">
+                            <span class="info-label">Số sản phẩm:</span>
+                            <span class="info-value text-danger">@Model.Products.Count() mặt hàng liên quan</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="alert-message">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Lưu ý: Nếu xóa nhà cung cấp này, các sản phẩm liên quan có thể bị ảnh hưởng tùy vào cấu hình ràng buộc dữ liệu.
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="delete-actions">
+                        <a asp-action="Index" class="btn-back">
+                            Hủy bỏ
+                        </a>
+                        <button type="submit" class="btn-confirm-delete">
+                            <i class="fas fa-trash-alt"></i> Xác nhận xóa
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

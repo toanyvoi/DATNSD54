@@ -1,0 +1,75 @@
+﻿@model DATNSD54.DAO.Models.VoucherShip
+
+@{
+    ViewData["Title"] = "Tạo mới Voucher";
+}
+
+<div class="container" style="max-width: 800px;">
+    <h2 class="text-center my-4">Thêm mới Voucher Vận chuyển</h2>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Mã Voucher (ID)</label>
+                        <input asp-for="ID" class="form-control" placeholder="VD: SHIPFREE2026" />
+                        <span asp-validation-for="ID" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Tên Voucher</label>
+                        <input asp-for="Ten" class="form-control" />
+                        <span asp-validation-for="Ten" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Đơn tối thiểu</label>
+                        <input asp-for="Don_Hang_Toi_Thieu" type="number" class="form-control" />
+                        <span asp-validation-for="Don_Hang_Toi_Thieu" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Số lượng</label>
+                        <input asp-for="So_Luong" type="number" class="form-control" />
+                        <span asp-validation-for="So_Luong" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Ngày bắt đầu</label>
+                        <input asp-for="Ngay_Bat_Dau" type="date" class="form-control" />
+                        <span asp-validation-for="Ngay_Bat_Dau" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Ngày kết thúc</label>
+                        <input asp-for="Ngay_Ket_Thuc" type="date" class="form-control" />
+                        <span asp-validation-for="Ngay_Ket_Thuc" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Trạng thái</label>
+                    <select asp-for="Trang_Thai" class="form-select">
+                        <option value="1">Đang áp dụng</option>
+                        <option value="0">Ngừng áp dụng</option>
+                    </select>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary px-4">Lưu lại</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Quay lại danh sách</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

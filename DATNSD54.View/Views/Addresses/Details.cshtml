@@ -1,0 +1,54 @@
+﻿@model DATNSD54.DAO.Models.Address
+
+@{
+    ViewData["Title"] = "Chi tiết địa chỉ";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0"><i class="bi bi-info-circle"></i> Chi tiết địa chỉ giao hàng</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">
+                    <label class="fw-bold">Họ tên người nhận:</label>
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.HoTen
+                </dd>
+
+                <dt class="col-sm-3">
+                    <label class="fw-bold">Số điện thoại:</label>
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.SDT
+                </dd>
+
+                <dt class="col-sm-3">
+                    <label class="fw-bold">Địa chỉ chi tiết:</label>
+                </dt>
+                <dd class="col-sm-9">
+                    @Model.DiaChiChitiet
+                </dd>
+
+                <dt class="col-sm-3">
+                    <label class="fw-bold">Mã khách hàng:</label>
+                </dt>
+                <dd class="col-sm-9">
+                    <span class="badge bg-secondary">#@Model.IdCustomer</span>
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer bg-light">
+            <div class="d-flex gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                    <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

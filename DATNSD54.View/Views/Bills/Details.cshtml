@@ -1,0 +1,239 @@
+﻿@model DATNSD54.DAO.Models.Bill
+
+@{
+    ViewData["Title"] = "Chi tiết Hóa đơn";
+}
+
+@section Styles {
+    <style>
+        .admin-details-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 50px 0;
+        }
+
+        .details-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .details-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+
+        .details-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .header-main {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-icon {
+            width: 55px;
+            height: 55px;
+            background: #f0f2f5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c3e50;
+            font-size: 22px;
+        }
+
+        .header-title h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, #e8ecef, transparent);
+            margin: 25px 0;
+        }
+
+        /* Grid Layout */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .detail-item {
+            padding: 15px;
+            background: #fcfdfe;
+            border-radius: 12px;
+            border: 1px solid #f1f4f8;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .label-text {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #bdc3c7;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .value-text {
+            display: block;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        /* Price Highlight */
+        .price-final {
+            color: #e74c3c;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        /* Action Buttons */
+        .action-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-edit-mode {
+            flex: 2;
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit-mode:hover {
+            background: #1a252f;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .btn-back {
+            flex: 1;
+            background: #f8f9fa;
+            color: #7f8c8d;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            border: 1px solid #e8ecef;
+        }
+    </style>
+}
+
+<div class="admin-details-page">
+    <div class="details-container">
+        <div class="details-card">
+            <div class="details-header">
+                <div class="header-main">
+                    <div class="header-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="header-title">
+                        <h2>Chi tiết Hóa đơn</h2>
+                        <p class="text-muted mb-0">Mã giao dịch: #@Model.ID</p>
+                    </div>
+                </div>
+                <div>
+                    <span class="status-badge">Trạng thái: @Model.Trang_Thai</span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <span class="label-text">@Html.DisplayNameFor(model => model.Ngay_Tao)</span>
+                    <span class="value-text">@Model.Ngay_Tao.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label-text">Khách hàng (Mật khẩu/ID)</span>
+                    <span class="value-text">@Html.DisplayFor(model => model.Customer.Mat_Khau)</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label-text">@Html.DisplayNameFor(model => model.Gia_Goc)</span>
+                    <span class="value-text">@Model.Gia_Goc.ToString("N0") VNĐ</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label-text">@Html.DisplayNameFor(model => model.Thanh_Tien)</span>
+                    <span class="value-text price-final">@Model.Thanh_Tien.ToString("N0") VNĐ</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label-text">@Html.DisplayNameFor(model => model.Phuong_Thuc_Thanh_Toan)</span>
+                    <span class="value-text"><i class="fas fa-credit-card mr-2"></i>@Html.DisplayFor(model => model.Phuong_Thuc_Thanh_Toan)</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label-text">Voucher sử dụng</span>
+                    <span class="value-text text-success">
+                        <i class="fas fa-tag mr-2"></i>@(Model.Voucher?.Ten ?? "Không áp dụng")
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label-text">Voucher vận chuyển</span>
+                    <span class="value-text text-info">
+                        <i class="fas fa-shipping-fast mr-2"></i>@(Model.VoucherShip?.Ten ?? "Không áp dụng")
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="label-text">Nhân viên lập đơn (CCCD)</span>
+                    <span class="value-text">@Html.DisplayFor(model => model.User.CCCD)</span>
+                </div>
+
+                <div class="detail-item full-width">
+                    <span class="label-text">@Html.DisplayNameFor(model => model.Address)</span>
+                    <span class="value-text"><i class="fas fa-map-marker-alt mr-2 text-danger"></i>@Html.DisplayFor(model => model.Address.DiaChiChitiet)</span>
+                </div>
+            </div>
+
+            <div class="action-group">
+                <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn-edit-mode">
+                    <i class="fas fa-edit mr-2"></i> Cập nhật hóa đơn
+                </a>
+                <a asp-action="Index" class="btn-back">
+                    Quay lại danh sách
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        console.log("Bill Details View Loaded");
+    </script>
+}

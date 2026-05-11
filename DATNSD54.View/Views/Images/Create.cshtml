@@ -1,0 +1,225 @@
+﻿@model DATNSD54.DAO.Models.Image
+
+@{
+    ViewData["Title"] = "Thêm hình ảnh sản phẩm";
+}
+
+@section Styles {
+    <style>
+        .admin-form-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.2);
+            color: white;
+            font-size: 30px;
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8ecef, transparent);
+            margin: 30px 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e8ecef;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.1);
+            outline: none;
+        }
+
+        /* Image Preview Box */
+        .image-preview-container {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #e8ecef;
+            border-radius: 15px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #fdfdfd;
+        }
+
+        #imgPreview {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        .preview-placeholder {
+            color: #bdc3c7;
+            text-align: center;
+        }
+
+        .btn-submit {
+            background: #2c3e50;
+            border: none;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background: #1a252f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+}
+
+<div class="admin-form-page">
+    <div class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="header-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <h2 class="form-title">Thêm hình ảnh</h2>
+                <p class="text-muted">Liên kết hình ảnh mới cho sản phẩm trong hệ thống</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="form-group">
+                    <label asp-for="Product_ID" class="control-label">Sản phẩm áp dụng</label>
+                    <select asp-for="Product_ID" class="form-control" asp-items="ViewBag.Product_ID">
+                        <option value="">-- Chọn sản phẩm --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IMG" class="control-label">Đường dẫn hình ảnh (URL)</label>
+                    <input asp-for="IMG" id="imgInput" class="form-control" placeholder="https://example.com/image.jpg" />
+                    <span asp-validation-for="IMG" class="text-danger small"></span>
+                    
+                    <div class="image-preview-container">
+                        <img id="imgPreview" src="#" alt="Preview" />
+                        <div class="preview-placeholder">
+                            <i class="fas fa-image fa-2x mb-2"></i>
+                            <p class="mb-0 small">Xem trước hình ảnh sẽ hiển thị tại đây</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label asp-for="Ngay_Tao" class="control-label">Ngày tạo</label>
+                            <input asp-for="Ngay_Tao" class="form-control" type="datetime-local" />
+                            <span asp-validation-for="Ngay_Tao" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-5 d-flex align-items-center">
+                        <div class="custom-control custom-switch mt-2">
+                            <input type="checkbox" class="custom-control-input" asp-for="Trang_Thai" id="statusSwitch">
+                            <label class="custom-control-label font-weight-600" for="statusSwitch">Hiển thị ảnh</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-plus-circle mr-2"></i> Xác nhận thêm ảnh
+                </button>
+            </form>
+
+            <a asp-action="Index" class="back-link">
+                <i class="fas fa-chevron-left mr-1"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Script để preview ảnh tức thì khi dán link
+        document.getElementById('imgInput').addEventListener('input', function() {
+            const url = this.value;
+            const preview = document.getElementById('imgPreview');
+            const placeholder = document.querySelector('.preview-placeholder');
+            
+            if (url) {
+                preview.src = url;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                preview.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
+        });
+    </script>
+}

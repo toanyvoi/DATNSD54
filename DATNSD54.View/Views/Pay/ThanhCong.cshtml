@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Đặt hàng thành công";
+    Layout = "_Layout"; // Hoặc để null nếu ní muốn trang trắng tinh
+}
+
+<div class="container-fluid d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="text-center p-5" style="max-width: 600px; background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+
+        <div class="mb-4">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="display-5 fw-bold mb-3" style="color: #253d4e;">Đặt hàng thành công!</h1>
+        <p class="text-muted mb-5">Cảm ơn ní đã ủng hộ shop. Đơn hàng của ní đang được hệ thống xử lý và sẽ sớm giao đến tay ní.</p>
+
+        <div class="d-flex justify-content-between gap-3">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary px-4 py-2 flex-grow-1" style="border-radius: 10px;">
+                <i class="fi-rs-home mr-5"></i> Quay lại trang chủ
+            </a>
+            <a href="#" class="btn btn-success px-4 py-2 flex-grow-1" style="background-color: #3bb77e; border: none; border-radius: 10px;">
+                <i class="fi-rs-user mr-5"></i> Đơn hàng của tôi
+            </a>
+        </div>
+
+        <div class="mt-5">
+            <small class="text-muted">Hotline hỗ trợ: <strong>1900 1234</strong> (24/7)</small>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Hiệu ứng Tick xanh chạy (Animation) */
+    .success-checkmark {
+        width: 80px;
+        height: 115px;
+        margin: 0 auto;
+    }
+    .check-icon {
+        width: 80px; height: 80px;
+        position: relative;
+        border-radius: 50%;
+        box-sizing: content-box;
+        border: 4px solid #4CAF50;
+    }
+    .check-icon::after {
+        content: '';
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+    }
+    .icon-line {
+        height: 5px; background-color: #4CAF50;
+        display: block; border-radius: 2px;
+        position: absolute; z-index: 10;
+    }
+    .line-tip { width: 25px; left: 14px; top: 46px; transform: rotate(45deg); }
+    .line-long { width: 47px; right: 8px; top: 38px; transform: rotate(-45deg); }
+
+    /* Hover effect cho nút */
+    .btn:hover {
+        transform: translateY(-3px);
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+</style>

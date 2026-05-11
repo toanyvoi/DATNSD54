@@ -1,0 +1,218 @@
+﻿@model DATNSD54.DAO.Models.Voucher
+
+@{
+    ViewData["Title"] = "Xác nhận Xóa Voucher";
+}
+
+@section Styles {
+    <style>
+        .admin-delete-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .delete-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+            padding: 50px 40px;
+            max-width: 550px;
+            margin: 0 auto;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        .warning-icon {
+            font-size: 5rem;
+            color: #e74c3c;
+            margin-bottom: 25px;
+            animation: pulse-red 2s infinite;
+        }
+
+        @@keyframes pulse-red {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .delete-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+
+        .delete-subtitle {
+            color: #7f8c8d;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        /* Voucher Preview Style */
+        .voucher-preview {
+            background: #fffafa;
+            border: 2px dashed #ff7675;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 35px;
+            text-align: left;
+            position: relative;
+        }
+
+            .voucher-preview::before, .voucher-preview::after {
+                content: '';
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                background: white;
+                border-radius: 50%;
+                top: 50%;
+                transform: translateY(-50%);
+                border: 1px solid #ff7675;
+            }
+
+            .voucher-preview::before {
+                left: -11px;
+                border-right: none;
+            }
+
+            .voucher-preview::after {
+                right: -11px;
+                border-left: none;
+            }
+
+        .preview-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #f9eaea;
+            padding-bottom: 8px;
+        }
+
+            .preview-item:last-child {
+                border-bottom: none;
+            }
+
+        .preview-label {
+            color: #b2bec3;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+        }
+
+        .preview-value {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* Buttons Style */
+        .btn-confirm-delete {
+            background: #d63031;
+            color: white;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-weight: 700;
+            border: none;
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 15px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+            .btn-confirm-delete:hover {
+                background: #ff7675;
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(214, 48, 49, 0.3);
+            }
+
+        .btn-cancel {
+            display: inline-block;
+            color: #636e72;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+            .btn-cancel:hover {
+                color: #2d3436;
+                text-decoration: underline;
+            }
+    </style>
+}
+
+<div class="admin-delete-page">
+    <div class="container">
+        <div class="delete-card">
+            <div class="warning-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+
+            <h2 class="delete-title">Cẩn thận!</h2>
+            <p class="delete-subtitle">
+                Bạn sắp xóa Voucher này khỏi hệ thống. <br />
+                <strong class="text-danger">Dữ liệu sẽ mất vĩnh viễn và không thể khôi phục.</strong>
+            </p>
+
+            <div class="voucher-preview">
+                <div class="preview-item">
+                    <span class="preview-label">Mã định danh</span>
+                    <span class="preview-value text-danger">#@Model.ID</span>
+                </div>
+                <div class="preview-item">
+                    <span class="preview-label">Tên Voucher</span>
+                    <span class="preview-value">@Model.Ten</span>
+                </div>
+                <div class="preview-item">
+                    <span class="preview-label">Ưu đãi</span>
+                    <span class="preview-value">Giảm @Model.Ty_Le_Giam%</span>
+                </div>
+                <div class="preview-item">
+                    <span class="preview-label">Số lượng còn</span>
+                    <span class="preview-value">@Model.So_Luong cái</span>
+                </div>
+            </div>
+
+            <form asp-action="Delete" method="post" id="deleteConfirmForm">
+                @* Lưu trữ ID để gửi về Controller *@
+                <input type="hidden" asp-for="ID" />
+
+                <button type="submit" class="btn-confirm-delete" onclick="return confirm('Bạn thực sự muốn xóa voucher này? Thao tác này là vĩnh viễn!');">
+                    <i class="fas fa-trash-alt mr-2"></i> Xác nhận xóa ngay
+                </button>
+            </form>
+
+            <a asp-action="Index" class="btn-cancel">
+                <i class="fas fa-times mr-1"></i> Quay lại và giữ lại Voucher
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Có thể thêm hiệu ứng rung form nếu người dùng bấm xóa mà chưa xác nhận (tùy chọn)
+        const form = document.getElementById('deleteConfirmForm');
+        form.addEventListener('submit', function() {
+            // Hiệu ứng loading nhẹ khi đang gửi yêu cầu xóa
+            const btn = form.querySelector('.btn-confirm-delete');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang xử lý...';
+            btn.style.opacity = '0.7';
+            btn.style.pointerEvents = 'none';
+        });
+    </script>
+}

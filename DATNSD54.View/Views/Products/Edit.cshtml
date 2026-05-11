@@ -1,0 +1,51 @@
+﻿@model DATNSD54.DAO.Models.Product
+
+<div class="admin-edit-page">
+    <div class="edit-card mx-auto shadow-sm" style="max-width: 900px;">
+        <h3 class="fw-bold text-dark mb-4 border-bottom pb-3">Cập nhật sản phẩm: @Model?.Ma</h3>
+
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold small text-uppercase">Tên sản phẩm</label>
+                    <input asp-for="Ten" class="form-control custom-input" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold small text-uppercase">Mã SP</label>
+                    <input asp-for="Ma" class="form-control custom-input" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold small text-uppercase">Năm SX</label>
+                    <input asp-for="Nam_SX" type="number" class="form-control custom-input">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold small text-uppercase text-primary">Thương hiệu</label>
+                    <select asp-for="Brand_ID" class="form-select custom-input" asp-items="ViewBag.Brands"></select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold small text-uppercase text-primary">Nhà cung cấp</label>
+                    <select asp-for="Supplier_ID" class="form-select custom-input" asp-items="ViewBag.Suppliers"></select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold small text-uppercase text-primary">Loại sản phẩm</label>
+                    <select asp-for="Product_Type_ID" class="form-select custom-input" asp-items="ViewBag.ProductTypes"></select>
+                </div>
+
+                
+
+                <div class="col-12">
+                    <label class="form-label fw-bold small text-uppercase">Mô tả</label>
+                    <textarea asp-for="Mo_Ta" class="form-control custom-input" rows="4"></textarea>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-3 d-flex gap-2">
+                <button type="submit" class="btn btn-dark px-5 shadow-sm" style="border-radius: 12px;">Cập Nhật</button>
+                <a asp-action="Index" class="btn btn-light px-4" style="border-radius: 12px;">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>

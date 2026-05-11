@@ -1,0 +1,232 @@
+﻿@model IEnumerable<DATNSD54.DAO.Models.Bill>
+
+@{
+    ViewData["Title"] = "Quản lý Hóa đơn";
+}
+
+@section Styles {
+    <style>
+        .admin-index-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 40px 0;
+        }
+
+        .index-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .index-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        .index-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .index-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .btn-create-new {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-create-new:hover {
+            background: #1a252f;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.2);
+        }
+
+        /* Table Styling */
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+
+        .custom-table thead th {
+            background: transparent;
+            color: #95a5a6;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            padding: 10px 15px;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .custom-table tbody tr {
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .custom-table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-top: 1px solid #f1f4f8;
+            border-bottom: 1px solid #f1f4f8;
+            font-size: 0.85rem;
+            color: #34495e;
+        }
+
+        .custom-table tbody td:first-child {
+            border-left: 1px solid #f1f4f8;
+            border-radius: 12px 0 0 12px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .custom-table tbody td:last-child {
+            border-right: 1px solid #f1f4f8;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .custom-table tbody tr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+            background: #e9ecef;
+        }
+
+        /* Money & Info Styling */
+        .amount { font-weight: 700; color: #2c3e50; }
+        .amount-final { color: #e74c3c; font-weight: 800; }
+        .text-small { font-size: 0.75rem; color: #7f8c8d; display: block; }
+        .voucher-tag { color: #27ae60; font-weight: 600; font-size: 0.8rem; }
+
+        /* Action Buttons */
+        .action-links { display: flex; gap: 6px; justify-content: flex-end; }
+        .btn-action {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+        .btn-edit { background: #f0f7ff; color: #007bff; }
+        .btn-details { background: #f8f9fa; color: #6c757d; }
+        .btn-delete { background: #fff5f5; color: #e74c3c; }
+
+        .btn-edit:hover { background: #007bff; color: white; }
+        .btn-details:hover { background: #6c757d; color: white; }
+        .btn-delete:hover { background: #e74c3c; color: white; }
+    </style>
+}
+
+<div class="admin-index-page">
+    <div class="index-container">
+        <div class="index-card">
+            <div class="index-header">
+                <h2 class="index-title">Danh sách Hóa đơn</h2>
+                <a asp-action="Create" class="btn-create-new">
+                    <i class="fas fa-plus"></i> Tạo hóa đơn
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Thời gian</th>
+                            <th>Khách hàng</th>
+                            <th>Thanh toán</th>
+                            <th>Giá gốc</th>
+                            <th>Thành tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Địa chỉ</th>
+                            <th class="text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>#@item.ID</td>
+                                <td>
+                                    <span class="text-dark font-weight-600">@item.Ngay_Tao.ToString("dd/MM/yyyy")</span>
+                                    <span class="text-small">@item.Ngay_Tao.ToString("HH:mm")</span>
+                                </td>
+                                <td>
+                                    <span class="text-dark">@item.Customer.Mat_Khau</span>
+                                    <span class="text-small">NV: @item.User.CCCD</span>
+                                </td>
+                                <td>
+                                    <span class="status-badge">@item.Phuong_Thuc_Thanh_Toan</span>
+                                    @if (item.Voucher != null)
+                                    {
+                                        <span class="text-small voucher-tag"><i class="fas fa-tag"></i> @item.Voucher.Ten</span>
+                                    }
+                                </td>
+                                <td class="amount">@item.Gia_Goc.ToString("N0")đ</td>
+                                <td class="amount-final">@item.Thanh_Tien.ToString("N0")đ</td>
+                                <td>
+                                    <span class="status-badge">@item.Trang_Thai</span>
+                                </td>
+                                <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    @item.Address.DiaChiChitiet
+                                </td>
+                                <td>
+                                    <div class="action-links">
+                                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn-action btn-edit" title="Sửa">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn-action btn-details" title="Chi tiết">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn-action btn-delete" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Có thể thêm tooltip hoặc DataTables tại đây
+        });
+    </script>
+}

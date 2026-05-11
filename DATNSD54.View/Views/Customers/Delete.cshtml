@@ -1,0 +1,187 @@
+﻿@model DATNSD54.DAO.Models.Customer
+
+@{
+    ViewData["Title"] = "Xóa khách hàng";
+}
+
+@section Styles {
+    <style>
+        .admin-delete-page {
+            background: #f8f9fa;
+            min-height: calc(100vh - 200px);
+            padding: 60px 0;
+        }
+
+        .delete-container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .delete-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .delete-icon {
+            width: 80px;
+            height: 80px;
+            background: #fff5f5;
+            color: #e74c3c;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            border: 2px solid #feb2b2;
+        }
+
+        .customer-avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .delete-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        /* Detail List Styling */
+        .info-box {
+            background: #fdfdfd;
+            border: 1px solid #edf2f7;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #edf2f7;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        .btn-group-custom {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-confirm-delete {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-confirm-delete:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-cancel {
+            background: #f8f9fa;
+            color: #718096;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .btn-cancel:hover {
+            background: #edf2f7;
+            color: #2d3748;
+        }
+    </style>
+}
+
+<div class="admin-delete-page">
+    <div class="delete-container">
+        <div class="delete-card">
+            <div class="delete-icon">
+                <i class="fas fa-user-times"></i>
+            </div>
+            
+            <h2 class="delete-title">Xác nhận xóa khách hàng?</h2>
+            
+            @if (!string.IsNullOrEmpty(Model.AnhDaiDien))
+            {
+                <img src="@Model.AnhDaiDien" class="customer-avatar-preview" alt="Avatar" />
+            }
+            else
+            {
+                <img src="/images/default-avatar.png" class="customer-avatar-preview" alt="Default Avatar" />
+            }
+
+            <p class="text-muted">Bạn đang thực hiện xóa tài khoản của <strong>@Model.Ten</strong>. Hành động này không thể khôi phục.</p>
+
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">@Model.Email</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Số điện thoại:</span>
+                    <span class="info-value">@Model.SDT</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Giới tính:</span>
+                    <span class="info-value">@Model.Gioi_Tinh</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Ngày sinh:</span>
+                    <span class="info-value">@Model.Ngay_Sinh</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Trạng thái:</span>
+                    <span class="info-value">
+                        <span class="badge @(Model.Trang_Thai ? "badge-success" : "badge-secondary")">
+                            @(Model.Trang_Thai ? "Đang hoạt động" : "Khóa")
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <form asp-action="Delete" class="btn-group-custom">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn-confirm-delete">
+                    <i class="fas fa-trash-alt mr-2"></i> Xác nhận xóa vĩnh viễn
+                </button>
+                <a asp-action="Index" class="btn-cancel">Quay lại danh sách</a>
+            </form>
+        </div>
+    </div>
+</div>
