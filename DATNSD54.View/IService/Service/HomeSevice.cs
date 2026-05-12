@@ -20,16 +20,19 @@ namespace DATNSD54.View.IService.Service
             return new Task<List<ProductDisplayDTO>>(() => new List<ProductDisplayDTO>());
         }
 
-        public Task<List<ProductDTO>> SearchProducts( string? textSearch)
+        public async Task<SearchProductDTO> SearchProducts(string? textSearch)
         {
-
             string encodedText = Uri.EscapeDataString(textSearch ?? "");
-            var response = _httpClient.GetAsync($"api/Products/Search/{encodedText}").Result;
+            // Dùng await thay vì .Result
+            var response = await _httpClient.GetAsync($"api/Products/Search/{encodedText}");
+
             if (response.IsSuccessStatusCode)
             {
-                return response.Content.ReadFromJsonAsync<List<ProductDTO>>();
+                // Phải await khi đọc Json
+                return await response.Content.ReadFromJsonAsync<SearchProductDTO>() ?? new SearchProductDTO();
             }
-            return new Task<List<ProductDTO>>(() => new List<ProductDTO>());
+
+            return new SearchProductDTO(); // Trả về object rỗng nếu lỗi
         }
     }
 }

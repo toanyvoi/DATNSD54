@@ -26,12 +26,14 @@ namespace DATNSD54.View.Controllers
             return View(products);
         }
 
-        public IActionResult Search( string? textSearch)
+        public async Task<IActionResult> Search( string? textSearch)
         {
-            var products = _homeService.SearchProducts(textSearch).Result;
-            if (products == null) { products = new List<ProductDTO>(); };
+            
+            var searchProduct = await _homeService.SearchProducts(textSearch);
+            if (searchProduct == null) { searchProduct = new SearchProductDTO(); };
 
-            return View(products);
+            
+            return View(searchProduct);
         }
 
         

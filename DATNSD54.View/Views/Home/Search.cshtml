@@ -1,4 +1,5 @@
-﻿@section Styles{
+﻿@model DATNSD54.DAO.DTO.SearchProductDTO
+@section Styles{
     <link rel="stylesheet" href="~/css/product.css" />
 
    
@@ -53,6 +54,11 @@
                                                                                                                onclick="khonghienthidanhsach(2,`thuonghieu`)" id="plus-2"></i>
                         </h4>
                         <ul id="thuonghieu" class="product__filter-ckeckbox">
+
+                            @foreach(var i in Model.brands)
+                            {
+                                <h5> @i.Ten</h5>
+                            }
                             <li class="product__filter-item">
                                 <label class="form-check-label" for="th1">
                                     <input type="checkbox" class="form-check-input checkthuonghieu checkthuonghieu" id="th1" name="option2"

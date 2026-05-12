@@ -55,15 +55,26 @@ namespace DATNSD54.API.Controllers
         }
 
         [HttpGet("Search/{text}")]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> SearchProduct(string? text)
+        public async Task<ActionResult<SearchProductDTO>> SearchProduct(string? text)
         {
-            var ListProduct = await _context.Product.Include(h => h.images).Include(h => h.ProductDetails).Include(p => p.ProductType)
-                .Include(p => p.Brand)
-                .Include(p => p.ProductDetails).ThenInclude(pd => pd.SizeNavigation)
-                .Include(p => p.ProductDetails).ThenInclude(pd => pd.ColorNavigation).ToListAsync();
-
+            var query = _context.Product
+         .Include(h => h.images)
+         .Include(p => p.ProductType)
+         .Include(p => p.Brand)
+         .Include(p => p.ProductDetails).ThenInclude(pd => pd.SizeNavigation)
+         .Include(p => p.ProductDetails).ThenInclude(pd => pd.ColorNavigation)
+         .AsQueryable(); // Chuyển sang Queryable để lọc
             
-           var productDTOList = ListProduct.Select(product =>
+            // Chỉ lọc nếu text có giá trị
+            if (!string.IsNullOrEmpty(text))
+            {
+                query = query.Where(p => p.Ten.Contains(text) || p.Ma.Contains(text) ||p.Brand.Ten.Contains(text)||p.ProductType.Ten.Contains(text));
+            }
+
+            var ListProduct = await query.ToListAsync(); // Lúc này mới thực thi tải dữ liệu
+
+
+            var productDTOList = ListProduct.Select(product =>
             {
                 // Lấy chi tiết sản phẩm đầu tiên hoặc chi tiết có giá thấp nhất để hiển thị đại diện
                 var productDetails = product.ProductDetails?
@@ -106,7 +117,16 @@ namespace DATNSD54.API.Controllers
                     }).ToList() ?? new List<ProductDetailDTO>()
                 };
             }).ToList();
-            return Ok(productDTOList);
+
+            SearchProductDTO searchProductDTO = new SearchProductDTO
+            {
+                Products = productDTOList,
+                brands = await _context.Brand.ToListAsync(),
+                sizes = await _context.Size.ToListAsync(),
+                productTypes = await _context.ProductType.ToListAsync()
+            };
+
+            return Ok(searchProductDTO);
         }
 
         // GET: api/Products/5

@@ -6,6 +6,6 @@ namespace DATNSD54.View.IService
     public interface IHomeService
     {
         Task<List<ProductDisplayDTO>> GetAllProducts();
-        Task<List<ProductDTO>> SearchProducts(string? textSearch);
+        Task<SearchProductDTO> SearchProducts(string? textSearch);
     }
 }
