@@ -18,6 +18,8 @@ namespace DATNSD54.DAO.Models
         [Required(ErrorMessage = "Màu sắc không được để trống")]
         public int Color { get; set; }
 
+        public string? Image { get; set; }
+
         [Range(0, double.MaxValue, ErrorMessage = "{0} phải lớn hơn hoặc bằng 0")]
         [Column(TypeName = "decimal(18, 2)")] // Đảm bảo độ chính xác trong DB
         public decimal Don_Gia { get; set; }

@@ -38,6 +38,8 @@
         .wrapper {
             margin-top: 30px;
         }
+
+
     </style>
 }
 <!-- content -->
@@ -238,10 +240,11 @@
                                     </option>
                                 }
                             </select>
-
+                            
                             <button type="button" data-billid="@b.ID" class="btnPickAddress btn btn-primary btn-sm px-3">
                                 Xác nhận địa chỉ
                             </button>
+                            
                         </div>
                         <div>Tổng tiền: @b.Gia_Goc VNĐ</div>
                         <div>giảm:@(b.Gia_Goc - b.Thanh_Tien + b.Shipcost) VNĐ</div>
@@ -264,11 +267,14 @@
                             {
                                 <div class="row" style="text-align:center; margin-top:10px">
                                     <div class="col-4" style="display: flex;">
-                                        <a href="">
+                                        <a asp-controller="ProductDetail" asp-action="Index" asp-route-id="@bd.product_id">
                                             <img src="@Url.Content(bd.UrlIMG)" alt=""
                                                  style="width: 50px;height: 50px;margin-right: 5px;">
+                                            
                                         </a>
+                                        <a asp-controller="ProductDetail" asp-action="Index" asp-route-id="@bd.product_id">
                                         <h5>@bd.nameProduct</h5>
+                                        </a>
                                     </div>
                                     <div class="col-1">@bd.so_luong</div>
                                     <div class="col-2">@bd.BasePrice VNĐ</div>
@@ -280,8 +286,22 @@
                         </div>
 
                     </form>
+
                 </div>
                 <div class="modal-footer">
+                    @if (b.Trang_Thai == 1) // Chỉ hiện khi đang xử lý theo yêu cầu
+
+                    {
+                        <form asp-action="CancelOrder" asp-controller="Auth" asp-route-id="@b.ID" method="post" style="margin:0">
+                            <button type="submit"
+                                    class="btn btn-danger  px-3"
+                                    onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?')">
+                                Hủy đơn hàng
+                            </button>
+                        </form>
+                    }
+
+
                 </div>
             </div>
 
@@ -489,6 +509,20 @@
                     }
                 });
             });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var success = '@TempData["Success"]';
+            var error = '@TempData["Error"]';
+
+            if (success) {
+                toastr.success(success);
+            }
+            if (error) {
+                toastr.error(error);
+            }
         });
     </script>
 }

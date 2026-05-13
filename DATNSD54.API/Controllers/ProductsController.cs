@@ -108,6 +108,7 @@ namespace DATNSD54.API.Controllers
                         Product_ID = pd.Product_ID,
                         Size = pd.SizeNavigation?.Ma ?? 0,
                         Color = pd.ColorNavigation?.Ma ?? "#FFFFFF",
+                        Image = pd.Image,
                         Don_Gia = pd.Don_Gia,
                         SL = pd.SL,
                         Sale = pd.Sale,

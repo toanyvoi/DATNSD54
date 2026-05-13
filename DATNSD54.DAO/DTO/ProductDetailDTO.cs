@@ -13,7 +13,7 @@ namespace DATNSD54.DAO.DTO
       
         public int Size { get; set; }
         
-
+        public string? Image { get; set; }
 
         public string Color { get; set; }
 

@@ -30,9 +30,7 @@ namespace DATNSD54.View.Controllers
         {
             
             var searchProduct = await _homeService.SearchProducts(textSearch);
-            if (searchProduct == null) { searchProduct = new SearchProductDTO(); };
-
-            
+                        
             return View(searchProduct);
         }
 

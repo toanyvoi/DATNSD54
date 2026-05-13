@@ -13,5 +13,7 @@ namespace DATNSD54.View.IService
 
         Task<AccManagerDTO> GetAccManager();
         Task<bool> UpdateProfile(string? name, string? email, string? sdt, string? avatar);
+
+        Task<bool> CancelBillAsync(int billId);
     }
 }

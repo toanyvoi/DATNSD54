@@ -108,6 +108,7 @@ namespace DATNSD54.DAO.Data
                     Id = 1,
                     Product_ID = 1,
                     Size = 1, // Cỡ 37
+                    Image = "~/img/product/nikeairforce11.jpg",
                     Color = 1, // Màu Đen
                     Don_Gia = 500000,
                     SL = 100,
@@ -120,6 +121,7 @@ namespace DATNSD54.DAO.Data
                     Id = 2,
                     Product_ID = 1,
                     Size = 2, // Cỡ 38
+                    Image = "~/img/product/nikeairzoom1.jpg",
                     Color = 2, // Màu Trắng
                     Don_Gia = 550000,
                     SL = 50,

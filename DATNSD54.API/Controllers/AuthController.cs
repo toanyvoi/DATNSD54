@@ -412,5 +412,62 @@ namespace DATNSD54.API.Controllers
 
             return Ok("Đổi mật khẩu thành công");
         }
+        [HttpPut("cancel-bill/{id}")]
+        [Authorize]
+        public async Task<IActionResult> CancelBill(int id)
+        {
+            try
+            {
+                // 1. Lấy ID người dùng từ Token để đảm bảo tính bảo mật
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (userIdClaim == null)
+                    return Unauthorized("Phiên làm việc hết hạn.");
+
+                int customerId = int.Parse(userIdClaim);
+
+                // 2. Tìm đơn hàng (Phải đúng của Customer đó và đang ở trạng thái 1)
+                var bill = await _context.Bill.Include(b => b.BillItems).ThenInclude( i => i.ProductDetail)
+                    .FirstOrDefaultAsync(b => b.ID == id && b.Customer_ID == customerId);
+                // 1. Lấy ra danh sách ID cần thiết từ đơn hàng
+                var productDetailIds = bill.BillItems.Select(p => p.Product_Detail_ID).ToList();
+
+                // 2. Chỉ tải lên RAM những sản phẩm nằm trong danh sách ID đó
+                var productList = await _context.ProductDetail
+                    .Where(p => productDetailIds.Contains(p.Id))
+                    .ToListAsync();
+                foreach (var p in bill.BillItems )
+                {
+                    var product = productList.FirstOrDefault(i => i.Id == p.Product_Detail_ID);
+                    if (product != null)
+                    {
+                        product.SL += p.So_Luong;
+                        _context.Entry(product).State = EntityState.Modified;
+                    }
+                }
+
+                if (bill == null)
+                    return NotFound("Không tìm thấy đơn hàng.");
+
+                // 3. Kiểm tra logic: Chỉ cho phép hủy khi Trang_Thai == 1 (Đang xử lý)
+                if (bill.Trang_Thai != 1)
+                {
+                    return BadRequest("Đơn hàng đã được giao hoặc không ở trạng thái có thể hủy.");
+                }
+
+
+
+                // 4. Cập nhật trạng thái sang 5 (Đã hủy)
+                bill.Trang_Thai = 5;
+
+                _context.Entry(bill).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return Ok("Hủy đơn hàng thành công.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Lỗi server: " + ex.Message);
+            }
+        }
     }
 }

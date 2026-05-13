@@ -312,6 +312,25 @@ namespace DATNSD54.View.Controllers
 
             return RedirectToAction("accountManagement");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            // Gọi Service xử lý
+            var result = await _authService.CancelBillAsync(id);
+
+            if (result)
+            {
+                TempData["Success"] = "Hủy đơn hàng thành công!";
+            }
+            else
+            {
+                TempData["Error"] = "Không thể hủy đơn hàng (Đơn đã giao hoặc đang giao).";
+            }
+
+            // Quay lại trang quản lý tài khoản
+            return RedirectToAction("accountManagement");
+        }
     }
 
     

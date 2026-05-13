@@ -123,5 +123,18 @@ namespace DATNSD54.View.IService.Service
 
             return response.IsSuccessStatusCode;
         }
+        public async Task<bool> CancelBillAsync(int billId)
+        {
+            try
+            {
+                // Gửi yêu cầu PUT sang API để cập nhật trạng thái đơn hàng
+                var response = await _httpClient.PutAsync($"api/Auth/cancel-bill/{billId}", null);
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

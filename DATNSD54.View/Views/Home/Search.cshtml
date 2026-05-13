@@ -57,44 +57,15 @@
 
                             @foreach(var i in Model.brands)
                             {
-                                <h5> @i.Ten</h5>
-                            }
-                            <li class="product__filter-item">
+                                 <li class="product__filter-item">
                                 <label class="form-check-label" for="th1">
                                     <input type="checkbox" class="form-check-input checkthuonghieu checkthuonghieu" id="th1" name="option2"
-                                           value="something"><span>Adidas</span>
+                                           value="something"><span>@i.Ten</span>
                                 </label>
                             </li>
-                            <li class="product__filter-item">
-                                <label class="form-check-label" for="th2">
-                                    <input type="checkbox" class="form-check-input checkthuonghieu" id="th2" name="option2"
-                                           value="something"><span>Nike</span>
-                                </label>
-                            </li>
-                            <li class="product__filter-item">
-                                <label class="form-check-label" for="th3">
-                                    <input type="checkbox" class="form-check-input checkthuonghieu" id="th3" name="option2"
-                                           value="something"><span>Puma</span>
-                                </label>
-                            </li>
-                            <li class="product__filter-item">
-                                <label class="form-check-label" for="th4">
-                                    <input type="checkbox" class="form-check-input checkthuonghieu" id="th4" name="option2"
-                                           value="something"><span>DESPORTE</span>
-                                </label>
-                            </li>
-                            <li class="product__filter-item">
-                                <label class="form-check-label" for="th5">
-                                    <input type="checkbox" class="form-check-input checkthuonghieu" id="th5" name="option2"
-                                           value="something"><span>X-MUNICH</span>
-                                </label>
-                            </li>
-                            <li class="product__filter-item">
-                                <label class="form-check-label" for="th6">
-                                    <input type="checkbox" class="form-check-input checkthuonghieu" id="th6" name="option2"
-                                           value="something"><span>GRAND SPORT</span>
-                                </label>
-                            </li>
+                            }
+                           
+                            
                         </ul>
                     </div>
                     <div class="product__filter-size">

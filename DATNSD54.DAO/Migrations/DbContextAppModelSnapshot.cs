@@ -242,7 +242,7 @@ namespace DATNSD54.DAO.Migrations
                         {
                             ID = 1,
                             Customer_ID = 1,
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(3121),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(8007),
                             Trang_Thai = 1
                         });
                 });
@@ -308,14 +308,14 @@ namespace DATNSD54.DAO.Migrations
                         {
                             Id = 1,
                             Ma = "#000000",
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(2926),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7843),
                             Ten = "Đen"
                         },
                         new
                         {
                             Id = 2,
                             Ma = "#FFFFFF",
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(2928),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7845),
                             Ten = "Trắng"
                         });
                 });
@@ -373,7 +373,7 @@ namespace DATNSD54.DAO.Migrations
                             Gioi_Tinh = true,
                             Mat_Khau = "$2a$11$KiUJ/sCWTSqMSRKPkddVOOm96dqF54Dk50YiIYghacO7P9BZlQkDC",
                             Ngay_Sinh = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(3062),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7956),
                             SDT = "0912345678",
                             Ten = "Nguyễn Văn Admin",
                             Trang_Thai = true
@@ -412,7 +412,7 @@ namespace DATNSD54.DAO.Migrations
                         {
                             ID = 1,
                             IMG = "~/img/product/ambush1.jpg",
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(3181),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(8058),
                             Product_ID = 1,
                             Trang_Thai = true
                         },
@@ -420,7 +420,7 @@ namespace DATNSD54.DAO.Migrations
                         {
                             ID = 2,
                             IMG = "~/img/product/addidas1.jpg",
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(3183),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(8061),
                             Product_ID = 1,
                             Trang_Thai = true
                         });
@@ -495,6 +495,9 @@ namespace DATNSD54.DAO.Migrations
                     b.Property<decimal>("Don_Gia")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Ngay_Tao")
                         .HasColumnType("datetime2");
 
@@ -529,7 +532,7 @@ namespace DATNSD54.DAO.Migrations
                             Id = 1,
                             Color = 1,
                             Don_Gia = 500000m,
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(3031),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7925),
                             Product_ID = 1,
                             SL = 100,
                             Sale = 0,
@@ -541,7 +544,7 @@ namespace DATNSD54.DAO.Migrations
                             Id = 2,
                             Color = 2,
                             Don_Gia = 550000m,
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(3036),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7929),
                             Product_ID = 1,
                             SL = 50,
                             Sale = 5,
@@ -583,7 +586,7 @@ namespace DATNSD54.DAO.Migrations
                         {
                             Id = 1,
                             Ma = "SNK",
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(2891),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7720),
                             Ten = "Giày Sneaker",
                             Trang_Thai = true
                         });
@@ -641,21 +644,21 @@ namespace DATNSD54.DAO.Migrations
                         {
                             Id = 1,
                             Ma = 37,
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(2958),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7869),
                             Ten = "37"
                         },
                         new
                         {
                             Id = 2,
                             Ma = 38,
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(2960),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7871),
                             Ten = "38"
                         },
                         new
                         {
                             Id = 3,
                             Ma = 39,
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(2962),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7872),
                             Ten = "39"
                         });
                 });
@@ -703,7 +706,7 @@ namespace DATNSD54.DAO.Migrations
                             Id = 1,
                             Dia_Chi = "Hà Nội",
                             Email = "khohn@gmail.com",
-                            Ngay_Tao = new DateTime(2026, 5, 5, 22, 28, 4, 115, DateTimeKind.Local).AddTicks(2605),
+                            Ngay_Tao = new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7281),
                             SDT = "0987654321",
                             Ten = "Tổng kho Unisex HN",
                             Trang_Thai = true
