@@ -111,7 +111,7 @@ namespace DATNSD54.View.Controllers
                 else // Là Admin hoặc Staff (User)
                 {
                    
-                    return RedirectToAction("Privacy", "Home");
+                    return RedirectToAction("Index", "Admin");
                 }
             }
             return View(new LoginViewModels()); // Trả về Views/Auth/LoginCustomer.cshtml
@@ -168,7 +168,7 @@ namespace DATNSD54.View.Controllers
                 else // Là Admin hoặc Staff (User)
                 {
 
-                    return RedirectToAction("Privacy", "Home");
+                    return RedirectToAction("Index", "Admin");
                 }
             }
             return View(new LoginViewModels()); 

@@ -78,7 +78,7 @@
                 <div class="detial__my-profile undisplay">
                     <div class="heading-edit-account">
                         <h2>Hồ sơ của tôi</h2>
-                        <form asp-action="UpdateProfile" asp-controller="Auth" method="post" enctype="multipart/form-data">
+                        <form asp-action="UpdateProfile" asp-controller="Auth" method="post" enctype="multipart/form-data" novalidate>
 
                             <div class="form-group">
                                 <label class="form-label">Tên đầy đủ</label>
@@ -443,7 +443,7 @@
     <script>
         $(document).ready(function () {
             // Thay #btnChangePassword bằng class .form-submit vì HTML của ní dùng class này
-            $('.form-submit').click(function (e) {
+            $('#btnUpdatePassword').click(function (e) {
                 e.preventDefault();
 
                 // 1. Lấy đúng ID từ HTML của ní

@@ -7,7 +7,7 @@
 
         public string? SDT { get; set; }
 
-        public string? DiaChi { get; set; }
+        
         public string? AnhDaiDien { get; set; }
     }
 }

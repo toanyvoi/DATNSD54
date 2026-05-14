@@ -306,7 +306,7 @@ namespace DATNSD54.API.Controllers
         }
 
         [HttpPut("update-profile")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateCustomerRequest request)
         {
             try
