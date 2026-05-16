@@ -70,83 +70,102 @@ namespace DATNSD54.View.Controllers
 
         // POST: Images/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Product_ID,IMG,Ngay_Tao,Trang_Thai")] Image image)
+        
+        public async Task<IActionResult> Create(
+            int productId,
+            IFormFile fileImage)
         {
-            // 1. Gửi yêu cầu POST kèm dữ liệu dạng JSON sang API
-            var response = await _httpClient.PostAsJsonAsync("api/Images", image);
+            if (fileImage == null)
+            {
+                TempData["Error"] =
+                    "Vui lòng chọn ảnh";
+
+                return View();
+            }
+
+            // tạo tên file
+            string fileName = Guid.NewGuid().ToString()
+                + Path.GetExtension(fileImage.FileName);
+
+            // đường dẫn folder
+            string folder = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot/img/product"
+            );
+
+            // nếu chưa có thư mục thì tạo
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            // đường dẫn file
+            string filePath = Path.Combine(
+                folder,
+                fileName
+            );
+
+            // lưu file
+            using (var stream = new FileStream(
+                filePath,
+                FileMode.Create))
+            {
+                await fileImage.CopyToAsync(stream);
+            }
+
+            // tạo object image
+            Image image = new Image()
+            {
+                Product_ID = productId,
+                IMG = "/img/product/" + fileName,
+                Ngay_Tao = DateTime.Now,
+                Trang_Thai = true
+            };
+
+            // gọi api
+            var response = await _httpClient
+                .PostAsJsonAsync("api/Images", image);
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(
+    "Details",           // 1. Tên Action muốn quay lại (Details)
+    "Products",          // 2. Tên Controller (Products) - Có thể bỏ qua nếu đang ở cùng Controller Products
+    new { id = productId } // 3. Tên tham số phải khớp với cấu trúc route (thường là id chứ không phải productId)
+);
             }
 
-            // Nếu lỗi, hiện thông báo và load lại dropdown
-            ModelState.AddModelError("", "Không thể thêm mới. Vui lòng kiểm tra lại dữ liệu.");
-            await LoadProductDropdown(image.Product_ID);
-            return View(image);
+            TempData["Error"] = response.StatusCode == System.Net.HttpStatusCode.BadRequest
+                ? "Mỗi sản phẩm chỉ được có tối đa 6 ảnh"
+                : "Thêm ảnh thất bại";
+
+
+            return RedirectToAction(
+    "Details",           // 1. Tên Action muốn quay lại (Details)
+    "Products",          // 2. Tên Controller (Products) - Có thể bỏ qua nếu đang ở cùng Controller Products
+    new { id = productId } // 3. Tên tham số phải khớp với cấu trúc route (thường là id chứ không phải productId)
+);
         }
 
-        // GET: Images/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null) return NotFound();
+        
 
-            var response = await _httpClient.GetAsync($"api/Images/{id}");
-            if (!response.IsSuccessStatusCode) return NotFound();
-
-            var image = await response.Content.ReadFromJsonAsync<Image>();
-            await LoadProductDropdown(image.Product_ID);
-            return View(image);
-        }
-
-        // POST: Images/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Product_ID,IMG,Ngay_Tao,Trang_Thai")] Image image)
-        {
-            if (id != image.ID) return NotFound();
-
-            // Gửi yêu cầu PUT sang API
-            var response = await _httpClient.PutAsJsonAsync($"api/Images/{id}", image);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            ModelState.AddModelError("", "Cập nhật thất bại.");
-            await LoadProductDropdown(image.Product_ID);
-            return View(image);
-        }
-
-        // GET: Images/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null) return NotFound();
-
-            var response = await _httpClient.GetAsync($"api/Images/{id}");
-            if (!response.IsSuccessStatusCode) return NotFound();
-
-            var image = await response.Content.ReadFromJsonAsync<Image>();
-            return View(image);
-        }
+        
 
         // POST: Images/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+       
+        public async Task<IActionResult> DeleteConfirmed(String Url, int productId)
         {
             // Gửi yêu cầu DELETE sang API
-            var response = await _httpClient.DeleteAsync($"api/Images/{id}");
+            var response = await _httpClient.DeleteAsync($"api/Images?imgUrl={Uri.EscapeDataString(Url)}");
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Products", new { id = productId });
             }
 
             TempData["Error"] = "Xóa không thành công.";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details","Products",new { id = productId });
         }
     }
 }

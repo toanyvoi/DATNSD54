@@ -201,13 +201,13 @@ namespace DATNSD54.View.Controllers
 
                 // 3. PHÁT COOKIE (Quan trọng nhất!)
                 await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity));
-
+                
                 // 4. Lưu Session
                 HttpContext.Session.SetString("JwtToken", result.Token);
                 HttpContext.Session.SetInt32("userId", result.UserInfo.ID);
                 HttpContext.Session.SetString("UserRole", userInfo.RoleName);
                 HttpContext.Session.SetString("UserName", result.UserInfo.Ten);
-                HttpContext.Session.SetString("ImageUrl", result.CustomerInfo.Image);
+                HttpContext.Session.SetString("ImageUrl", userInfo.Image.ToString());
 
                 return RedirectToAction("Index", "Admin");
             }
@@ -245,7 +245,7 @@ namespace DATNSD54.View.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            TempData["SuccessMessage"] = "Đã đăng xuất!";
+            TempData["Success"] = "Đã đăng xuất!";
             return RedirectToAction("Login");
         }
 
@@ -300,18 +300,18 @@ namespace DATNSD54.View.Controllers
                     string oldPath = Path.Combine(
                         Directory.GetCurrentDirectory(),
                         "wwwroot",
-                        oldImage.TrimStart('/')
+                        oldImage.TrimStart('~','/')
                     );
 
                     if (System.IO.File.Exists(oldPath))
                         System.IO.File.Delete(oldPath);
                 }
 
-                TempData["SuccessMessage"] = "Cập nhật thành công!";
+                TempData["Success"] = "Cập nhật thành công!";
             }
             else
             {
-                TempData["ErrorMessage"] = "Cập nhật thất bại!";
+                TempData["Error"] = "Cập nhật thất bại!";
             }
 
             return RedirectToAction("accountManagement");

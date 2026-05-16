@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/css/reponsive1.css">
     <link rel="stylesheet" href="~/css/product.css" />
-    <link rel="icon" href="~/img/logo/main.png" type="image/x-icon" />
+    <link rel="icon" href="~/img/logo/logoFourStars.png" type="image/x-icon" />
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -186,6 +186,21 @@
                         icon: "error",
                         timer: 5000, // Đúng 5 giây tự tắt như ní muốn nè
                         timerProgressBar: true // Hiện thanh đếm ngược cho xịn
+                        });
+            </text>
+        }
+
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                        Swal.fire({
+                            icon: 'success',
+                        title: 'Thành công!',
+                        text: '@Html.Raw(TempData["Success"])',
+                        position: 'center',
+                        timer: 5000,
+                        timerProgressBar: true,
+                        showConfirmButton: false // Thành công thì không cần nút, cho tự tắt luôn
                         });
             </text>
         }

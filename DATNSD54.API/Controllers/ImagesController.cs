@@ -22,10 +22,11 @@ namespace DATNSD54.API.Controllers
         }
 
         // GET: api/Images
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Image>>> GetImage()
+        //lấy hình ảnh theo sản phẩm
+        [HttpGet("Product/{idProduct}")]
+        public async Task<ActionResult<IEnumerable<Image>>> GetImages(int idProduct)
         {
-            return await _context.Image.ToListAsync();
+            return await _context.Image.Where(i => i.Product_ID == idProduct).ToListAsync();
         }
 
         // GET: api/Images/5
@@ -78,24 +79,60 @@ namespace DATNSD54.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Image>> PostImage(Image image)
         {
-            _context.Image.Add(image);
-            await _context.SaveChangesAsync();
+            try
+            {
 
-            return CreatedAtAction("GetImage", new { id = image.ID }, image);
+
+                if (image == null)
+                {
+                    return BadRequest("ảnh không tồn tại");
+                }
+                int count = _context.Image.Where(i => i.Product_ID == image.Product_ID).Count();
+                if (count >= 6)
+                {
+                    return BadRequest("mỗi sản phẩm chỉ được có tối đa 6 ảnh");
+                }
+                _context.Image.Add(image);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetImage", new { id = image.ID }, image);
+
+            }
+            catch
+            {
+                string ImgEror = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        image.IMG.TrimStart('~', '/')
+                    );
+
+                if (System.IO.File.Exists(ImgEror))
+                    System.IO.File.Delete(ImgEror);
+                return BadRequest();
+            }
         }
 
         // DELETE: api/Images/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteImage(int id)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteImage([FromQuery] string imgUrl)
         {
-            var image = await _context.Image.FindAsync(id);
+            var image = await _context.Image.FirstOrDefaultAsync(i => i.IMG == imgUrl);
             if (image == null)
             {
                 return NotFound();
             }
-
+            
             _context.Image.Remove(image);
             await _context.SaveChangesAsync();
+
+            string ImgEror = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        image.IMG.TrimStart('~', '/')
+                    );
+
+            if (System.IO.File.Exists(ImgEror))
+                System.IO.File.Delete(ImgEror);
 
             return NoContent();
         }

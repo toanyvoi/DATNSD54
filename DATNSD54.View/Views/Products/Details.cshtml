@@ -25,8 +25,49 @@
             list-style: none;
         }
 
-        .small-img:hover {
-            border: 2px solid #dc3545; /* Hiệu ứng hover viền đỏ giống Bootstrap text-danger */
+        
+
+        .img-wrapper {
+            position: relative;
+            display: inline-block;
+            overflow: hidden; /* Cắt góc thừa nếu ảnh có bo tròn */
+           
+        }
+        /* 2. Lớp phủ chữ Xóa: Mặc định sẽ ẩn đi (opacity = 0) và phủ kín cái ảnh */
+        .delete-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(219, 68, 85, 0.8); /* Màu đỏ mờ (chuẩn màu xóa lỗi) */
+            color: white !important; /* Chữ màu trắng */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            opacity: 0; /* ẩn di khi chưa kích hoạt lúc bình thường */
+            transition: opacity 0.3s ease; /* Tạo hiệu ứng mượt mà khi hiện lên */
+            cursor: pointer;
+        }
+
+            /* Thêm hiệu ứng icon rác to nhẹ một chút cho đẹp */
+            .delete-overlay i {
+                font-size: 18px;
+                margin-bottom: 2px;
+            }
+
+        /* Khi người dùng HOVER vào img-wrapper thì hiện chữ Xóa lên */
+        .img-wrapper:hover .delete-overlay {
+            opacity: 1; /* Hiện hình lên */
+        }
+
+        /* ảnh zoom nhẹ khi hover */
+        .img-wrapper:hover .small-img {
+            transform: scale(1.05);
         }
     </style>
 }
@@ -42,12 +83,27 @@
                             @foreach (var imgObj in Model.ListIMG)
                             {
                                 <li class="img-item">
+                                    <div class="img-wrapper">
+                                        <img src="@Url.Content(imgObj)"
+                                             class="small-img"
+                                             alt="anh @dem"
+                                             onclick="changeImg(@dem)"
+                                             id="thumb-@dem">
 
-                                    <img src="@Url.Content(imgObj)"
-                                         class="small-img"
-                                         alt="anh @dem"
-                                         onclick="changeImg(@dem)"
-                                         id="thumb-@dem">
+                                        <a href="javascript:void(0);"
+                                           class="delete-overlay"
+                                           onclick="if(confirm('Bạn có chắc muốn xóa ảnh này không?')) { document.getElementById('form-delete-@dem').submit(); }">
+                                            <i class="fas fa-trash-alt"></i> Xóa
+                                        </a>
+                                    </div>
+                                    <form id="form-delete-@dem"
+                                          asp-action="Delete"
+                                          asp-controller="Images"
+                                          method="post"
+                                          style="display:none;">
+                                        <input type="hidden" name="Url" value="@imgObj" />
+                                        <input type="hidden" name="productId" value="@Model.Id" />
+                                    </form>
                                 </li>
                                 dem++;
                             }
@@ -61,6 +117,11 @@
                         }
 
                     </ul>
+                    <div class="col-2">
+                        <button class="btn btn-primary text-nowrap" data-bs-toggle="modal" data-bs-target="#Modal-Images">
+                            <i class="fas fa-plus me-1"></i> Thêm ảnh
+                        </button>
+                    </div>
                 </div>
                 <div id="" style="cursor: pointer; ">
                     @if (Model.ListIMG != null && Model.ListIMG.Any())
@@ -129,6 +190,71 @@
     </div>
 </div>
 
+<div class="modal fade" id="Modal-Images" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title fw-bold">Thêm hình ảnh</h5>
+                    <small class="text-muted">Upload ảnh cho sản phẩm</small>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form asp-action="Create"
+                  asp-controller="Images"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div class="modal-body">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold">Chọn ảnh từ máy tính</label>
+                        <input type="file" name="fileImage" id="fileImage" class="form-control" onchange="previewImage(this)" />
+                    </div>
+
+                    <div class="image-preview-container border rounded d-flex flex-column align-items-center justify-content-center p-4 bg-light" style="min-height: 200px;">
+                        <img id="imgPreview" class="img-fluid rounded d-none" style="max-height: 180px;" />
+
+                        <div id="preview-placeholder" class="text-center text-muted">
+                            <i class="fas fa-image fa-3x mb-2"></i>
+                            <p class="mb-0 text-sm">Chưa có ảnh nào được chọn</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-plus-circle me-1"></i> Thêm ảnh ngay
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
 @section Scripts {
-    
+    <script>
+        function previewImage(input) {
+            var preview = document.getElementById('imgPreview');
+            var placeholder = document.getElementById('preview-placeholder');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('d-none'); // Hiện ảnh
+                    placeholder.classList.add('d-none'); // Ẩn chữ placeholder
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = "";
+                preview.classList.add('d-none');
+                placeholder.classList.remove('d-none');
+            }
+        }
+    </script>
 }
