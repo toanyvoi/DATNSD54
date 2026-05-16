@@ -471,5 +471,110 @@ namespace DATNSD54.API.Controllers
                 return StatusCode(500, "Lỗi server: " + ex.Message);
             }
         }
+
+        [HttpPost("forgot-password")]
+        public IActionResult ForgotPassword(string email)
+        {
+            // 1. Tìm tài khoản theo Email
+            var user = _context.Customer.FirstOrDefault(x => x.Email == email);
+            if (user == null) return NotFound("Email không tồn tại");
+
+            // 2. Tạo ra một mã Token ngẫu nhiên không đụng hàng
+            string token = Guid.NewGuid().ToString();
+            user.ResetToken = token;
+            _context.SaveChanges(); // Lưu token vào DB
+
+            // 3. Tạo link đổi mật khẩu (Trỏ về trang Web)
+            
+            string resetLink = $"https://localhost:7227/Auth/ResetPassword?token={token}";
+
+            // 4. Gửi Email bằng SmtpClient có sẵn của C#
+            try
+            {
+                using (var smtp = new System.Net.Mail.SmtpClient("smtp.gmail.com"))
+                {
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
+                    smtp.Credentials = new System.Net.NetworkCredential("toanyvio@gmail.com", "hnla ftyr kfho lstc");
+
+                    var mailMessage = new System.Net.Mail.MailMessage();
+                    mailMessage.From = new System.Net.Mail.MailAddress("toanyvio@gmail.com", "FourStar Shop"); // Thêm tên hiển thị đại diện
+                    mailMessage.To.Add(email);
+                    mailMessage.Subject = "FourStar Shop - Yêu cầu đặt lại mật khẩu";
+
+                    // BẬT tính năng gửi mail dạng HTML (Chỗ này cực kỳ quan trọng nè ní!)
+                    mailMessage.IsBodyHtml = true;
+
+                    // Thiết kế giao diện bức thư bằng HTML + Inline CSS cho đồng bộ với trang Đăng nhập
+                    mailMessage.Body = $@"
+            <div style='font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 40px 20px; text-align: center;'>
+                <div style='max-width: 500px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 40px; text-align: left;'>
+                    
+                    <div style='text-align: center; margin-bottom: 25px;'>
+                        <div style='width: 70px; height: 70px; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; line-height: 70px; color: white; font-size: 30px; font-weight: bold;'>
+                            ★
+                        </div>
+                        <h2 style='color: #2c3e50; margin: 0; font-size: 22px;'>Khôi Phục Mật Khẩu</h2>
+                        <p style='color: #7f8c8d; font-size: 14px; margin-top: 5px;'>Chào mừng bạn trở lại với FourStar Shop</p>
+                    </div>
+
+                    <hr style='border: none; border-top: 1px solid #e8ecef; margin: 20px 0;'>
+
+                    <p style='color: #34495e; font-size: 15px; line-height: 1.6;'>
+                        Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Vui lòng bấm vào nút bên dưới để tiến hành thiết lập mật khẩu mới:
+                    </p>
+
+                    <div style='text-align: center; margin: 30px 0;'>
+                        <a href='{resetLink}' style='display: inline-block; padding: 14px 30px; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: white; text-decoration: none; font-weight: bold; border-radius: 10px; box-shadow: 0 5px 15px rgba(44, 62, 80, 0.2); font-size: 15px;'>
+                            Đặt lại mật khẩu mới
+                        </a>
+                    </div>
+
+                    <p style='color: #e74c3c; font-size: 13px; background: #fdf2f2; padding: 10px; border-radius: 8px; margin-top: 25px;'>
+                        ⚠️ <b>Lưu ý:</b> Đường link này chỉ có hiệu lực một lần duy nhất. Nếu bạn không đưa ra yêu cầu này, vui lòng bỏ qua email này để bảo mật tài khoản.
+                    </p>
+
+                    <hr style='border: none; border-top: 1px solid #e8ecef; margin: 25px 0;'>
+
+                    <div style='text-align: center; color: #7f8c8d; font-size: 12px;'>
+                        <p style='margin: 0;'>Trân trọng,</p>
+                        <p style='margin: 5px 0 0 0; font-weight: bold; color: #2c3e50;'>Đội ngũ hỗ trợ FourStar Shop</p>
+                    </div>
+
+                </div>
+            </div>";
+
+                    smtp.Send(mailMessage);
+                }
+                return Ok("Đã gửi link khôi phục qua Email!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Lỗi gửi mail: " + ex.Message);
+            }
+        }
+
+        [HttpPost("reset-password")]
+        public IActionResult ResetPassword(string token, string newPassword)
+        {
+            // 1. Tìm cái ông nào đang giữ cái token này
+            var user = _context.Customer.FirstOrDefault(x => x.ResetToken == token);
+
+            if (user == null)
+                return BadRequest("Đường link không hợp lệ hoặc đã được sử dụng!");
+
+            // 2. Băm mật khẩu mới ra bằng BCrypt (giống cách ní vẫn hay làm)
+            user.Mat_Khau = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+            // 3. XÓA luôn cái Token đi để link cũ không xài lại được nữa (Cực kỳ quan trọng)
+            user.ResetToken = null;
+
+            // 4. Lưu vào Database
+            _context.SaveChanges();
+
+            return Ok("Đổi mật khẩu thành công!");
+        }
+
+
     }
 }

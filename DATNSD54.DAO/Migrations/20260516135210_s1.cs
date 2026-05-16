@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DATNSD54.DAO.Migrations
 {
     /// <inheritdoc />
-    public partial class _5132026 : Migration
+    public partial class s1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,8 @@ namespace DATNSD54.DAO.Migrations
                     Ngay_Sinh = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Mat_Khau = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Ngay_Tao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Trang_Thai = table.Column<bool>(type: "bit", nullable: false)
+                    Trang_Thai = table.Column<bool>(type: "bit", nullable: false),
+                    ResetToken = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -465,34 +466,34 @@ namespace DATNSD54.DAO.Migrations
                 columns: new[] { "Id", "Ma", "Ngay_Tao", "Ten" },
                 values: new object[,]
                 {
-                    { 1, "#000000", new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7843), "Đen" },
-                    { 2, "#FFFFFF", new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7845), "Trắng" }
+                    { 1, "#000000", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2412), "Đen" },
+                    { 2, "#FFFFFF", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2415), "Trắng" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Customer",
-                columns: new[] { "Id", "AnhDaiDien", "Email", "Gioi_Tinh", "Mat_Khau", "Ngay_Sinh", "Ngay_Tao", "SDT", "Ten", "Trang_Thai" },
-                values: new object[] { 1, null, "admin@fourstars.com", true, "$2a$11$KiUJ/sCWTSqMSRKPkddVOOm96dqF54Dk50YiIYghacO7P9BZlQkDC", new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7956), "0912345678", "Nguyễn Văn Admin", true });
+                columns: new[] { "Id", "AnhDaiDien", "Email", "Gioi_Tinh", "Mat_Khau", "Ngay_Sinh", "Ngay_Tao", "ResetToken", "SDT", "Ten", "Trang_Thai" },
+                values: new object[] { 1, null, "admin@fourstars.com", true, "$2a$11$KiUJ/sCWTSqMSRKPkddVOOm96dqF54Dk50YiIYghacO7P9BZlQkDC", new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2561), null, "0912345678", "Nguyễn Văn Admin", true });
 
             migrationBuilder.InsertData(
                 table: "ProductType",
                 columns: new[] { "Id", "Ma", "Ngay_Tao", "Ten", "Trang_Thai" },
-                values: new object[] { 1, "SNK", new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7720), "Giày Sneaker", true });
+                values: new object[] { 1, "SNK", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2363), "Giày Sneaker", true });
 
             migrationBuilder.InsertData(
                 table: "Size",
                 columns: new[] { "Id", "Ma", "Ngay_Tao", "Ten" },
                 values: new object[,]
                 {
-                    { 1, 37, new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7869), "37" },
-                    { 2, 38, new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7871), "38" },
-                    { 3, 39, new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7872), "39" }
+                    { 1, 37, new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2452), "37" },
+                    { 2, 38, new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2455), "38" },
+                    { 3, 39, new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2457), "39" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Supplier",
                 columns: new[] { "Id", "Dia_Chi", "Email", "Ngay_Tao", "SDT", "Ten", "Trang_Thai" },
-                values: new object[] { 1, "Hà Nội", "khohn@gmail.com", new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7281), "0987654321", "Tổng kho Unisex HN", true });
+                values: new object[] { 1, "Hà Nội", "khohn@gmail.com", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(1494), "0987654321", "Tổng kho Unisex HN", true });
 
             migrationBuilder.InsertData(
                 table: "User",
@@ -520,7 +521,7 @@ namespace DATNSD54.DAO.Migrations
             migrationBuilder.InsertData(
                 table: "Carts",
                 columns: new[] { "ID", "CustomerId", "Customer_ID", "Ngay_Tao", "Trang_Thai" },
-                values: new object[] { 1, null, 1, new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(8007), 1 });
+                values: new object[] { 1, null, 1, new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2786), 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
@@ -532,8 +533,8 @@ namespace DATNSD54.DAO.Migrations
                 columns: new[] { "ID", "IMG", "Ngay_Tao", "Product_ID", "Trang_Thai" },
                 values: new object[,]
                 {
-                    { 1, "~/img/product/ambush1.jpg", new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(8058), 1, true },
-                    { 2, "~/img/product/addidas1.jpg", new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(8061), 1, true }
+                    { 1, "~/img/product/giayxah2.jpg", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2841), 1, true },
+                    { 2, "~/img/product/addidas1.jpg", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2843), 1, true }
                 });
 
             migrationBuilder.InsertData(
@@ -541,8 +542,8 @@ namespace DATNSD54.DAO.Migrations
                 columns: new[] { "Id", "Color", "Don_Gia", "Image", "Ngay_Tao", "Product_ID", "SL", "Sale", "Size", "Trang_Thai" },
                 values: new object[,]
                 {
-                    { 1, 1, 500000m, null, new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7925), 1, 100, 0, 1, true },
-                    { 2, 2, 550000m, null, new DateTime(2026, 5, 13, 22, 1, 56, 575, DateTimeKind.Local).AddTicks(7929), 1, 50, 5, 2, true }
+                    { 1, 1, 500000m, "~/img/product/nikeairforce11.jpg", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2533), 1, 100, 0, 1, true },
+                    { 2, 2, 550000m, "~/img/product/nikeairzoom1.jpg", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2536), 1, 50, 5, 2, true }
                 });
 
             migrationBuilder.CreateIndex(

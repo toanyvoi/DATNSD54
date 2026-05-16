@@ -150,7 +150,7 @@ namespace DATNSD54.View.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            TempData["ErrorMessage"] = result.Message;
+            TempData["Error"] = result.Message;
             return View("LoginCustomer", model);
         }
 
@@ -212,7 +212,7 @@ namespace DATNSD54.View.Controllers
                 return RedirectToAction("Index", "Admin");
             }
 
-            TempData["ErrorMessage"] = result.Message;
+            TempData["Error"] = result.Message;
             return View("LoginUser", model);
         }
 
@@ -335,6 +335,53 @@ namespace DATNSD54.View.Controllers
             // Quay lại trang quản lý tài khoản
             return RedirectToAction("accountManagement");
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            var result =  await _authService.ForgotPassword(email);
+            if (result)
+            {
+                TempData["Success"] = "email tồn tại, bạn sẽ sớm nhận được hướng dẫn đặt lại mật khẩu trong hộp thư.";
+                return RedirectToAction("LoginCustomer");
+
+            }
+            TempData["Error"] = "email không tồn tại trong hệ thống!";
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string token)
+        {
+            // Truyền cái token này sang View để tí nữa bấm "Lưu" còn biết đường gửi kèm lên lại
+            ViewBag.Token = token;
+            return View();
+        }
+
+        // POST: /Auth/ResetPassword
+[HttpPost]
+public async Task<IActionResult> ResetPassword(string token, string newPassword)
+{
+    // 1. Gói dữ liệu lại hoặc truyền dạng Query/Form tùy cấu hình API của ní
+    // Ở đây tui ví dụ gọi xuống API cổng 7218 mà ní thấy trong Swagger:
+    var response = await _authService.ResetPassword(token, newPassword);
+
+            if (response)
+    {
+        TempData["Success"] = "Đổi mật khẩu ngon lành rồi ní ơi! Đăng nhập lại đi.";
+        return RedirectToAction("Login");
+    }
+
+    ViewBag.Error = "Mã xác nhận không hợp lệ hoặc đã hết hạn!";
+    ViewBag.Token = token; // Giữ lại token nếu lỗi để họ nhập lại
+    return View();
+}
     }
 
     

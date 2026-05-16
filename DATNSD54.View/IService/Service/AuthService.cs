@@ -1,6 +1,8 @@
 ﻿using DATNSD54.DAO.DTO;
 using DATNSD54.DAO.DTO.Request;
 using DATNSD54.DAO.Models;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using NuGet.Common;
 
 namespace DATNSD54.View.IService.Service
 {
@@ -135,6 +137,35 @@ namespace DATNSD54.View.IService.Service
             {
                 return false;
             }
+        }
+        public async Task<bool> ForgotPassword(string Email)
+        {
+            try
+            {
+                
+                var response = await _httpClient.PostAsync($"api/Auth/forgot-password?email={Email}", null);
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        public async Task<bool> ResetPassword(string token,string newPassword)
+        {
+
+            try
+            {
+                var response = await _httpClient.PostAsync($"api/Auth/reset-password?token={token}&newPassword={newPassword}", null);
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+               return false;
+            }
+            
         }
     }
 }

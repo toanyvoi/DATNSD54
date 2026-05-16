@@ -15,5 +15,7 @@ namespace DATNSD54.View.IService
         Task<bool> UpdateProfile(string? name, string? email, string? sdt, string? avatar);
 
         Task<bool> CancelBillAsync(int billId);
+        Task<bool> ForgotPassword(string Email);
+        Task<bool> ResetPassword(string token, string newPass);
     }
 }

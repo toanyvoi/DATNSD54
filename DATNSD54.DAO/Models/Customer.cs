@@ -31,6 +31,7 @@ ErrorMessage = "Mật khẩu phải bao gồm chữ hoa, chữ thường, số v
         public DateTime Ngay_Tao { get; set; } = DateTime.Now;
         public bool Trang_Thai { get; set; } = true;
 
+        public string? ResetToken { get; set; }
         public ICollection<Cart>? Carts { get; set; }
         public ICollection<Bill>? Bills { get; set; }
         public ICollection<Address>? Address { get; set; }
