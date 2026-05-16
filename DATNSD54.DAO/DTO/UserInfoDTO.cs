@@ -9,5 +9,7 @@
         public string SDT { get; set; }
         public bool Role { get; set; } // true: Admin, false: Nhân viên
         public string RoleName { get; set; }
+        public string Image { get; set; }
+
     }
 }

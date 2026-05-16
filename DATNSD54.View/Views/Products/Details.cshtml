@@ -6,13 +6,36 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/productdetail.css" asp-append-version="true" />
 
+    <style>
+        .thumb-scroll-container {
+            /* 1. Giới hạn chiều cao tương đương khoảng 3 cái ảnh */
+            max-height: 280px;
+            /* 2. Bật tính năng cuộn theo chiều dọc */
+            overflow-y: auto;
+            /* 3. Ẩn thanh cuộn xấu xí của trình duyệt đi cho đẹp (Tùy chọn) */
+            scrollbar-width: none; /* Cho Firefox */
+        }
+
+            .thumb-scroll-container::-webkit-scrollbar {
+                display: none; /* Cho Chrome, Safari, Edge */
+            }
+
+        .img-item {
+            margin-bottom: 10px; /* Khoảng cách giữa các ảnh nhỏ */
+            list-style: none;
+        }
+
+        .small-img:hover {
+            border: 2px solid #dc3545; /* Hiệu ứng hover viền đỏ giống Bootstrap text-danger */
+        }
+    </style>
 }
 <div class="admin-edit-page">
     <div class="edit-card shadow-sm">
         <div class="row g-5">
-            <div class="col-lg-6 col-12 daonguoc">
+            <div class="col-lg-5 col-12 daonguoc">
                 <div class="img-product">
-                    <ul class="all-img">
+                    <ul class="all-img thumb-scroll-container p-0 m-0">
                         @if (Model.ListIMG != null && Model.ListIMG.Any())
                         {
                             @* Nếu có ảnh thì mới chạy vòng lặp *@
@@ -39,16 +62,16 @@
 
                     </ul>
                 </div>
-                <div id="main-img" style="cursor: pointer; ">
+                <div id="" style="cursor: pointer; ">
                     @if (Model.ListIMG != null && Model.ListIMG.Any())
                     {
-                        <img src="@Url.Content(Model.ListIMG[0])" style="width: 250px!important; height: 250px!important; object-fit: cover;" lass="big-img" alt="ảnh chính" id="img-main" xoriginal="./assets/img/product/ult1.jpg">
+                        <img src="@Url.Content(Model.ListIMG[0])" style="width: 320px!important; height: 320px!important; object-fit: cover;" lass="big-img" alt="ảnh chính" id="img-main" xoriginal="./assets/img/product/ult1.jpg" >
                     }
                     else
                     {
                         @* Ảnh dự phòng nếu DB không có ảnh nào *@
                         <img src="~/img/product/no-image.jpg"
-                             style="width: 250px!important; height: 250px!important; object-fit: cover;"
+                             style="width: 320px!important; height: 320px!important; object-fit: cover;"
                              class="big-img"
                              alt="không có ảnh"
                              id="img-main">
@@ -56,18 +79,20 @@
                    
                 </div>
             </div>
-            <div class="col-lg-6 col-12">
+            <div class="col-lg-7 col-12">
                 <div class="d-flex gap-2 mb-2">
-                    <span class="badge bg-primary-soft text-primary">Loại: @Model.type</span>
-                    <span class="badge bg-secondary-soft text-secondary">Brand: @Model.brand</span>
+                    <span class="badge bg-primary-soft text-primary " style="font-size: 13px;">Loại: @Model.type</span>
+                    <span class="badge bg-secondary-soft text-secondary " style="font-size: 13px;">Brand: @Model.brand</span>
                 </div>
 
                 <h2 class="fw-bold text-dark">@Model.Ten</h2>
-                <p class="text-muted mb-2">Mã SP: <b>@Model.Ma</b> | Năm sản xuất: <b>@Model.Nam_SX</b></p>
-
+                <p class="text-muted mb-2 " style="font-size: 13px;">Mã SP: <b>@Model.Ma</b> | Năm sản xuất: <b>@Model.Nam_SX</b></p>
+                <p class="text-muted mb-2 " style="font-size: 13px;">
+                    Tổng Số Lượng: <b>@Model.quantity</b>
+                </p>
                 <div class="p-3 bg-light rounded-4 mt-3 mb-4 d-inline-block pe-5">
-                    <small class="text-muted d-block fw-bold text-uppercase">Giá bán thấp nhất</small>
-                    <span class="fs-3 fw-bold text-danger">@Model.salePriceMin?.ToString("N0") ₫</span>
+                    <span class="text-muted d-block fw-bold text-uppercase" style="font-size: 10px;">Giá bán thấp nhất</span>
+                    <span class=" fw-bold text-danger" style="font-size: 11px;">@Model.salePriceMin?.ToString("N0") ₫</span>
                 </div>
 
                 <p style="white-space: pre-line;" class="text-secondary">@Model.Mo_Ta</p>

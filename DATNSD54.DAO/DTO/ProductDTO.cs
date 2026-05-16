@@ -18,8 +18,9 @@ namespace DATNSD54.DAO.DTO
         public decimal? salePriceMin { get; set; } = 0;
         public string type { get; set; }
         public string brand { get; set; }
-        
-
+        public int quantity { get; set; }
+        public List<Size> sizes { get; set; }
+        public List<Color> colors { get; set; }
         public List<string> ListIMG { get; set; }
 
         public List<ProductDetailDTO> ListProductDetail { get; set; }

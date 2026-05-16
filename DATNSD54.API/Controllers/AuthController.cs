@@ -103,7 +103,8 @@ namespace DATNSD54.API.Controllers
                     Id = customer.Id,
                     Ten = customer.Ten,
                     Email = customer.Email,
-                    SDT = customer.SDT
+                    SDT = customer.SDT,
+                    Image = customer.AnhDaiDien ?? "~/Img/product/noavatar.png"
                 }
             };
 
@@ -163,7 +164,8 @@ namespace DATNSD54.API.Controllers
                     Email = user.Email,
                     SDT = user.SDT,
                     Role = user.Role,
-                    RoleName = role
+                    RoleName = role,
+                    Image = user.Anhdaidien ?? "~/Img/product/noavatar.png"
                 }
             };
 

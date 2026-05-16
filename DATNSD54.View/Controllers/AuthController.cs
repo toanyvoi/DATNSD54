@@ -145,6 +145,8 @@ namespace DATNSD54.View.Controllers
                 HttpContext.Session.SetInt32("userId", result.CustomerInfo.Id);
                 HttpContext.Session.SetString("UserRole", "Customer");
                 HttpContext.Session.SetString("UserName", result.CustomerInfo.Ten);
+                HttpContext.Session.SetString("UserEmail", result.CustomerInfo.Email);
+                HttpContext.Session.SetString("ImageUrl", result.CustomerInfo.Image);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -205,6 +207,8 @@ namespace DATNSD54.View.Controllers
                 HttpContext.Session.SetInt32("userId", result.UserInfo.ID);
                 HttpContext.Session.SetString("UserRole", userInfo.RoleName);
                 HttpContext.Session.SetString("UserName", result.UserInfo.Ten);
+                HttpContext.Session.SetString("ImageUrl", result.CustomerInfo.Image);
+
                 return RedirectToAction("Index", "Admin");
             }
 

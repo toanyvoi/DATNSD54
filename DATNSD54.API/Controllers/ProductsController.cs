@@ -46,6 +46,7 @@ namespace DATNSD54.API.Controllers
                     ProductTypeName = p.ProductType?.Ten ?? "N/A",
                     SupplierName = p.Supplier?.Ten ?? "N/A",
                     brandName = p.Brand?.Ten ?? "N/A",
+                    Quantity =  p.ProductDetails?.Sum(pd => pd.SL) ?? 0,
                     trangThai = (p.ProductDetails != null && p.ProductDetails.Any(pd => pd.Trang_Thai == true))
                 ? "Đang bán"
                 : "Ngừng bán"
@@ -168,7 +169,9 @@ namespace DATNSD54.API.Controllers
                 // Thêm kiểm tra null cho Type và Brand để tránh sập web
                 type = product.ProductType?.Ten ?? "N/A",
                 brand = product.Brand?.Ten ?? "N/A",
-
+                sizes = await _context.Size.ToListAsync(),
+                colors = await _context.Color.ToListAsync(),
+                quantity = product.ProductDetails.Sum(pd => pd.SL ),
                 // Giá đã giảm thấp nhất
                 salePriceMin = productDetails != null
                                ? (productDetails.Don_Gia * (100 - productDetails.Sale)) / 100

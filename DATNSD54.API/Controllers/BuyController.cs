@@ -218,7 +218,7 @@ namespace DATNSD54.API.Controllers
             int CustomerId = int.Parse(userIdClaim.Value);
 
             var diachi = await _context.Address.FirstOrDefaultAsync(a => a.IdCustomer == CustomerId);
-            if (diachi == null) { return BadRequest("Vui lòng nhập địa chỉ"); }
+            if (diachi == null) { return BadRequest("Vui lòng Tạo địa chỉ"); }
             List<CartItem> CartCheck = await _context.CartItems.Include(h => h.ProductDetail).Where(c => c.Cart_ID == CustomerId).ToListAsync();
             if (!CartCheck.Any()) { return BadRequest("Giỏ hàng trống"); }
             var price = CartCheck.Sum(c => (c.ProductDetail.Don_Gia * (100 - c.ProductDetail.Sale)) / 100 * c.So_Luong);

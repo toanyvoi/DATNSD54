@@ -191,7 +191,7 @@ namespace DATNSD54.DAO.Data
                 {
                     ID = 1, // Key bắt buộc phải tự điền khi Seed Data
                     Product_ID = 1,
-                    IMG = "~/img/product/ambush1.jpg",
+                    IMG = "~/img/product/giayxah2.jpg",
                     Ngay_Tao = DateTime.Now,
                     Trang_Thai = true
                 },

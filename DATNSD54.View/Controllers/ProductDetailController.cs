@@ -28,7 +28,7 @@ namespace DATNSD54.View.Controllers
             // Kiểm tra đầu vào
             if (idPd == null || SL <= 0)
             {
-                TempData["ErrorMessage"] = "Số lượng hoặc sản phẩm không hợp lệ.";
+                TempData["Error"] = "Số lượng hoặc sản phẩm không hợp lệ.";
                 return RedirectToAction("Index", "ProductDetail", new { id = Id });
             }
 
@@ -45,7 +45,7 @@ namespace DATNSD54.View.Controllers
             if (!isOk)
             {
                 // Dùng TempData để "vác" cái lỗi qua trang Redirect
-                TempData["ErrorMessage"] = msg;
+                TempData["Error"] = msg;
                 return RedirectToAction("Index", "ProductDetail", new { id = Id });
             }
 

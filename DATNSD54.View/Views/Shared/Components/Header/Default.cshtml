@@ -1,5 +1,7 @@
 ﻿@{
     var userName = Context.Session.GetString("UserName");
+    var Avartar = Context.Session.GetString("ImageUrl");
+
 }
 
 
@@ -226,7 +228,7 @@
                     {
                         <ul class="nav nav__first right">
                             <li class="nav-item nav-item__first nav-item__first-user">
-                            <img src="~/img/product/noavatar.png" alt="" class="nav-item__first-img">
+                                <img src="@Url.Content(Avartar)" alt="" class="nav-item__first-img">
                             <span class="nav-item__first-name">@Context.Session.GetString("UserName")</span>
                             <ul class="nav-item__first-menu">
                                 <li class="nav-item__first-item">

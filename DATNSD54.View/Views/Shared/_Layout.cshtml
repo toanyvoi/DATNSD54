@@ -165,13 +165,32 @@
     <!-- end footer -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script> @* ~/lib/jquery/dist/jquery.min.js *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/main.js"></script>
+    <script>
+        // Đợi trang web tải xong dữ liệu rồi mới chạy
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Nếu TempData["Error"] có giá trị thì mới "bắn" alert lên
+        @if (TempData["Error"] != null)
+        {
+            <text>
+                        Swal.fire({
+                            title: "Có lỗi xảy ra!",
+                        text: "@Html.Raw(TempData["Error"])",
+                        icon: "error",
+                        timer: 5000, // Đúng 5 giây tự tắt như ní muốn nè
+                        timerProgressBar: true // Hiện thanh đếm ngược cho xịn
+                        });
+            </text>
+        }
+            });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

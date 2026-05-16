@@ -21,6 +21,28 @@
         body{
             background-color: rgb(248, 242, 236);
         }
+
+        .thumb-scroll-container {
+            /* 1. Giới hạn chiều cao tương đương khoảng 3 cái ảnh */
+            max-height: 380px;
+            /* 2. Bật tính năng cuộn theo chiều dọc */
+            overflow-y: auto;
+            /* 3. Ẩn thanh cuộn xấu xí của trình duyệt đi cho đẹp (Tùy chọn) */
+            scrollbar-width: none; /* Cho Firefox */
+        }
+
+            .thumb-scroll-container::-webkit-scrollbar {
+                display: none; /* Cho Chrome, Safari, Edge */
+            }
+
+        .img-item {
+            margin-bottom: 10px; /* Khoảng cách giữa các ảnh nhỏ */
+            list-style: none;
+        }
+
+        .small-img:hover {
+            border: 2px solid #dc3545; /* Hiệu ứng hover viền đỏ giống Bootstrap text-danger */
+        }
     </style>
 }
 
@@ -30,7 +52,7 @@
         <div class="row product__detail-row">
             <div class="col-lg-6 col-12 daonguoc">
                 <div class="img-product">
-                    <ul class="all-img">
+                    <ul class="all-img thumb-scroll-container p-0 m-0">
                         @if (Model.ListIMG != null && Model.ListIMG.Any())
                         {
                             @* Nếu có ảnh thì mới chạy vòng lặp *@
@@ -44,6 +66,9 @@
                                          onclick="changeImg(@dem)"
                                          id="thumb-@dem">
                                 </li>
+
+
+
                                 dem++;
                             }
                         }
@@ -280,11 +305,6 @@
             // Tự động chạy check lần đầu
             checkVariant();
         });
-        $(document).ready(function () {
-            // Tự động ẩn thông báo lỗi sau 3 giây
-            setTimeout(function () {
-                $(".alert").fadeOut('slow');
-            }, 3000);
-        });
+        
     </script>
 }

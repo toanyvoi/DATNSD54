@@ -20,6 +20,7 @@
                         <th>Tên & Loại</th>
                         <th>Nhà cung cấp / Brand</th>
                         <th>Giá bán từ</th>
+                        <th>Tồn kho</th>
                         <th>Trạng thái</th>
                         <th class="text-end">Thao tác</th>
                     </tr>
@@ -47,6 +48,10 @@
                                     <span class="badge bg-danger-soft text-danger ms-1">-@item.Sale%</span>
                                 }
                             </td>
+                            <td>
+                                <span class="badge bg-@(item.Quantity > 0 ? "success" : "danger")" style="font-size: 10px;">
+                                    @item.Quantity
+                                </span>
                             <td>
                                 <span class="status-badge @(item.trangThai == "Đang bán" ? "status-active" : "status-danger")">
                                     @item.trangThai
