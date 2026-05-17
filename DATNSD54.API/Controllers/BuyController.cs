@@ -319,6 +319,8 @@ namespace DATNSD54.API.Controllers
                 if (vError != null) return BadRequest($"Voucher: {vError}");
                 if (voucher.Trang_Thai == 0) return BadRequest("Voucher không khả dụng");
                     bill.Voucher_ID = request.VoucherId;
+
+                voucher.So_Luong -= 1; // Giảm số lượng voucher còn lại
             }
 
             // 3. Xử lý Voucher Ship
@@ -329,6 +331,8 @@ namespace DATNSD54.API.Controllers
                 if (vsError != null) return BadRequest($"Voucher Ship: {vsError}");
 
                 bill.VoucherShip_ID = request.VoucherShipId;
+
+                vShip.So_Luong -= 1; // Giảm số lượng voucher ship còn lại
             }
 
             await _context.SaveChangesAsync();
