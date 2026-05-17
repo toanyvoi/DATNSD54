@@ -30,7 +30,7 @@ namespace DATNSD54.DAO.Models
 
         [Range(0, int.MaxValue, ErrorMessage = "Số lượng phải >= 0")]
         public int So_Luong { get; set; }
-
+        public int Gioi_Han_Su_Dung { get; set; }
         public DateTime Ngay_Tao { get; set; } = DateTime.Now;
 
         /// <summary>
@@ -39,9 +39,11 @@ namespace DATNSD54.DAO.Models
         /// 2: Hết hạn
         /// </summary>
         [Range(0, 1, ErrorMessage = "Trạng thái không hợp lệ")]
-        public int Trang_Thai { get; set; } = 1;//1 : Còn, ): hết
+        public int Trang_Thai { get; set; } = 1;//1 : Còn, 0: hết
 
         // Navigation
         public virtual ICollection<Bill>? Bills { get; set; }
+        public virtual ICollection<VoucherHistory>? VoucherHistories { get; set; }
+
     }
 }

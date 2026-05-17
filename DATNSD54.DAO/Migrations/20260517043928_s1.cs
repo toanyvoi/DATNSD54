@@ -88,7 +88,9 @@ namespace DATNSD54.DAO.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    phiShip = table.Column<decimal>(type: "decimal(8,2)", nullable: false)
+                    phiShip = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    MailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -163,6 +165,7 @@ namespace DATNSD54.DAO.Migrations
                     Ngay_Ket_Thuc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Don_Hang_Toi_Thieu = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     So_Luong = table.Column<int>(type: "int", nullable: false),
+                    Gioi_Han_Su_Dung = table.Column<int>(type: "int", nullable: false),
                     Ngay_Tao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Trang_Thai = table.Column<int>(type: "int", nullable: false)
                 },
@@ -183,6 +186,7 @@ namespace DATNSD54.DAO.Migrations
                     Don_Hang_Toi_Thieu = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Giam_Toi_Da = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     So_Luong = table.Column<int>(type: "int", nullable: false),
+                    Gioi_Han_Su_Dung = table.Column<int>(type: "int", nullable: false),
                     Ngay_Tao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Trang_Thai = table.Column<int>(type: "int", nullable: false)
                 },
@@ -369,6 +373,7 @@ namespace DATNSD54.DAO.Migrations
                     Size = table.Column<int>(type: "int", nullable: false),
                     Color = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gia_Nhap = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Don_Gia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SL = table.Column<int>(type: "int", nullable: false),
                     Sale = table.Column<int>(type: "int", nullable: false),
@@ -396,6 +401,47 @@ namespace DATNSD54.DAO.Migrations
                         principalTable: "Size",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VoucherHistory",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Bill_ID = table.Column<int>(type: "int", nullable: false),
+                    Voucher_ID = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    VoucherShip_ID = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    Bill_Date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Customer_ID = table.Column<int>(type: "int", nullable: false),
+                    Discount_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Shipping_Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VoucherHistory", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_VoucherHistory_Bill_Bill_ID",
+                        column: x => x.Bill_ID,
+                        principalTable: "Bill",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VoucherHistory_Customer_Customer_ID",
+                        column: x => x.Customer_ID,
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VoucherHistory_VoucherShip_VoucherShip_ID",
+                        column: x => x.VoucherShip_ID,
+                        principalTable: "VoucherShip",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_VoucherHistory_Vourcher_Voucher_ID",
+                        column: x => x.Voucher_ID,
+                        principalTable: "Vourcher",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -466,34 +512,34 @@ namespace DATNSD54.DAO.Migrations
                 columns: new[] { "Id", "Ma", "Ngay_Tao", "Ten" },
                 values: new object[,]
                 {
-                    { 1, "#000000", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2412), "Đen" },
-                    { 2, "#FFFFFF", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2415), "Trắng" }
+                    { 1, "#000000", new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9045), "Đen" },
+                    { 2, "#FFFFFF", new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9047), "Trắng" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Customer",
                 columns: new[] { "Id", "AnhDaiDien", "Email", "Gioi_Tinh", "Mat_Khau", "Ngay_Sinh", "Ngay_Tao", "ResetToken", "SDT", "Ten", "Trang_Thai" },
-                values: new object[] { 1, null, "admin@fourstars.com", true, "$2a$11$KiUJ/sCWTSqMSRKPkddVOOm96dqF54Dk50YiIYghacO7P9BZlQkDC", new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2561), null, "0912345678", "Nguyễn Văn Admin", true });
+                values: new object[] { 1, null, "admin@fourstars.com", true, "$2a$11$KiUJ/sCWTSqMSRKPkddVOOm96dqF54Dk50YiIYghacO7P9BZlQkDC", new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9178), null, "0912345678", "Nguyễn Văn Admin", true });
 
             migrationBuilder.InsertData(
                 table: "ProductType",
                 columns: new[] { "Id", "Ma", "Ngay_Tao", "Ten", "Trang_Thai" },
-                values: new object[] { 1, "SNK", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2363), "Giày Sneaker", true });
+                values: new object[] { 1, "SNK", new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9005), "Giày Sneaker", true });
 
             migrationBuilder.InsertData(
                 table: "Size",
                 columns: new[] { "Id", "Ma", "Ngay_Tao", "Ten" },
                 values: new object[,]
                 {
-                    { 1, 37, new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2452), "37" },
-                    { 2, 38, new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2455), "38" },
-                    { 3, 39, new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2457), "39" }
+                    { 1, 37, new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9075), "37" },
+                    { 2, 38, new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9077), "38" },
+                    { 3, 39, new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9079), "39" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Supplier",
                 columns: new[] { "Id", "Dia_Chi", "Email", "Ngay_Tao", "SDT", "Ten", "Trang_Thai" },
-                values: new object[] { 1, "Hà Nội", "khohn@gmail.com", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(1494), "0987654321", "Tổng kho Unisex HN", true });
+                values: new object[] { 1, "Hà Nội", "khohn@gmail.com", new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(8721), "0987654321", "Tổng kho Unisex HN", true });
 
             migrationBuilder.InsertData(
                 table: "User",
@@ -506,8 +552,8 @@ namespace DATNSD54.DAO.Migrations
 
             migrationBuilder.InsertData(
                 table: "quanly",
-                columns: new[] { "ID", "phiShip" },
-                values: new object[] { 1, 50000m });
+                columns: new[] { "ID", "AppPassword", "MailAddress", "phiShip" },
+                values: new object[] { 1, "hnla ftyr kfho lstc", "toanyvio@gmail.com", 50000m });
 
             migrationBuilder.InsertData(
                 table: "Address",
@@ -521,7 +567,7 @@ namespace DATNSD54.DAO.Migrations
             migrationBuilder.InsertData(
                 table: "Carts",
                 columns: new[] { "ID", "CustomerId", "Customer_ID", "Ngay_Tao", "Trang_Thai" },
-                values: new object[] { 1, null, 1, new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2786), 1 });
+                values: new object[] { 1, null, 1, new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9246), 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
@@ -533,17 +579,17 @@ namespace DATNSD54.DAO.Migrations
                 columns: new[] { "ID", "IMG", "Ngay_Tao", "Product_ID", "Trang_Thai" },
                 values: new object[,]
                 {
-                    { 1, "~/img/product/giayxah2.jpg", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2841), 1, true },
-                    { 2, "~/img/product/addidas1.jpg", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2843), 1, true }
+                    { 1, "~/img/product/giayxah2.jpg", new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9311), 1, true },
+                    { 2, "~/img/product/addidas1.jpg", new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9314), 1, true }
                 });
 
             migrationBuilder.InsertData(
                 table: "ProductDetail",
-                columns: new[] { "Id", "Color", "Don_Gia", "Image", "Ngay_Tao", "Product_ID", "SL", "Sale", "Size", "Trang_Thai" },
+                columns: new[] { "Id", "Color", "Don_Gia", "Gia_Nhap", "Image", "Ngay_Tao", "Product_ID", "SL", "Sale", "Size", "Trang_Thai" },
                 values: new object[,]
                 {
-                    { 1, 1, 500000m, "~/img/product/nikeairforce11.jpg", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2533), 1, 100, 0, 1, true },
-                    { 2, 2, 550000m, "~/img/product/nikeairzoom1.jpg", new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2536), 1, 50, 5, 2, true }
+                    { 1, 1, 500000m, null, "~/img/product/nikeairforce11.jpg", new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9149), 1, 100, 0, 1, true },
+                    { 2, 2, 550000m, null, "~/img/product/nikeairzoom1.jpg", new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9152), 1, 50, 5, 2, true }
                 });
 
             migrationBuilder.CreateIndex(
@@ -650,6 +696,26 @@ namespace DATNSD54.DAO.Migrations
                 name: "IX_ProductDetail_Size",
                 table: "ProductDetail",
                 column: "Size");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoucherHistory_Bill_ID",
+                table: "VoucherHistory",
+                column: "Bill_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoucherHistory_Customer_ID",
+                table: "VoucherHistory",
+                column: "Customer_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoucherHistory_Voucher_ID",
+                table: "VoucherHistory",
+                column: "Voucher_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VoucherHistory_VoucherShip_ID",
+                table: "VoucherHistory",
+                column: "VoucherShip_ID");
         }
 
         /// <inheritdoc />
@@ -668,13 +734,25 @@ namespace DATNSD54.DAO.Migrations
                 name: "quanly");
 
             migrationBuilder.DropTable(
-                name: "Bill");
+                name: "VoucherHistory");
 
             migrationBuilder.DropTable(
                 name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "ProductDetail");
+
+            migrationBuilder.DropTable(
+                name: "Bill");
+
+            migrationBuilder.DropTable(
+                name: "Color");
+
+            migrationBuilder.DropTable(
+                name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Size");
 
             migrationBuilder.DropTable(
                 name: "Address");
@@ -689,18 +767,6 @@ namespace DATNSD54.DAO.Migrations
                 name: "Vourcher");
 
             migrationBuilder.DropTable(
-                name: "Color");
-
-            migrationBuilder.DropTable(
-                name: "Product");
-
-            migrationBuilder.DropTable(
-                name: "Size");
-
-            migrationBuilder.DropTable(
-                name: "Customer");
-
-            migrationBuilder.DropTable(
                 name: "Brand");
 
             migrationBuilder.DropTable(
@@ -708,6 +774,9 @@ namespace DATNSD54.DAO.Migrations
 
             migrationBuilder.DropTable(
                 name: "Supplier");
+
+            migrationBuilder.DropTable(
+                name: "Customer");
         }
     }
 }

@@ -25,6 +25,14 @@ namespace DATNSD54.API.Controllers
         [HttpPost("UpdateQuantity")]
         public async Task<IActionResult> UpdateQuantity([FromBody] UpdateCartReq req)
         {
+
+            //var userid = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            //if (userid == null)
+            //{
+            //    return Unauthorized();
+            //}
+
+            //await _context.Bill.Where(b => b.Trang_Thai == 0 && b.Customer_ID == int.Parse(userid)).ExecuteDeleteAsync();
             // 1. Tìm CartItem và kèm theo ProductDetail để check tồn kho
             var item = await _context.CartItems
                 .Include(i => i.ProductDetail)
@@ -142,6 +150,11 @@ namespace DATNSD54.API.Controllers
                 .Include(p => p.ProductDetail).ThenInclude(p => p.ColorNavigation)
                 .Where(c => c.Cart_ID == bill.Customer_ID)
                 .ToListAsync();
+
+            if (bill == null)
+            {
+                return NotFound();
+            }
             decimal GiaGoc = cartItems.Sum(c => ((c.ProductDetail.Don_Gia * (100 - c.ProductDetail.Sale)) / 100.0m) * c.So_Luong);
             if (bill == null || bill.Customer_ID != customerId && userType == "Customer")
             {
@@ -152,11 +165,31 @@ namespace DATNSD54.API.Controllers
             {
                 return BadRequest("Hóa đơn đã được xác nhận trước đó.");
             }
-            if (bill == null)
+
+            decimal discountAmount = 0;
+            if (bill.Voucher_ID != null)
             {
-                return NotFound();
+                var voucher = await _context.Vourcher.FindAsync(bill.Voucher_ID);
+                if (voucher != null)
+                {
+                    discountAmount = (bill.Gia_Goc * voucher.Ty_Le_Giam) / 100m;
+                    if (voucher.Giam_Toi_Da > 0 && discountAmount > voucher.Giam_Toi_Da)
+                    {
+                        discountAmount = voucher.Giam_Toi_Da;
+                    }
+                    
+                }
             }
+
             decimal phiship = _context.quanly.FirstOrDefault()?.phiShip ?? 0;
+            if(bill.VoucherShip_ID != null)
+            {
+                var vShip = await _context.VoucherShip.FindAsync(bill.VoucherShip_ID);
+                if (vShip != null)
+                {
+                    phiship = 0;
+                }
+            }
             // Map dữ liệu từ Model sang DTO
             var billDto = new BillDTO
             {
@@ -167,10 +200,13 @@ namespace DATNSD54.API.Controllers
                 voucher = bill.Voucher,
                 VoucherShip_ID = bill.VoucherShip_ID,
                 voucherShip = bill.VoucherShip,
+                VoucherSale = bill.Voucher != null ? bill.Voucher.Ty_Le_Giam : 0m,
+                Discount_Max = bill.Voucher != null ? bill.Voucher.Giam_Toi_Da : 0m,
                 Ngay_Tao = bill.Ngay_Tao,
+                giam_gia = discountAmount,
                 Gia_Goc = GiaGoc,
                 Phuong_Thuc_Thanh_Toan = bill.Phuong_Thuc_Thanh_Toan,
-                Thanh_Tien = GiaGoc+phiship,
+                Thanh_Tien = GiaGoc+phiship - discountAmount,
                 Dia_Chi_Id = bill.Address_Id,
                 Shipcost = phiship,
                 // Lấy thông tin từ bảng Address thông qua Navigation Property
@@ -281,8 +317,8 @@ namespace DATNSD54.API.Controllers
                 var voucher = await _context.Vourcher.FindAsync(request.VoucherId);
                 var vError = ValidateVoucher(voucher, bill.Gia_Goc);
                 if (vError != null) return BadRequest($"Voucher: {vError}");
-
-                bill.Voucher_ID = request.VoucherId;
+                if (voucher.Trang_Thai == 0) return BadRequest("Voucher không khả dụng");
+                    bill.Voucher_ID = request.VoucherId;
             }
 
             // 3. Xử lý Voucher Ship
@@ -342,10 +378,36 @@ namespace DATNSD54.API.Controllers
                     _context.BillItem.Add(bItem);
                 }
                 bill.Gia_Goc = tonggia;
+                //sử lý voucherShip
+                decimal shipCost = 0;
 
-                decimal shipCost = _context.quanly.FirstOrDefault()?.phiShip ?? 0;
-                bill.ShipCost = _context.quanly.FirstOrDefault()?.phiShip ?? 0;
-                bill.Thanh_Tien = tonggia + shipCost - 0;
+                if(bill.VoucherShip_ID != null)
+                {
+                    shipCost = 0;
+                }
+                else
+                {
+                    shipCost = _context.quanly.FirstOrDefault()?.phiShip ?? 0;
+                }
+                bill.ShipCost = shipCost;
+                //sủ lý Voucher
+                decimal discountAmount = 0;
+                if (bill.Voucher_ID != null)
+                {
+                    var voucher = await _context.Vourcher.FindAsync(bill.Voucher_ID);
+                    if (voucher != null)
+                    {
+                         discountAmount = (bill.Gia_Goc * voucher.Ty_Le_Giam) / 100m;
+                        if (voucher.Giam_Toi_Da > 0 && discountAmount > voucher.Giam_Toi_Da)
+                        {
+                            discountAmount = voucher.Giam_Toi_Da;
+                        }
+                        bill.Discount_Amount = discountAmount;
+                    }
+                }
+
+
+                bill.Thanh_Tien = tonggia + shipCost - discountAmount;
                 _context.CartItems.RemoveRange(cartCheck);
 
                 // Lưu 

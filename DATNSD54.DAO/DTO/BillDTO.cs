@@ -14,11 +14,15 @@ namespace DATNSD54.DAO.DTO
         // Khóa ngoại nối tới Voucher (để null nếu đơn hàng không dùng voucher)
         public string? Voucher_ID { get; set; }
         public Voucher? voucher { get; set; }
+        public decimal? VoucherSale { get; set; }
+        public decimal? Discount_Max { get; set; } = 0; // Số tiền giảm giá, mặc định là 0 nếu không có voucher
         public decimal? Shipcost { get; set; } = 0; // Chi phí vận chuyển, mặc định là 0 nếu không có chi phí vận chuyển
         public string? VoucherShip_ID { get; set; }
         public VoucherShip? voucherShip { get; set; }
         public DateTime Ngay_Tao { get; set; }
         public decimal Gia_Goc { get; set; } = 0;
+
+        public decimal giam_gia { get; set; } = 0; // Số tiền giảm giá thực tế sau khi áp dụng voucher
         public int Phuong_Thuc_Thanh_Toan { get; set; } = 0; // 0: Tiền mặt, 1: Chuyển khoản
         public decimal Thanh_Tien { get; set; } = 0;
         public int Dia_Chi_Id { get; set; }

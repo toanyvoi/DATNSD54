@@ -3,7 +3,93 @@
 @{
     ViewData["Title"] = "Tạo mới Voucher";
 }
+@section Styles {
+    <style>
+        /* Giữ nguyên các Style đẹp của ní */
+        .admin-create-page {
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 40px 0;
+        }
 
+        .create-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .create-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #34495e;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            padding: 12px 18px;
+            transition: all 0.3s;
+            background-color: #f8fbff;
+            height: auto;
+        }
+
+            .form-control:focus {
+                border-color: #3498db;
+                box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.1);
+                background-color: white;
+                outline: none;
+            }
+
+        .text-danger {
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .btn-submit {
+            background: #2c3e50;
+            color: white;
+            padding: 14px 35px;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+            width: 100%;
+            cursor: pointer;
+        }
+
+            .btn-submit:hover {
+                background: #1a252f;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        /* Bổ sung hiệu ứng cho input group */
+        .input-group-text {
+            border-radius: 0 12px 12px 0;
+            border: 1px solid #e9ecef;
+            border-left: none;
+            background: #f8fbff;
+        }
+    </style>
+}
 <div class="container" style="max-width: 800px;">
     <h2 class="text-center my-4">Thêm mới Voucher Vận chuyển</h2>
 
@@ -26,15 +112,20 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label class="form-label">Đơn tối thiểu</label>
                         <input asp-for="Don_Hang_Toi_Thieu" type="number" class="form-control" />
                         <span asp-validation-for="Don_Hang_Toi_Thieu" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label class="form-label">Số lượng</label>
                         <input asp-for="So_Luong" type="number" class="form-control" />
                         <span asp-validation-for="So_Luong" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Giới Hạn sử dụng trên từng tk</label>
+                        <input asp-for="Gioi_Han_Su_Dung" type="number" class="form-control" />
+                        <span asp-validation-for="Gioi_Han_Su_Dung" class="text-danger"></span>
                     </div>
                 </div>
 

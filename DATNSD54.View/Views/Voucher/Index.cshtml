@@ -271,6 +271,7 @@
                             <th>Tên chương trình</th>
                             <th>Mức giảm</th>
                             <th>Số lượng</th>
+                            <th>Giới hạn sử dụng</th>
                             <th>Thời hạn</th>
                             <th>Trạng thái</th>
                             <th class="text-right">Thao tác</th>
@@ -289,6 +290,12 @@
                                 <td><span class="discount-badge text-primary">@item.Ty_Le_Giam%</span></td>
                                 <td>
                                     <span class="font-weight-bold">@item.So_Luong</span>
+                                    <div class="progress mt-1" style="height: 4px; width: 50px;">
+                                        <div class="progress-bar bg-success" style="width: 70%"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="font-weight-bold">@item.Gioi_Han_Su_Dung</span>
                                     <div class="progress mt-1" style="height: 4px; width: 50px;">
                                         <div class="progress-bar bg-success" style="width: 70%"></div>
                                     </div>

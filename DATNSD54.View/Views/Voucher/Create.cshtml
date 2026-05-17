@@ -141,7 +141,11 @@
                         <input asp-for="So_Luong" type="number" class="form-control" placeholder="Ví dụ: 100" min="1" required />
                         <span asp-validation-for="So_Luong" class="text-danger"></span>
                     </div>
-
+                    <div class="col-md-4 mb-4">
+                        <label class="form-label">Giới Hạn sử dụng trên từng tk</label>
+                        <input asp-for="Gioi_Han_Su_Dung" type="number" class="form-control" placeholder="Ví dụ: 100" min="1" required />
+                        <span asp-validation-for="Gioi_Han_Su_Dung" class="text-danger"></span>
+                    </div>
                     <div class="col-md-4 mb-4">
                         <label class="form-label">Trạng thái ban đầu</label>
                         <select asp-for="Trang_Thai" class="form-select w-100">

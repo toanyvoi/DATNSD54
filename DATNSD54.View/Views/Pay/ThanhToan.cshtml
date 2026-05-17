@@ -249,8 +249,22 @@
                                     </div>
                                     <div class="row row-sliderbar-footer">
                                         <div class="col-6"><span>Phí vận chuyển</span></div>
-                                        <div class="col-6 text-right"><span>50,000₫</span></div>
+                                        <div class="col-6 text-right">
+                                        @if(Model.VoucherShip_ID != null)
+                                        {
+                                            <span>0₫</span>
+                                        }
+                                        else{
+                                            <span>@Model.Shipcost</span>
+                                        }
+                                        </div>
                                     </div>
+                                <div class="row row-sliderbar-footer">
+                                    <div class="col-6"><span>giảm giá</span></div>
+                                    <div class="col-6 text-right">
+                                       <span>@Model.giam_gia</span>
+                                    </div>
+                                </div>
                                 </div>
                                 <div class="total">
                                     <div class="row row-sliderbar-footer">

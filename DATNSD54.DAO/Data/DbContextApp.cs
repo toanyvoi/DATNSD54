@@ -32,6 +32,7 @@ namespace DATNSD54.DAO.Data
         public DbSet<Models.Voucher> Vourcher { get; set; }
         public DbSet<Models.VoucherShip> VoucherShip { get; set; }
         public DbSet<Models.QuanLy> quanly { get; set; }
+        public DbSet<Models.VoucherHistory> VoucherHistory { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -110,6 +111,7 @@ namespace DATNSD54.DAO.Data
                     Size = 1, // Cỡ 37
                     Image = "~/img/product/nikeairforce11.jpg",
                     Color = 1, // Màu Đen
+                    Gia_Nhap = 450000,
                     Don_Gia = 500000,
                     SL = 100,
                     Sale = 0,
@@ -123,6 +125,7 @@ namespace DATNSD54.DAO.Data
                     Size = 2, // Cỡ 38
                     Image = "~/img/product/nikeairzoom1.jpg",
                     Color = 2, // Màu Trắng
+                    Gia_Nhap = 500000,
                     Don_Gia = 550000,
                     SL = 50,
                     Sale = 5,
@@ -181,7 +184,9 @@ namespace DATNSD54.DAO.Data
                  new QuanLy
                  {
                      ID = 1,
-                     phiShip = 50000
+                     phiShip = 50000,
+                     MailAddress= "toanyvio@gmail.com",
+                     AppPassword = "hnla ftyr kfho lstc"
                  }
                  );
 

@@ -19,6 +19,9 @@ namespace DATNSD54.DAO.Models
         public int Color { get; set; }
 
         public string? Image { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "{0} phải lớn hơn hoặc bằng 0")]
+        [Column(TypeName = "decimal(18, 2)")] // Đảm bảo độ chính xác trong DB
+        public decimal? Gia_Nhap { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "{0} phải lớn hơn hoặc bằng 0")]
         [Column(TypeName = "decimal(18, 2)")] // Đảm bảo độ chính xác trong DB

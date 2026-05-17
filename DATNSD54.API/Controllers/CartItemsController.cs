@@ -85,6 +85,8 @@ namespace DATNSD54.API.Controllers
             {
                 return Unauthorized();
             }
+
+            await _context.Bill.Where(b => b.Trang_Thai == 0 && b.Customer_ID == int.Parse(userid)).ExecuteDeleteAsync();
             var checkProduct = _context.ProductDetail.FirstOrDefault(i => i.Id == IdPd);
             if (checkProduct == null) {
                 return BadRequest("productDetail không tồn tại");
@@ -135,6 +137,14 @@ namespace DATNSD54.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCartItem(int id)
         {
+
+            var userid = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userid == null)
+            {
+                return Unauthorized();
+            }
+
+            await _context.Bill.Where(b => b.Trang_Thai == 0 && b.Customer_ID == int.Parse(userid)).ExecuteDeleteAsync();
             var cartItem = await _context.CartItems.FindAsync(id);
             if (cartItem == null)
             {

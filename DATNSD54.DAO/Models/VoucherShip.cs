@@ -24,6 +24,7 @@ namespace DATNSD54.DAO.Models
 
         [Range(0, int.MaxValue, ErrorMessage = "Số lượng phải >= 0")]
         public int So_Luong { get; set; } // Số lượt sử dụng còn lại
+        public int Gioi_Han_Su_Dung { get; set; }
 
         public DateTime Ngay_Tao { get; set; } = DateTime.Now;
 
@@ -39,5 +40,7 @@ namespace DATNSD54.DAO.Models
 
         // Navigation
         public virtual ICollection<Bill>? Bills { get; set; }
+
+        public virtual ICollection<VoucherHistory>? VoucherHistories { get; set; }
     }
 }

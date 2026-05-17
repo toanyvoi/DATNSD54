@@ -1,4 +1,4 @@
-﻿@model DATNSD54.DAO.Models.Voucher
+﻿@model DATNSD54.DAO.Models.VoucherShip
 @using System.Globalization
 
 @{
@@ -228,10 +228,7 @@
                         <span class="info-value">@Model.Ten</span>
                     </div>
 
-                    <div class="info-group">
-                        <span class="info-label">Ưu đãi giảm giá</span>
-                        <span class="info-value text-primary" style="font-size: 1.4rem;">@Model.Ty_Le_Giam%</span>
-                    </div>
+                    
 
                     <div class="info-group">
                         <span class="info-label">số lượng</span>
@@ -246,10 +243,7 @@
                         <span class="info-value money-value">@Model.Don_Hang_Toi_Thieu.ToString("C0", new CultureInfo("vi-VN"))</span>
                     </div>
 
-                    <div class="info-group">
-                        <span class="info-label">Giảm tối đa</span>
-                        <span class="info-value money-value">@Model.Giam_Toi_Da.ToString("C0", new CultureInfo("vi-VN"))</span>
-                    </div>
+                    
 
                     <div class="info-group">
                         <span class="info-label">Ngày bắt đầu</span>

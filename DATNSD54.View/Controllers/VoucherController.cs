@@ -68,10 +68,13 @@ namespace DATNSD54.View.Controllers
                     }
                     else
                     {
-                        // Đọc thông báo lỗi từ API (Ví dụ: "Mã đã tồn tại")
-                        var errorData = await response.Content.ReadFromJsonAsync<dynamic>();
-                        string msg = errorData?.message ?? "Lỗi không xác định từ API";
-                        ModelState.AddModelError(string.Empty, msg);
+
+                        // 1. Đọc nội dung lỗi dạng chuỗi trơn (Plain Text) từ API nhả về
+                        string errorRaw = await response.Content.ReadAsStringAsync();
+
+                        // 2. In thẳng cụ cục lỗi này lên màn hình giao diện để mình nhìn bằng mắt luôn ní ơi!
+                        ModelState.AddModelError(string.Empty, "Chi tiết lỗi từ API: " + errorRaw);
+                        
                     }
                 }
                 catch (Exception ex)

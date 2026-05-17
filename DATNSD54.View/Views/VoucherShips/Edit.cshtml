@@ -29,15 +29,20 @@
                 </div>
 
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="form-label fw-bold">Đơn tối thiểu (VNĐ)</label>
                         <input asp-for="Don_Hang_Toi_Thieu" type="number" class="form-control" />
                         <span asp-validation-for="Don_Hang_Toi_Thieu" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="form-label fw-bold">Số lượng lượt dùng</label>
                         <input asp-for="So_Luong" type="number" class="form-control" />
                         <span asp-validation-for="So_Luong" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Giới Hạn sử dụng trên từng tk</label>
+                        <input asp-for="Gioi_Han_Su_Dung" type="number" class="form-control" />
+                        <span asp-validation-for="Gioi_Han_Su_Dung" class="text-danger"></span>
                     </div>
                 </div>
 

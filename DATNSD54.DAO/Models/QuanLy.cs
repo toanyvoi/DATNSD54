@@ -7,5 +7,7 @@ namespace DATNSD54.DAO.Models
         public int ID { get; set; }
         [Column(TypeName = "decimal(8, 2)")]
         public decimal phiShip { get; set; }
+        public string MailAddress { get; set; }
+        public string AppPassword { get; set; }
     }
 }

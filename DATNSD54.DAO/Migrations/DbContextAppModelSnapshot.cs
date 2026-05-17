@@ -242,7 +242,7 @@ namespace DATNSD54.DAO.Migrations
                         {
                             ID = 1,
                             Customer_ID = 1,
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2786),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9246),
                             Trang_Thai = 1
                         });
                 });
@@ -308,14 +308,14 @@ namespace DATNSD54.DAO.Migrations
                         {
                             Id = 1,
                             Ma = "#000000",
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2412),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9045),
                             Ten = "Đen"
                         },
                         new
                         {
                             Id = 2,
                             Ma = "#FFFFFF",
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2415),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9047),
                             Ten = "Trắng"
                         });
                 });
@@ -376,7 +376,7 @@ namespace DATNSD54.DAO.Migrations
                             Gioi_Tinh = true,
                             Mat_Khau = "$2a$11$KiUJ/sCWTSqMSRKPkddVOOm96dqF54Dk50YiIYghacO7P9BZlQkDC",
                             Ngay_Sinh = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2561),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9178),
                             SDT = "0912345678",
                             Ten = "Nguyễn Văn Admin",
                             Trang_Thai = true
@@ -415,7 +415,7 @@ namespace DATNSD54.DAO.Migrations
                         {
                             ID = 1,
                             IMG = "~/img/product/giayxah2.jpg",
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2841),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9311),
                             Product_ID = 1,
                             Trang_Thai = true
                         },
@@ -423,7 +423,7 @@ namespace DATNSD54.DAO.Migrations
                         {
                             ID = 2,
                             IMG = "~/img/product/addidas1.jpg",
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2843),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9314),
                             Product_ID = 1,
                             Trang_Thai = true
                         });
@@ -498,6 +498,9 @@ namespace DATNSD54.DAO.Migrations
                     b.Property<decimal>("Don_Gia")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<decimal?>("Gia_Nhap")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
@@ -536,7 +539,7 @@ namespace DATNSD54.DAO.Migrations
                             Color = 1,
                             Don_Gia = 500000m,
                             Image = "~/img/product/nikeairforce11.jpg",
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2533),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9149),
                             Product_ID = 1,
                             SL = 100,
                             Sale = 0,
@@ -549,7 +552,7 @@ namespace DATNSD54.DAO.Migrations
                             Color = 2,
                             Don_Gia = 550000m,
                             Image = "~/img/product/nikeairzoom1.jpg",
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2536),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9152),
                             Product_ID = 1,
                             SL = 50,
                             Sale = 5,
@@ -591,7 +594,7 @@ namespace DATNSD54.DAO.Migrations
                         {
                             Id = 1,
                             Ma = "SNK",
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2363),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9005),
                             Ten = "Giày Sneaker",
                             Trang_Thai = true
                         });
@@ -605,6 +608,14 @@ namespace DATNSD54.DAO.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<string>("AppPassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("phiShip")
                         .HasColumnType("decimal(8, 2)");
 
@@ -616,6 +627,8 @@ namespace DATNSD54.DAO.Migrations
                         new
                         {
                             ID = 1,
+                            AppPassword = "hnla ftyr kfho lstc",
+                            MailAddress = "toanyvio@gmail.com",
                             phiShip = 50000m
                         });
                 });
@@ -649,21 +662,21 @@ namespace DATNSD54.DAO.Migrations
                         {
                             Id = 1,
                             Ma = 37,
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2452),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9075),
                             Ten = "37"
                         },
                         new
                         {
                             Id = 2,
                             Ma = 38,
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2455),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9077),
                             Ten = "38"
                         },
                         new
                         {
                             Id = 3,
                             Ma = 39,
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(2457),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(9079),
                             Ten = "39"
                         });
                 });
@@ -711,7 +724,7 @@ namespace DATNSD54.DAO.Migrations
                             Id = 1,
                             Dia_Chi = "Hà Nội",
                             Email = "khohn@gmail.com",
-                            Ngay_Tao = new DateTime(2026, 5, 16, 20, 52, 8, 467, DateTimeKind.Local).AddTicks(1494),
+                            Ngay_Tao = new DateTime(2026, 5, 17, 11, 39, 25, 862, DateTimeKind.Local).AddTicks(8721),
                             SDT = "0987654321",
                             Ten = "Tổng kho Unisex HN",
                             Trang_Thai = true
@@ -828,6 +841,9 @@ namespace DATNSD54.DAO.Migrations
                     b.Property<decimal>("Giam_Toi_Da")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Gioi_Han_Su_Dung")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Ngay_Bat_Dau")
                         .HasColumnType("datetime2");
 
@@ -856,6 +872,48 @@ namespace DATNSD54.DAO.Migrations
                     b.ToTable("Vourcher");
                 });
 
+            modelBuilder.Entity("DATNSD54.DAO.Models.VoucherHistory", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("Bill_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Bill_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Customer_ID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Discount_Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Shipping_Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("VoucherShip_ID")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Voucher_ID")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Bill_ID");
+
+                    b.HasIndex("Customer_ID");
+
+                    b.HasIndex("VoucherShip_ID");
+
+                    b.HasIndex("Voucher_ID");
+
+                    b.ToTable("VoucherHistory");
+                });
+
             modelBuilder.Entity("DATNSD54.DAO.Models.VoucherShip", b =>
                 {
                     b.Property<string>("ID")
@@ -864,6 +922,9 @@ namespace DATNSD54.DAO.Migrations
 
                     b.Property<decimal>("Don_Hang_Toi_Thieu")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Gioi_Han_Su_Dung")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Ngay_Bat_Dau")
                         .HasColumnType("datetime2");
@@ -1062,6 +1123,37 @@ namespace DATNSD54.DAO.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("SizeNavigation");
+                });
+
+            modelBuilder.Entity("DATNSD54.DAO.Models.VoucherHistory", b =>
+                {
+                    b.HasOne("DATNSD54.DAO.Models.Bill", "Bill")
+                        .WithMany()
+                        .HasForeignKey("Bill_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DATNSD54.DAO.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("Customer_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DATNSD54.DAO.Models.VoucherShip", "VoucherShip")
+                        .WithMany()
+                        .HasForeignKey("VoucherShip_ID");
+
+                    b.HasOne("DATNSD54.DAO.Models.Voucher", "Voucher")
+                        .WithMany()
+                        .HasForeignKey("Voucher_ID");
+
+                    b.Navigation("Bill");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Voucher");
+
+                    b.Navigation("VoucherShip");
                 });
 
             modelBuilder.Entity("DATNSD54.DAO.Models.Address", b =>

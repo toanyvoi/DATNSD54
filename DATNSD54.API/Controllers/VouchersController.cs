@@ -47,7 +47,10 @@ namespace DATNSD54.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                // Gom tất cả lỗi validation thành một chuỗi tin nhắn gửi về cho View
+                var errorList = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                string allErrors = string.Join(", ", errorList);
+                return BadRequest(new { Success = false, Message = "Dữ liệu không hợp lệ: " + allErrors });
             }
 
             // 1. Chuẩn hóa ID: Viết hoa mã Voucher để đồng bộ (Ví dụ: km50 -> KM50)
